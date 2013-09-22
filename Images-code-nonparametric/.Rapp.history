@@ -1,0 +1,379 @@
+p <- ggplot(dat, aes(factor(Location*Sample), v))#
+p + geom_boxplot(aes(fill=Location))
+head(dat)
+with(dat, boxplot(v ~ Location*Sample))
+fit <- lm(v ~ Location*Sample, data=dat)
+summary(fit)
+fit <- lm(v ~ Location:Sample, data=dat)
+summary(fit)
+dim(dat)
+fit <- lm(v ~ Location:Sample -1, data=dat)#
+summary(fit)
+V <- diag(10)
+V
+V <- V[1:4]
+V%*%t(V)
+t(V)%*%(V)
+dim(V)
+V
+V <- V[1:4,]
+V <- diag(10)#
+V <- V[1:4,]
+V%*%t(V)#
+t(V)%*%V
+V[2,2] <- 2#
+V[3,3] <- 3#
+V[4,4] <- 4
+V%*%t(V)#
+t(V)%*%V
+factorial(10)
+exp(-20)*20^20/factorial(20)
+7.4163 - 1.8355
+14/3
+3/14
+7/2
+8/3
+11/3
+11/4
+dat <- read.table(file.choose(), header=TRUE, sep=",")
+head(dat)
+dat <- read.table(file.choose(), header=TRUE, sep=",")
+head(dat)
+dat <- read.csv(file.choose(), header=TRUE)
+head(dat)
+dat <- read.csv(file.choose(), header=FALSE)
+head(dat)
+head(dat, 20)
+dat <- read.csv(file.choose(), header=TRUE)
+head(dat, 20)
+library(plyr)
+ddply(dat, c('trt', 'biosize','potsize','day'), summarize, meanPh = mean(ph))
+ddply(dat, c('trt', 'biosize','potsize','day'), summarize, meanPh = mean(ph, na.rm=TRUE))
+ddply(dat, c('trt', 'biosize','potsize'), summarize, meanPh = mean(ph, na.rm=TRUE))
+library(ggplot2)
+dat$trt <- as.factor(dat$trt)#
+dat$biosize <- as.factor(dat$biosize)#
+dat$potsize <- as.factor(dat$potsize)
+gg <- ggplot(data=dat, aes(x=day, y=ph, group=trt) )#
+gg <- gg + geom_lines()
+library(ggplot2)
+gg <- gg + geom_line()
+gg
+gg <- gg + geom_line(eas(col=trt))
+gg <- gg + geom_line(aes(col=trt))
+gg
+?gsub
+junk <- dat[1:10,]
+junk
+gsub("[^[:alnum:]///' ]", "", junk)
+dat <- read.csv(file.choose(), header=TRUE)
+head(dat)
+junk <- dat[1:10,]
+junk
+gsub("[^[:alnum:]///' ]", "", junk)
+gsub("#", "", junk)
+ddply(junk, function(x){gsub("#", "", x)})
+ddply(junk, .(day), function(x){gsub("#", "", x)})
+ddply(junk, .(day), function(x){gsub("#_", "", x)})
+ddply(junk, .(day), function(x){gsub("#", "", as.character(x))})
+junk2 <- 'hell#0'
+junk2
+gsub("x","",junk2)
+gsub("#","",junk2)
+clean the data#
+for( i in nrow(dat)){#
+	for(j in 1:3){#
+		dat[i,j] <- gsub("#","", dat[i,j])#
+	}#
+}
+clean the data#
+for( i in nrow(dat)){#
+	for(j in 1:3){#
+		dat[i,j] <- gsub("#","", as.character(dat[i,j])#
+	}#
+}
+for( i in nrow(dat)){#
+	for(j in 1:3){#
+		dat[i,j] <- gsub("#","", as.character(dat[i,j])#
+	}#
+}
+clean the data#
+for( i in nrow(dat)){#
+	for(j in 1:3){#
+		dat[i,j] <- gsub("#","", as.character(dat[i,j]))#
+	}#
+}
+head(dat)
+dat$biosize
+junk <- dat$biosize[1:5]
+junk
+gsub("#","", junk)
+dat$biosize <- gsub("#","", dat$biosize)
+head(dat)
+dat$potsize <- gsub("''","", dat$biosize)
+dat$trt <- gsub("%","", dat$trt)
+head(dat)
+dat$trt <- as.factor(dat$trt)#
+dat$biosize <- as.factor(dat$biosize)#
+dat$potsize <- as.factor(dat$potsize)
+dat
+dat4 <- subset(dat, potsize=='4')
+head(dat)
+head(dat4)
+?ddply
+ddply(dat4, c('trt','biosize','dat'), summarize, meanPh = mean(ph))
+ddply(dat4, c('trt','biosize','day'), summarize, meanPh = mean(ph))
+ddply(dat4, c('trt','biosize','day'), summarize, meanPh = mean(ph, na.rm=TRUE))
+warnings()
+ddply(dat4, c('trt','biosize','day'), summarize, meanPh = mean(ph), na.rm=TRUE)
+ddply(dat4, c('trt','biosize','day'), function(x){mean(x, na.rm=TRUE)})
+?mean
+subset(dat4, trt == "0" & biosize=='4' & potsize =='4')
+subset(dat4, trt == "0" & biosize=='4' & day==10)
+subset(dat4, trt == "0" & biosize=='4' & day==16)
+subset(dat4, trt == "0" & biosize=='4' & day==18)
+subset(dat4, trt == "0" & biosize=='4' & day==21)
+head(dat)
+dat$day
+unique(dat$day)
+dat4$potsize <- NULL
+head(dat4)
+dat$trt
+head(dat4)
+dat4$day <- as.factor(dat4$day)
+ddply(dat4, c('trt', 'biosize', 'day'), function(x){mean(x)})
+ddply(dat4, c('trt', 'biosize', 'day'), function(x){mean(x$ph)})
+ddply(dat4, c('trt', 'biosize', 'day'), function(x){mean(x$ph, na.rm=TRUE)})
+ddply(dat4, c('trt', 'biosize', 'day'), function(x){meanPh = mean(x$ph, na.rm=TRUE)})
+head(dat4)
+subset(dat4, trt == "0" & biosize=='4' & day=='21') -> junk3
+junk
+junk3
+subset(dat4, trt == "0" & biosize=='4' & day=='0') -> junk3
+junk3
+dat4$day
+subset(dat4, trt == "0" & biosize=='4' & day=='10') -> junk3
+junk3
+mean(junk3$ph)
+junk3$ph
+dat4$ph <- as.numeric(dat4$ph)
+subset(dat4, trt == "0" & biosize=='4' & day=='10') -> junk3
+mean(junk3$ph)
+ddply(dat4, c('trt', 'biosize', 'day'), function(x){meanPh = mean(x$ph)})
+ddply(dat4, c('trt', 'biosize', 'day'), summarize, meanPh = mean(ph))
+dat4mean <- ddply(dat4, c('trt', 'biosize', 'day'), summarize, meanPh = mean(ph))
+dat <- read.csv(file.choose(), header=TRUE)
+str(dat)
+dat$ph <- as.numeric(dat$ph)
+dat$trt <- as.factor(dat$trt)#
+dat$biosize <- as.factor(dat$biosize)#
+dat$potsize <- as.factor(dat$potsize)
+str(dat)
+head(dat$ph)
+dat <- read.csv(file.choose(), header=TRUE)
+str(dat)
+clean special characters from the data#
+dat$biosize <- gsub("#","", dat$biosize)#
+dat$trt <- gsub("%","", dat$trt)#
+dat$potsize <- gsub("''","", dat$biosize)#
+dat$trt <- as.factor(dat$trt)#
+dat$biosize <- as.factor(dat$biosize)#
+dat$potsize <- as.factor(dat$potsize)
+look at one pot size#
+dat4 <- subset(dat, potsize=='4')#
+dat4$potsize <- NULL
+dat4mean <- ddply(dat4, c('trt', 'biosize', 'day'), summarize, meanPh = mean(ph))
+dat4mean
+str(dat4)
+gg <- ggplot(data=dat4mean, aes(x=day, y=ph) )#
+gg <- gg + geom_line(aes(col=trt*biosize))#
+gg
+head(dat4mean)
+dat4mean$trtbiosize <- dat4mean$trt*dat4mean*biosize
+dat4mean$trtbiosize <- dat4mean$trt*dat4mean$biosize
+gg <- ggplot(data=dat4mean, aes(x=day, y=ph) )#
+gg <- gg + geom_line(aes(col=trt, type=biosize))#
+gg
+gg <- ggplot(data=dat4mean, aes(x=day, y=meanPh) )#
+gg <- gg + geom_line(aes(col=trt, linetype=biosize))#
+gg
+look at one pot size#
+dat4 <- subset(dat, potsize=='4')#
+dat4$potsize <- NULL
+head(dat4mean)
+dat4mean
+dat$biosize
+look at one pot size#
+dat4 <- subset(dat, potsize=='4')#
+dat4$potsize <- NULL
+dat4mean <- ddply(dat4, c('trt', 'biosize', 'day'), summarize, meanPh = mean(ph))
+dat4mean
+dat4
+dat <- read.csv(file.choose(), header=TRUE)#
+#
+# clean special characters from the data#
+dat$biosize <- gsub("#","", dat$biosize)#
+dat$trt <- gsub("%","", dat$trt)#
+dat$potsize <- gsub("''","", dat$biosize)#
+dat$trt <- as.factor(dat$trt)#
+dat$biosize <- as.factor(dat$biosize)#
+dat$potsize <- as.factor(dat$potsize)
+str(dat)
+dat4mean <- ddply(dat, c('trt', 'biosize', 'potsize','day'), summarize, meanPh = mean(ph))
+gg <- ggplot(data=dat4mean, aes(x=day, y=meanPh) )#
+gg <- gg + geom_line(aes(col=trt, linetype=biosize))#
+gg
+gg <- ggplot(data=dat, aes(x=day, y=ph))#
+gg <- gg + geom_smooth(aes(col=trt, linetype=biosize))#
+gg
+gg <- ggplot(data=dat, aes(x=day, y=ph))#
+gg <- gg + geom_smooth(aes(col=trt, linetype=biosize, alpha=0))#
+gg
+gg <- ggplot(data=dat, aes(x=day, y=ph))#
+gg <- gg + geom_smooth(aes(col=trt, linetype=biosize, fill=0))#
+gg
+gg <- ggplot(data=dat, aes(x=day, y=ph))#
+gg <- gg + geom_smooth(aes(col=trt, linetype=biosize), alpha=0.01)#
+gg
+gg <- ggplot(data=dat4mean, aes(x=day, y=meanPh) )#
+gg <- gg + geom_line(aes(col=trt, linetype=biosize))#
+gg
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp
+library(ssfcov2)
+data(cy)
+covfit <- estimate_cov_function(cy)
+covfit <- estimate_cov_function(cy, n.marginal.knots=5)
+fit <- covfit#
+ # plot unpenalized portion of fit#
+ fit.unp <- fit#
+ fit.unp$fit$c <- rep(0, length(fit$fit$c))#
+ plot_covfit(fit.unp)
+plot_covfit <-#
+function(fit, grid.resolution = 40, zlim=c(-1,1), image=FALSE){#
+  tt <- seq(0,1, length =  grid.resolution)#
+  grid <- expand.grid(t1 = tt, t2 = tt)#
+  surface <- mapply(cov.fn, x = grid[,1], y=grid[,2], MoreArgs = list(knots=fit$knots, fit.obj=fit))#
+  if(image == TRUE){#
+  	z <- matrix(surface, nrow=length(tt), byrow=TRUE)#
+  	x <- tt#
+  	y <- tt#
+  	image.plot(x=x, y=y, z=z)#
+  }#
+  if(image == FALSE){#
+  	wireframe(surface ~ grid[,1]*grid[,2], drape=TRUE, pretty=TRUE, scales=list(arrows=FALSE), xlab='', ylab='',zlab='', zlim=zlim)#
+  }#
+}
+plot_covfit(fit.unp)
+cov.fn <-#
+function(x,y, knots, fit.obj){#
+  c <- fit.obj$fit$c#
+  d <- fit.obj$fit$d#
+  theta <- fit.obj$fit$theta#
+  nb <- dim(knots)[1]#
+  R <- mapply(tprk, s1 = rep(x, nb), s2 = knots[,1], t1 = rep(y,nb), t2 = knots[,2])#
+  R <- 10^theta*R     #multiplying by 10^theta is needed because of how 'sspreg1' computes fitted values#
+  res1 <- as.vector(c)%*%as.vector(R)              # contribution from the penalized terms#
+  res2 <- as.vector(d)%*%t(unpenalized.terms(x,y)) # contribution from the unpenalized terms#
+  res <- res1 + res2#
+  return(res)#
+}
+plot_covfit(fit.unp)
+require(ssfcov2)
+?plot_covfit
+install.packages("ssfcov2")
+library(ssfcov2)
+??ssfcov2
+help(package=ssfcov2)
+?plot_covfit
+plot_covfit
+ssfcov2:::plot_covfit
+install.packages(ssfcov2)
+install.packages('ssfcov2')
+library(ssfcov2)
+?plot_covfit
+data(sfdat)
+data(cy)
+dat2 <- sfdat
+covfit <- estimate_cov_function(dat2, n.marginal.knots=5)
+plot_covfit(covfit, image=TRUE)
+op <- par(mfrow= c(1,3))#
+plot_covfit(covfit, image=TRUE)#
+plot_covfit(covfit, onlyUnpen=TRUE, image=TRUE)#
+plot_covfit(covfit, onlyPen=TRUE, image=TRUE)#
+par(op)
+plot_covfit
+library(scatterplot3d)#
+library(ssfcov2)#
+library(sfdasim)
+load('covfitcy-m40.Rda')
+plot_covfit(covfit, onlyUnpen=TRUE, zlim=c(-1.5,1.5) )
+zlim = c(-1.5, 1.5)#
+screen = list(x = -90, y = -15, z= 0)
+plot_covfit(covfit, onlyUnpen=TRUE, zlim=c(-1.5,1.5) , screen=screen)
+dev.new()
+plot_covfit(covfit, onlyPen=TRUE, zlim=c(-1.5,1.5) , screen=screen)
+library(scatterplot3d)#
+library(ssfcov2)#
+library(sfdasim)
+load('cy-alldata.Rda')
+plot_curves(curves$coef, curves$basis.fns, ylim=c(-2,2))
+load('covfitcy-m5.Rda')
+plot_data(sim.data)
+sim.data
+qplot(Time, X, geom=geom_line, data=sim.data, group=ID)
+gg <- ggplot(sim.data, aes(x=Time, y=X)) + geom_line(eas(group=ID))#
+gg
+gg <- ggplot(sim.data, aes(x=Time, y=X)) + geom_line(aes(group=ID))
+gg
+gg <- ggplot(sim.data, aes(x=Time, y=X)) + geom_line(aes(group=ID)) + theme_bw()
+gg
+zlim = c(-1.5, 1.5)
+screen = list(x = -90, y = -15, z= 0) # orientation for wireframe plots
+plot_covfit(covfit, image=TRUE, zlim=zlim)
+help(package=ssfcov2)
+eigfit <- estimate_eigenfunctions(covfit)
+names(eigfit)
+ef1.m5 <- eigfit$fns[[1]]
+curve(ef1.m5)
+ef2.m5 <- eigfit$fns[[2]]
+curve(ef2.m5)
+load('covfitcy-m10.Rda')
+extract first two estimated eigenfunctions#
+eigfit <- estimate_eigenfunctions(covfit)#
+ef1.m10 <- eigfit$fns[[1]]#
+curve(ef1.m10)#
+ef2.m10 <- eigfit$fns[[2]]#
+curve(ef2.m10)
+eigfit$values
+ef2.m10 <- eigfit$fns[[3]]
+curve(ef2.m10)
+curve(ef1.m10)
+load('covfitcy-m40.Rda')
+extract first two estimated eigenfunctions#
+eigfit <- estimate_eigenfunctions(covfit)#
+ef1.m40 <- eigfit$fns[[1]]#
+curve(ef1.m40)#
+ef2.m40 <- eigfit$fns[[2]]#
+curve(ef2.m40)
+norm1 <- integrate(f=function(x){cos(x)^2}, 0,1)
+norm1
+norm1 <- as.numerice(integrate(f=function(x){cos(x)^2}, 0,1))
+norm1 <- as.numeric(integrate(f=function(x){cos(x)^2}, 0,1))
+names(norm1)
+norm1 <- integrate(f=function(x){cos(x)^2}, 0,1)$value
+norm1
+norm1 <- integrate(f=function(x){cos(pi*x)^2}, 0,1)$value#
+norm2 <- integrate(f=function(x){cos(2*pi*x)^2}, 0,1)$value
+norm2 <- integrate(f=function(x){cos(2*pi*x)^2}, 0,1)$value#
+ef1.true <- function(x){cos(pi*x)/norm1}#
+ef2.true <- function(x){cos(2*pi*x)/norm2}
+curve(ef1.true)
+curve(ef2.true)
+integrate(f=function(x){ef1.true(x)^2}, 0,1)
+ef1.true <- function(x){cos(pi*x)/sqrt(norm1)}#
+ef2.true <- function(x){cos(2*pi*x)/sqrt(norm2)}#
+curve(ef1.true)
+curve(ef2.true)

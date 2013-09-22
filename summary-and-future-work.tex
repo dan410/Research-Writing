@@ -1,0 +1,31 @@
+%!TEX root = proposal.tex
+
+\section{SUMMARY OF COMPLETED WORK AND FUTURE WORK}
+
+\subsection{Completed Work}
+
+\begin{itemize}
+\item In Chapter \ref{ch:covariance estimation} we developed a nonparametric estimator for principal component functions using a reproducing kernel Hilbert space framework. An R package implementation of this method with user-friendly functions for estimating the covariance function and principal component functions for functional data, making it convenient to use empirical basis representation for functional data analyses. 
+
+\item In Chapter \ref{functional kriging} we introduced a kriging predictor for functional data based on an empirical basis representation of curves, where spatial dependence is modeled through basis function coefficients. We also describe our current work on improving the nonparametric covariance estimator by incorporating spatial dependence in the estimation of the covariance function. 
+
+\item  In Chapter \ref{future work} we discussed an application motivated by a phenology study in India. We successfully applied the nonparametric covariance function estimator to a subset of the data to produce and empirical basis for these data. We have also shown how to interpret the type of variation represented by the basis functions and how these are associated with biological patterns exhibited in specific vegetation types. 
+
+\end{itemize}
+
+\subsection{Future Work}
+
+\begin{itemize}
+\item Chapter \ref{functional kriging}
+\begin{enumerate}
+\item Investigate how the covariance estimator performs when curves are not independent. At the end of Chapter \ref{functional kriging} we describe a simulation framework to investigate these effects. The focus of the simulation study will be on how the covariance estimator is affected by (1) the strength of spatial dependence, and (2) the spacing between curves (e.g. regular lattice, completely spatially random, spatially clustered).
+\item Investigate the possibility of including weights in the loss function used in covariance function estimation. If we think of the locations of the curves as a point process, then we can use the intensity function to derive weights for the curves.  A possible way to define appropriate weights would be the inverse intensity raised to some power. We intend on investigating appropriate choices through a simulation study, with the hope of being able to offer general guidelines for  choosing a weight function. We also intend on including weight function in the smoothing parameter selection. 
+\end{enumerate}
+\item Chapter \ref{future work}
+\begin{enumerate}
+\item Use model to estimate primary scientific variables of interest---onset of greeness and end of senescence---for each of the major vegetation types.
+\item Explore spatial structure in these data and investigate how spatial dependence can be incorporated into the model framework.
+\item Investigate how to incorporate other available covariates (e.g. elevation, slope, and aspect)
+\item Investigate if this model can be used for classification of land-cover types.
+\end{enumerate}
+\end{itemize}

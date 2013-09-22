@@ -1,0 +1,983 @@
+hist(coefs.all[6,])
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-")
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.05*ef3(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.05*ef3(t), ylim=ylim, ylab='', pch="-")
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.1*ef4(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.1*ef4(t), ylim=ylim, ylab='', pch="-")
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.02*ef5(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.081*ef5(t), ylim=ylim, ylab='', pch="-")
+dim(coefs.all)
+coefs.all[,1]
+coefs.all[-1,1]
+coefs.all[-1,2]
+coefs.all[-1,3]
+boxplot(coefs.all)
+boxplot(t(coefs.all))
+let's take a look at the coefficients#
+coefs.all <- fit.emp$coefs#
+coefs.all <- melt(coefs.all)#
+coefs.all$ID <- rep(1:100, each=6)#
+coefs.all$X2 <- NULL#
+LC <- NULL#
+for(i in 1:nrow(coefs.all)){#
+	LC[i] <- unique(subset(dat2, ID == coefs.all$ID[i])$LC)#
+}#
+coefs.all$LC <- LC#
+names(coefs.all) <- c('efn', 'value', 'ID', "LC")
+coefs1 <- subset(coefs.all, efn==1)#
+coefs2 <- subset(coefs.all, efn==2)#
+coefs3 <- subset(coefs.all, efn==3)#
+coefs4 <- subset(coefs.all, efn==4)#
+coefs5 <- subset(coefs.all, efn==5)#
+coefs6 <- subset(coefs.all, efn==6)
+df <- data.frame(coef1 = coefs1$value, coef2 = coefs2$value, coef3=coefs3$value, coef4 = coefs4$value, coef5 = coefs5$value, coef6 = coefs6$value, LC = coefs1$LC )#
+#
+df$LC <- factor(df$LC, levels = c(1,2,3,4),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))
+par(mfrow=c(2,3))#
+xlim=c(-0.5,0.5)#
+hist(df[df$LC!='Trp Semievergreen', ]$coef1, col='red', main='', xlab='',ylab='')#
+hist(df[df$LC!='Trp Semievergreen', ]$coef2, xlim=xlim, main='', xlab='',ylab='')#
+hist(df[df$LC!='Trp Semievergreen', ]$coef3, xlim=xlim, main='', xlab='',ylab='')#
+hist(df[df$LC!='Trp Semievergreen', ]$coef4, xlim=xlim, main='', xlab='',ylab='')#
+hist(df[df$LC!='Trp Semievergreen', ]$coef5, xlim=xlim, main='', xlab='',ylab='')#
+hist(df[df$LC!='Trp Semievergreen', ]$coef6, xlim=xlim, main='', xlab='',ylab='')
+par(mfrow=c(2,2))#
+xlim=c(-0.5,0.5)#
+stem(df[df$LC=='Trp Evergreen', ]$coef1, main='Trp Evergreen', xlab='coef 1',ylab='', col='green')#
+stem(df[df$LC=='Trp Evergreen', ]$coef3, xlim=xlim, main='Trp Evergreen', xlab='coef 3',ylab='', col='green')#
+stem(df[df$LC=='Coastal Veg', ]$coef1, xlim=xlim, main='Coastal Veg', xlab='coef 1',ylab='', col='blue')#
+stem(df[df$LC=='Coastal Veg', ]$coef3, xlim=xlim, main='Coastal Veg', xlab='coef 3',ylab='', col='blue')
+hist(df[df$LC!='Trp Semievergreen', ]$coef3, xlim=xlim, main='', xlab='',ylab='')
+hist(df[df$LC!='Coastal Veg', ]$coef3, xlim=xlim, main='', xlab='',ylab='')
+hist(df[df$LC=='Coastal Veg', ]$coef3, xlim=xlim, main='', xlab='',ylab='')
+hist(df[df$LC %in% c('Trp Evergreen', 'Coastal Veg', ]$coef1, col='red', main='', xlab='',ylab='')
+hist(df[df$LC %in% c('Trp Evergreen', 'Coastal Veg'), ]$coef1, col='red', main='', xlab='',ylab='')
+hist(df[df$LC %in% c('Trp Evergreen', 'Coastal Veg'), ]$coef1, main='', xlab='',ylab='')
+hist(df[df$LC %in% c('Trp Evergreen', 'Coastal Veg'), ]$coef1, main='', xlab='',ylab='', xlim=xlim)
+hist(df[df$LC %in% c('Trp Evergreen', 'Coastal Veg'), ]$coef1, main='', xlab='',ylab='', xlim=xlim, freq=FALSE)
+par(mfrow=c(1,2))#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='', xlab='',ylab='', xlim=xlim, freq=FALSE)
+par(mfrow=c(1,2))#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, freq=FALSE)
+pdf('../Images-future-work/hist-trpEvgrn-CstVeg-coef3.pdf')#
+par(mfrow=c(1,2))#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+dev.off()
+boxplot(df[,-7])
+boxplot(df[,-7]~df$LC)
+?boxplot
+boxplot(df[,-7])
+pdf('../Images-future-work/boxplot-coefs.pdf')#
+boxplot(df[,-7])#
+dev.off()
+ylim=c(-3,3)#
+t <- 1:50/50#
+pdf('../Images-future-work/ef0.pdf')#
+plot(t, ef0(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef1.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef2.pdf')#
+plot(t, ef2(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef3.pdf')#
+plot(t, ef3(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef4.pdf')#
+plot(t, ef4(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef5.pdf')#
+plot(t, ef5(t), ylim=ylim, ylab='', type='l')#
+dev.off()
+ylim=c(-3,3)#
+t <- 1:40/40#
+pdf('../Images-future-work/ef2pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-")#
+dev.off()#
+pdf('../Images-future-work/ef3pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.05*ef3(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.05*ef3(t), ylim=ylim, ylab='', pch="-")#
+dev.off()#
+pdf('../Images-future-work/ef4pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.1*ef4(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.1*ef4(t), ylim=ylim, ylab='', pch="-")#
+dev.off()#
+pdf('../Images-future-work/ef5pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.02*ef5(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.081*ef5(t), ylim=ylim, ylab='', pch="-")#
+dev.off()
+ylim=c(-3,3)#
+t <- 1:40/40#
+pdf('../Images-future-work/ef2pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-")#
+dev.off()#
+pdf('../Images-future-work/ef3pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef3(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.4*ef3(t), ylim=ylim, ylab='', pch="-")#
+dev.off()#
+pdf('../Images-future-work/ef4pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef4(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.4*ef4(t), ylim=ylim, ylab='', pch="-")#
+dev.off()#
+pdf('../Images-future-work/ef5pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef5(t), ylim=ylim, ylab='', pch="+")#
+points(t, ef11(t) - 0.4*ef5(t), ylim=ylim, ylab='', pch="-")#
+dev.off()
+ylim=c(-3,3)#
+t <- 1:40/40#
+pdf('../Images-future-work/ef2pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+", cex=1.5)#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef3pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.1*ef3(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.1*ef3(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef4pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.1*ef4(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.1*ef4(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef5pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.1*ef5(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.1*ef5(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()
+ylim=c(-3,3)#
+t <- 1:40/40#
+pdf('../Images-future-work/ef2pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+", cex=1.5)#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef2pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+", cex=1.5)#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef3pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef3(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef3(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef4pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef4(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef4(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef5pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef5(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef5(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()
+pdf('../Images-future-work/boxplot-coefs.pdf')#
+boxplot(df[,-7], cex.axis=2)#
+dev.off()
+boxplot(df[,-7], cex.axis=2)
+boxplot(df[,-7], cex.axis=1.4)
+pdf('../Images-future-work/boxplot-coefs.pdf')#
+boxplot(df[,-7], cex.axis=1.4)#
+dev.off()
+par(mfrow=c(1,2))#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, freq=FALSE)
+par(mfrow=c(1,2), cex.axis=1.4)
+par(mfrow=c(1,2), cex.axis=1.4)#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, freq=FALSE)
+pdf('../Images-future-work/hist-trpEvgrn-CstVeg-coef3.pdf')#
+par(mfrow=c(1,2), cex.axis=1.4)#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+dev.off()
+Chl.short <- Chl.alltimes
+dat <- melt(Chl.short)#
+dat$LC <- rep(LC.v.six, each = length(timepts))
+dim(Chl.short)
+str(Chl.short)
+timepts <- 1:230
+m <- length(timepts)
+Chl.short <- llply(Chl.alltimes, .fun = function(x){x[timepts]})
+dat <- melt(Chl.short)#
+dat$LC <- rep(LC.v.six, each = length(timepts))
+dat$LC <- factor(dat$LC, levels = c(1,5,8,20),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))
+time <- (timepts-min(timepts))/(max(timepts) - min(timepts))#
+dat$time <- rep(time, length(unique(dat$L1)))#
+dat$locx <- rep(xs,each = m)#
+dat$locy <- rep(ys,each = m)#
+#
+head(dat, 20)#
+names(dat) <- c("obsX", "ID", "LC", "Time", 'locx', 'locy')
+dat2 <- dat
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="top", legend.direction="horizontal")#
+gp
+pairs(df[,1:6], col=df$LC)
+pdf('../Images-future-work/region6-matrixplot.pdf')#
+pairs(df[,1:6], col=df$LC)#
+dev.off()
+library(plyr)#
+library(reshape)#
+library(ssfcov2)#
+load('RegionSix_TestData.Rdata') #testdat
+timepts <- 3:49#
+timepts <- 1:230#
+m <- length(timepts)#
+Chl.short <- llply(Chl.alltimes, .fun = function(x){x[timepts]})#
+dat <- melt(Chl.short)#
+dat$LC <- rep(LC.v.six, each = length(timepts))#
+#
+dat$LC <- factor(dat$LC, levels = c(1,5,8,20),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))#
+#
+time <- (timepts-min(timepts))/(max(timepts) - min(timepts))#
+dat$time <- rep(time, length(unique(dat$L1)))#
+dat$locx <- rep(xs,each = m)#
+dat$locy <- rep(ys,each = m)#
+#
+head(dat, 20)#
+names(dat) <- c("obsX", "ID", "LC", "Time", 'locx', 'locy')#
+#
+dat2 <- dat#
+#dat2 <- subset(dat, LC ==20 )
+center functions around zero#
+meanX <- mean(dat2$obsX)#
+dat2$X <- dat2$obsX - meanX
+load('../Images-code-future-work/covfit-region6-knots7.Rda')
+eig.fit <- estimate_eigenfunctions(covfit)#
+eig.fns <- eig.fit$fns#
+#
+ef0 <- function(x){rep(1, length=length(x))}#
+ef1 <- eig.fns[[1]]#
+ef2 <- eig.fns[[2]]#
+ef3 <- eig.fns[[3]]#
+ef4 <- eig.fns[[4]]#
+ef5 <- eig.fns[[5]]
+sourceDir( "/Users/dan410/Google_Drive/Research/R_packages/spatialfda/R")
+funlist <- list(ef0, ef1, ef2, ef3, ef4, ef5)#
+emp.basis <- create.empirical.basis(basisfuns = funlist, rangeval=c(0,1))
+plot(emp.basis)
+nfuns <- length(unique(dat2$ID))#
+y <- matrix(dat2$X, ncol = nfuns, byrow = FALSE)#
+argvals <- dat2[dat2$ID == 1, ]$Time#
+#
+# use the plyr package to extract the locations#
+locs <- ddply(dat2, .(ID), function(x){x[1, c("locx", "locy")]})#
+locs <- locs[,-1]#
+#
+fit.emp <- smooth.basis(argvals = argvals, y = y, fdParobj = emp.basis)$fd#
+plot(fit.emp, ylim=c(-2,2))
+plotfit
+library(fda)
+plotfit(fit.emp)
+plotfit.fd(fit.emp)
+plotfit.fd(y, argvals, fit.emp)
+rho = 0.9#
+n = 51#
+argvals = seq(0,1,len=n)
+x = sin(4*pi*argvals)#
+Rerr = matrix(0,n,n)
+argvals
+Rerr
+for (i in 1:n) {#
+  for (j in 1:n) Rerr[i,j] =  rho^abs(i-j)#
+}
+Rerr
+Lerr = chol(Rerr)
+sigerr = 0.2
+err = as.vector(crossprod(Lerr,matrix(rnorm(x),n,1))*sigerr)
+plot(argvals, err)
+y = x + err
+y = c(-0.03, 0.36, 0.59, 0.71, 0.97,  1.2,  1.1, 0.96, 0.79, 0.68,#
+       0.56, 0.25, 0.01,-0.43,-0.69, -1,  -1.09,-1.29,-1.16,-1.09,#
+      -0.93, -0.9,-0.78,-0.47, -0.3,-0.01, 0.29, 0.47, 0.77, 0.85,#
+       0.87, 0.97,  0.9, 0.72, 0.48, 0.25,-0.17,-0.39,-0.47,-0.71,#
+      -1.07,-1.28,-1.33,-1.39,-1.45, -1.3,-1.25,-1.04,-0.82,-0.55, -0.2)
+y = x + err
+nbasis = n + 2#
+basisobj = create.bspline.basis(c(0,1),nbasis)#
+fdParobj = fdPar(basisobj)#
+#  Smooth these results for a range of log10(lambda) values#
+loglamout = plotGCVRMSE.fd(-6, -3, 0.25, x, argvals, y, fdParobj)
+plotGCVRMSE.fd = function(lamlow, lamhi, lamdel, argvals, y,#
+            fdParobj, wtvec=NULL, fdnames=NULL, covariates=NULL, ...)  {#
+  loglamvec = seq(lamlow, lamhi, lamdel)#
+  loglamout = matrix(0,length(loglamvec),4)#
+  m = 0#
+  for (loglambda in loglamvec) {#
+    m = m + 1#
+    loglamout[m,1] = loglambda#
+    fdParobj$lambda = 10^(loglambda)#
+    smoothlist = smooth.basis(argvals, y, fdParobj, wtvec=wtvec,#
+             fdnames=fdnames, covariates=covariates)#
+    xfd = smoothlist$fd   #  the curve smoothing the data#
+    loglamout[m,2] = smoothlist$df#
+    #  degrees of freedom in the smoothing curve#
+    loglamout[m,3] = sqrt(mean((eval.fd(argvals, xfd) - y)^2))#
+    loglamout[m,4] = mean(smoothlist$gcv)  #  the mean of the N gcv values#
+  }#
+  cat("log10 lambda, deg. freedom, RMSE, gcv\n")#
+  for (i in 1:m) {#
+    cat(format(round(loglamout[i,],3)))#
+    cat("\n")#
+  }#
+  par(mfrow=c(3,1))#
+  plot(loglamvec, loglamout[,2], type="b", ...)#
+  title("Degrees of freedom")#
+  plot(loglamvec, loglamout[,3], type="b", ...)#
+  title("RMSE")#
+  plot(loglamvec, loglamout[,4], type="b", ...)#
+  title("Mean gcv")#
+  return(loglamout)#
+}
+loglamout = plotGCVRMSE.fd(-6, -3, 0.25, x, argvals, y, fdParobj)
+library(plyr)#
+library(reshape)#
+library(ssfcov2)#
+load('RegionSix_TestData.Rdata') #testdat#
+timepts <- 3:49#
+timepts <- 1:230#
+m <- length(timepts)#
+Chl.short <- llply(Chl.alltimes, .fun = function(x){x[timepts]})#
+dat <- melt(Chl.short)#
+dat$LC <- rep(LC.v.six, each = length(timepts))#
+#
+dat$LC <- factor(dat$LC, levels = c(1,5,8,20),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))#
+#
+time <- (timepts-min(timepts))/(max(timepts) - min(timepts))#
+dat$time <- rep(time, length(unique(dat$L1)))#
+dat$locx <- rep(xs,each = m)#
+dat$locy <- rep(ys,each = m)#
+#
+head(dat, 20)#
+names(dat) <- c("obsX", "ID", "LC", "Time", 'locx', 'locy')#
+#
+dat2 <- dat#
+#dat2 <- subset(dat, LC ==20 )
+center functions around zero#
+meanX <- mean(dat2$obsX)#
+dat2$X <- dat2$obsX - meanX#
+#
+# # f
+covfit <- estimate_cov_function(dat2, n.marginal.knots=20)
+covfit <- estimate_cov_function(dat2, n.marginal.knots=10)
+covfit <- estimate_cov_function(dat2, n.marginal.knots=8)
+covfit <- estimate_cov_function(dat2, n.marginal.knots=7)
+library(plyr)#
+library(reshape)#
+library(ssfcov2)#
+load('RegionSix_TestData.Rdata') #testdat
+90/8
+49+11
+timepts <- 1:60
+m <- length(timepts)#
+Chl.short <- llply(Chl.alltimes, .fun = function(x){x[timepts]})#
+dat <- melt(Chl.short)#
+dat$LC <- rep(LC.v.six, each = length(timepts))#
+#
+dat$LC <- factor(dat$LC, levels = c(1,5,8,20),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))#
+#
+time <- (timepts-min(timepts))/(max(timepts) - min(timepts))#
+dat$time <- rep(time, length(unique(dat$L1)))#
+dat$locx <- rep(xs,each = m)#
+dat$locy <- rep(ys,each = m)#
+#
+head(dat, 20)#
+names(dat) <- c("obsX", "ID", "LC", "Time", 'locx', 'locy')#
+#
+dat2 <- dat#
+#dat2 <- subset(dat, LC ==20 )
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="top", legend.direction="horizontal")#
+gp
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="top", legend.direction="horizontal")#
+gp <- gp + facet_grid(.~LC)#
+gp
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp
+meanX <- mean(dat2$obsX)#
+dat2$X <- dat2$obsX - meanX
+covfit <- estimate_cov_function(dat2, n.marginal.knots=7)
+library(plyr)#
+library(reshape)#
+library(ssfcov2)#
+load('RegionSix_TestData.Rdata') #testdat
+timepts <- 3:49
+m <- length(timepts)#
+Chl.short <- llply(Chl.alltimes, .fun = function(x){x[timepts]})#
+dat <- melt(Chl.short)#
+dat$LC <- rep(LC.v.six, each = length(timepts))#
+#
+dat$LC <- factor(dat$LC, levels = c(1,5,8,20),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))
+time <- (timepts-min(timepts))/(max(timepts) - min(timepts))#
+dat$time <- rep(time, length(unique(dat$L1)))#
+dat$locx <- rep(xs,each = m)#
+dat$locy <- rep(ys,each = m)
+head(dat, 20)#
+names(dat) <- c("obsX", "ID", "LC", "Time", 'locx', 'locy')#
+#
+dat2 <- dat#
+#dat2 <- subset(dat, LC ==20 )
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp
+load('../Images-code-future-work/covfit-region6-knots7.Rda')
+eig.fit <- estimate_eigenfunctions(covfit)#
+eig.fns <- eig.fit$fns#
+#
+ef0 <- function(x){rep(1, length=length(x))}#
+ef1 <- eig.fns[[1]]#
+ef2 <- eig.fns[[2]]#
+ef3 <- eig.fns[[3]]#
+ef4 <- eig.fns[[4]]#
+ef5 <- eig.fns[[5]]
+sourceDir( "/Users/dan410/Google_Drive/Research/R_packages/spatialfda/R")
+funlist <- list(ef0, ef1, ef2, ef3, ef4, ef5)#
+emp.basis <- create.empirical.basis(basisfuns = funlist, rangeval=c(0,1))
+nfuns <- length(unique(dat2$ID))#
+y <- matrix(dat2$X, ncol = nfuns, byrow = FALSE)#
+argvals <- dat2[dat2$ID == 1, ]$Time
+use the plyr package to extract the locations#
+locs <- ddply(dat2, .(ID), function(x){x[1, c("locx", "locy")]})#
+locs <- locs[,-1]
+meanX <- mean(dat2$obsX)#
+dat2$X <- dat2$obsX - meanX
+nfuns <- length(unique(dat2$ID))#
+y <- matrix(dat2$X, ncol = nfuns, byrow = FALSE)#
+argvals <- dat2[dat2$ID == 1, ]$Time
+use the plyr package to extract the locations#
+locs <- ddply(dat2, .(ID), function(x){x[1, c("locx", "locy")]})#
+locs <- locs[,-1]
+fit.emp <- smooth.basis(argvals = argvals, y = y, fdParobj = emp.basis)$fd
+ev <- eval.fd(evalarg = time, fdobj = fit.emp, returnMatrix=TRUE)
+dat2$pred <- melt(ev)$value
+gp <- ggplot(subset(dat2, LC!='Trp Semievergreen'), aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(-1.5,1.5))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(-1.5,1.5))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(-1.5,1.5))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp
+dev.new()
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp
+pdf('../Images-future-work/region6-curves-facet.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp#
+dev.off()
+pdf('../Images-future-work/region6-estimated-curves-facet.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(-1.5,1.5))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp#
+dev.off()
+pdf('../Images-future-work/region6-curves-nolegend.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)')#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp#
+dev.off()
+names(dat2)
+meanX
+head(dat2)
+dat2$pred <- dat2$pred + meanX
+pdf('../Images-future-work/region6-estimated-curves-facet.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(-1.5,1.5))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp#
+dev.off()
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated')#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp
+pdf('../Images-future-work/region6-estimated-curves-facet.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated')#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp#
+dev.off()
+pdf('../Images-future-work/region6-curves-facet.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=obsX, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Y(t)') + ylim(c(1.5,4))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp#
+dev.off()
+pdf('../Images-future-work/region6-estimated-curves-facet.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(1.5,4))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp#
+dev.off()
+covfit
+eigfit
+eig.fit
+ef0 <- function(x){rep(1, length=length(x))}#
+ef1 <- eig.fns[[1]]#
+ef2 <- eig.fns[[2]]#
+ef3 <- eig.fns[[4]]#
+ef4 <- eig.fns[[7]]#
+ef5 <- eig.fns[[8]]#
+#
+ef11 <- function(x){-1*ef1(x)}#
+ef12p <- function(x){-1*ef1(x) + 0.4*ef2(x)}#
+ef12n <- function(x){-1*ef1(x) - 0.4*ef2(x)}#
+ef13p <- function(x){-1*ef1(x) + (0.5)^2*ef3(x)}#
+ef13n <- function(x){-1*ef1(x) - (0.5)^2*ef3(x)}#
+ef14p <- function(x){-1*ef1(x) + (0.5)^3*ef4(x)}#
+ef14n <- function(x){-1*ef1(x) - (0.5)^3*ef4(x)}#
+ef15p <- function(x){-1*ef1(x) + (0.5)^4*ef5(x)}#
+ef15n <- function(x){-1*ef1(x) - (0.5)^4*ef5(x)}
+ylim=c(-3,3)#
+t <- 1:50/50
+plot(t, ef0(t), ylim=ylim, ylab='', type='l')
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')
+plot(t, ef2(t), ylim=ylim, ylab='', type='l')
+plot(t, ef3(t), ylim=ylim, ylab='', type='l')
+plot(t, ef4(t), ylim=ylim, ylab='', type='l')
+plot(t, ef5(t), ylim=ylim, ylab='', type='l')
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+", cex=1.5)#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-",cex=1.5)
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef3(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef3(t), ylim=ylim, ylab='', pch="-",cex=1.5)
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef4(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef4(t), ylim=ylim, ylab='', pch="-",cex=1.5)
+funlist <- list(ef0, ef1, ef2, ef3, ef4, ef5)#
+emp.basis <- create.empirical.basis(basisfuns = funlist, rangeval=c(0,1))
+nfuns <- length(unique(dat2$ID))#
+y <- matrix(dat2$X, ncol = nfuns, byrow = FALSE)#
+argvals <- dat2[dat2$ID == 1, ]$Time
+use the plyr package to extract the locations#
+locs <- ddply(dat2, .(ID), function(x){x[1, c("locx", "locy")]})#
+locs <- locs[,-1]
+fit.emp <- smooth.basis(argvals = argvals, y = y, fdParobj = emp.basis)$fd
+ev <- eval.fd(evalarg = time, fdobj = fit.emp, returnMatrix=TRUE)
+dat2$pred <- melt(ev)$value#
+dat2$pred <- dat2$pred + meanX
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(1.5,4))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(1.5,4))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp
+ef0 <- function(x){rep(1, length=length(x))}#
+ef1 <- eig.fns[[1]]#
+ef2 <- eig.fns[[2]]#
+ef3 <- eig.fns[[4]]#
+ef4 <- eig.fns[[7]]#
+ef5 <- eig.fns[[8]]#
+#
+ef11 <- function(x){-1*ef1(x)}#
+ef12p <- function(x){-1*ef1(x) + 0.4*ef2(x)}#
+ef12n <- function(x){-1*ef1(x) - 0.4*ef2(x)}#
+ef13p <- function(x){-1*ef1(x) + (0.5)^2*ef3(x)}#
+ef13n <- function(x){-1*ef1(x) - (0.5)^2*ef3(x)}#
+ef14p <- function(x){-1*ef1(x) + (0.5)^3*ef4(x)}#
+ef14n <- function(x){-1*ef1(x) - (0.5)^3*ef4(x)}#
+ef15p <- function(x){-1*ef1(x) + (0.5)^4*ef5(x)}#
+ef15n <- function(x){-1*ef1(x) - (0.5)^4*ef5(x)}
+ylim=c(-3,3)#
+t <- 1:50/50#
+pdf('../Images-future-work/ef0.pdf')#
+plot(t, ef0(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef1.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef2.pdf')#
+plot(t, ef2(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef3.pdf')#
+plot(t, ef3(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef4.pdf')#
+plot(t, ef4(t), ylim=ylim, ylab='', type='l')#
+dev.off()#
+pdf('../Images-future-work/ef5.pdf')#
+plot(t, ef5(t), ylim=ylim, ylab='', type='l')#
+dev.off()
+ylim=c(-3,3)#
+t <- 1:40/40#
+pdf('../Images-future-work/ef2pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+", cex=1.5)#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef2pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef2(t), ylim=ylim, ylab='', pch="+", cex=1.5)#
+points(t, ef11(t) - 0.4*ef2(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef3pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef3(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef3(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef4pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef4(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef4(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()#
+pdf('../Images-future-work/ef5pn.pdf')#
+plot(t, ef11(t), ylim=ylim, ylab='', type='l')#
+points(t, ef11(t) + 0.4*ef5(t), ylim=ylim, ylab='', pch="+",cex=1.5)#
+points(t, ef11(t) - 0.4*ef5(t), ylim=ylim, ylab='', pch="-",cex=1.5)#
+dev.off()
+pdf('../Images-future-work/region6-estimated-curves.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(1.5,4))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp#
+dev.off()
+pdf('../Images-future-work/region6-estimated-curves-facet.pdf')#
+gp <- ggplot(dat2, aes(x=Time, y=pred, group=ID))#
+gp <- gp + geom_line(aes(color = LC))#
+#gp <- gp + geom_smooth(aes(color = LC), alpha=0.0)#
+gp <- gp + theme_bw() + xlab('t') + ylab('Estimated') + ylim(c(1.5,4))#
+gp <- gp + theme(legend.position="none", legend.direction="horizontal")#
+gp <- gp + facet_grid(LC~.)#
+gp#
+dev.off()
+coefs.all <- fit.emp$coefs#
+coefs.all <- melt(coefs.all)#
+coefs.all$ID <- rep(1:100, each=6)#
+coefs.all$X2 <- NULL#
+LC <- NULL
+for(i in 1:nrow(coefs.all)){#
+	LC[i] <- unique(subset(dat2, ID == coefs.all$ID[i])$LC)#
+}#
+coefs.all$LC <- LC#
+names(coefs.all) <- c('efn', 'value', 'ID', "LC")
+coefs1 <- subset(coefs.all, efn==1)#
+coefs2 <- subset(coefs.all, efn==2)#
+coefs3 <- subset(coefs.all, efn==3)#
+coefs4 <- subset(coefs.all, efn==4)#
+coefs5 <- subset(coefs.all, efn==5)#
+coefs6 <- subset(coefs.all, efn==6)
+df <- data.frame(coef1 = coefs1$value, coef2 = coefs2$value, coef3=coefs3$value, coef4 = coefs4$value, coef5 = coefs5$value, coef6 = coefs6$value, LC = coefs1$LC )
+pdf('../Images-future-work/boxplot-coefs.pdf')#
+boxplot(df[,-7], cex.axis=1.4)#
+dev.off()
+df$LC <- factor(df$LC, levels = c(1,2,3,4),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))
+par(mfrow=c(1,2), cex.axis=1.4)#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, freq=FALSE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, freq=FALSE)
+par(mfrow=c(1,2), cex.axis=1.4)#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, prob=TRUE)
+pdf('../Images-future-work/hist-trpEvgrn-CstVeg-coef3.pdf')#
+par(mfrow=c(1,2), cex.axis=1.4)#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef1, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef1, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+dev.off()
+pairs(df[,1:6], col=df$LC)
+pairs(df[,2:4], col=df$LC)
+df2 <- subset(df, LC != 'Trp Semievergreen')
+pairs(df2[,2:4], col=df$LC)
+pdf('../Images-future-work/region6-matrixplot.pdf')#
+pairs(df[,2:4], col=df$LC)#
+dev.off()
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef2, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef2, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, prob=TRUE)
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef3, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef3, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, prob=TRUE)
+pdf('../Images-future-work/hist-trpEvgrn-CstVeg-coef3.pdf')#
+par(mfrow=c(1,2), cex.axis=1.4)#
+xlim= c(-0.5, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef3, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef3, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+dev.off()
+pdf('../Images-future-work/hist-trpEvgrn-CstVeg-coef3.pdf')#
+par(mfrow=c(1,2), cex.axis=1.4)#
+xlim= c(-0.6, 0.5)#
+hist(df[df$LC %in% c('Trp Evergreen'), ]$coef3, main='Tropical Evergreen', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+hist(df[df$LC %in% c( 'Coastal Veg'), ]$coef3, main='Coastal Vegetation', xlab='',ylab='', xlim=xlim, prob=TRUE)#
+dev.off()
+library(plyr)#
+library(reshape)#
+library(ssfcov2)#
+load('RegionSix_TestData.Rdata') #testdat
+timepts <- 3:49
+m <- length(timepts)#
+Chl.short <- llply(Chl.alltimes, .fun = function(x){x[timepts]})#
+dat <- melt(Chl.short)#
+dat$LC <- rep(LC.v.six, each = length(timepts))#
+#
+dat$LC <- factor(dat$LC, levels = c(1,5,8,20),#
+labels = c("Trp Evergreen", "Trp Semievergreen", "Trp Moist Decid", "Coastal Veg"))#
+#
+time <- (timepts-min(timepts))/(max(timepts) - min(timepts))#
+dat$time <- rep(time, length(unique(dat$L1)))#
+dat$locx <- rep(xs,each = m)#
+dat$locy <- rep(ys,each = m)#
+#
+head(dat, 20)#
+names(dat) <- c("obsX", "ID", "LC", "Time", 'locx', 'locy')#
+#
+dat2 <- dat#
+#dat2 <- subset(dat, LC ==20 )
+gp <- ggplot(dat2, aes(x=locx, y=locy, label=LC))
+gp + geom_point(aes(color=LC))
+gp + geom_point(aes(color=LC, size=4))
+gp + geom_point(aes(color=LC, size=4))+theme_bw()
+gp + geom_point(aes(color=LC, size=4, shape=2))+theme_bw()
+gp + geom_point(aes(color=LC, size=4, shape='2'))+theme_bw()
+gp + geom_raster(aes(fill=LC))+theme_bw()
+pdf('../Images-future-work/region6-vegitation-map.pdf')#
+gp <- ggplot(dat2, aes(x=locx, y=locy, label=LC))#
+gp + geom_raster(aes(fill=LC))+theme_bw()#
+dev.off()
+center functions around zero#
+meanX <- mean(dat2$obsX)#
+dat2$X <- dat2$obsX - meanX
+load('../Images-code-future-work/covfit-region6-knots7.Rda')
+zlim = c(-.4, .4)
+eig.fit <- estimate_eigenfunctions(covfit)#
+eig.fns <- eig.fit$fns#
+#
+ef0 <- function(x){rep(1, length=length(x))}#
+ef1 <- eig.fns[[1]]#
+ef2 <- eig.fns[[2]]#
+ef3 <- eig.fns[[4]]#
+ef4 <- eig.fns[[7]]#
+ef5 <- eig.fns[[8]]#
+#
+ef11 <- function(x){-1*ef1(x)}#
+ef12p <- function(x){-1*ef1(x) + 0.4*ef2(x)}#
+ef12n <- function(x){-1*ef1(x) - 0.4*ef2(x)}#
+ef13p <- function(x){-1*ef1(x) + (0.5)^2*ef3(x)}#
+ef13n <- function(x){-1*ef1(x) - (0.5)^2*ef3(x)}#
+ef14p <- function(x){-1*ef1(x) + (0.5)^3*ef4(x)}#
+ef14n <- function(x){-1*ef1(x) - (0.5)^3*ef4(x)}#
+ef15p <- function(x){-1*ef1(x) + (0.5)^4*ef5(x)}#
+ef15n <- function(x){-1*ef1(x) - (0.5)^4*ef5(x)}
+sourceDir( "/Users/dan410/Google_Drive/Research/R_packages/spatialfda/R")
+funlist <- list(ef0, ef1, ef2, ef3, ef4, ef5)#
+emp.basis <- create.empirical.basis(basisfuns = funlist, rangeval=c(0,1))
+nfuns <- length(unique(dat2$ID))#
+y <- matrix(dat2$X, ncol = nfuns, byrow = FALSE)#
+argvals <- dat2[dat2$ID == 1, ]$Time#
+#
+# use the plyr package to extract the locations#
+locs <- ddply(dat2, .(ID), function(x){x[1, c("locx", "locy")]})#
+locs <- locs[,-1]
+fit.emp <- smooth.basis(argvals = argvals, y = y, fdParobj = emp.basis)$fd#
+plot(fit.emp, ylim=c(-2,2))#
+#
+ev <- eval.fd(evalarg = time, fdobj = fit.emp, returnMatrix=TRUE)
+dat2$pred <- melt(ev)$value#
+dat2$pred <- dat2$pred + meanX
+let's take a look at the coefficients#
+coefs.all <- fit.emp$coefs#
+coefs.all <- melt(coefs.all)#
+coefs.all$ID <- rep(1:100, each=6)#
+coefs.all$X2 <- NULL#
+LC <- NULL#
+for(i in 1:nrow(coefs.all)){#
+	LC[i] <- unique(subset(dat2, ID == coefs.all$ID[i])$LC)#
+}#
+coefs.all$LC <- LC#
+names(coefs.all) <- c('efn', 'value', 'ID', "LC")#
+#
+coefs1 <- subset(coefs.all, efn==1)#
+coefs2 <- subset(coefs.all, efn==2)#
+coefs3 <- subset(coefs.all, efn==3)#
+coefs4 <- subset(coefs.all, efn==4)#
+coefs5 <- subset(coefs.all, efn==5)#
+coefs6 <- subset(coefs.all, efn==6)#
+#
+df <- data.frame(coef1 = coefs1$value, coef2 = coefs2$value, coef3=coefs3$value, coef4 = coefs4$value, coef5 = coefs5$value, coef6 = coefs6$value, LC = coefs1$LC )
+names(df)
+names(coefs.all)
+head(coefs.all)
+head(coefs.all, 20)
+head(dat2)
+head(coefs.al)
+head(coefs.all)
+coefs.all$locx <- rep(xs, each=6)#
+coefs.all$locy <- rep(ys, each=6)
+head(coefs.all)
+head(coefs.all, 20)
+names(coefs.all) <- c('efn', 'value', 'ID', "LC", 'locx','locy')
+coefs1 <- subset(coefs.all, efn==1)#
+coefs2 <- subset(coefs.all, efn==2)#
+coefs3 <- subset(coefs.all, efn==3)#
+coefs4 <- subset(coefs.all, efn==4)#
+coefs5 <- subset(coefs.all, efn==5)#
+coefs6 <- subset(coefs.all, efn==6)
+head(coefs2)
+qplot(locx, locy, data = coefs2, fill = LC, geom = "raster")
+qplot(locx, locy, data = coefs2, fill = as.factor(LC), geom = "raster")
+qplot(locx, locy, data = coefs2, fill = value, geom = "raster")
+qplot(locx, locy, data = coefs3, fill = value, geom = "raster")
+qplot(locx, locy, data = coefs4, fill = value, geom = "raster")
+qplot(locx, locy, data = coefs5, fill = value, geom = "raster")
+qplot(locx, locy, data = coefs6, fill = value, geom = "raster")
+qplot(locx, locy, data = coefs1, fill = value, geom = "raster", theme=theme_bw())
+qplot(locx, locy, data = coefs1, fill = value, geom = "raster", theme=theme_bw)
+pdf('../Images-future-work/coef1-spatial.pdf')#
+ qplot(locx, locy, data = coefs1, fill = value, geom = "raster", theme=theme_bw)#
+dev.off()#
+pdf('../Images-future-work/coef2-spatial.pdf')#
+ qplot(locx, locy, data = coefs2, fill = value, geom = "raster")#
+dev.off()#
+pdf('../Images-future-work/coef3-spatial.pdf')#
+ qplot(locx, locy, data = coefs3, fill = value, geom = "raster")#
+dev.off()#
+pdf('../Images-future-work/coef4-spatial.pdf')#
+ qplot(locx, locy, data = coefs4, fill = value, geom = "raster")#
+dev.off()#
+pdf('../Images-future-work/coef5-spatial.pdf')#
+ qplot(locx, locy, data = coefs5, fill = value, geom = "raster")#
+dev.off()#
+pdf('../Images-future-work/coef6-spatial.pdf')#
+ qplot(locx, locy, data = coefs6, fill = value, geom = "raster")#
+dev.off()
+png('../Images-future-work/coef1-spatial.png')#
+ qplot(locx, locy, data = coefs1, fill = value, geom = "raster", theme=theme_bw)#
+dev.off()#
+png('../Images-future-work/coef2-spatial.png')#
+ qplot(locx, locy, data = coefs2, fill = value, geom = "raster")#
+dev.off()
+jpg('../Images-future-work/coef1-spatial.jpg')#
+ qplot(locx, locy, data = coefs1, fill = value, geom = "raster", theme=theme_bw)#
+dev.off()
+qplot(locx, locy, data = coefs1, fill = value, geom = "raster", theme=theme_bw)
+pdf('../Images-future-work/region6-vegetation-map.pdf')#
+gp <- ggplot(dat2, aes(x=locx, y=locy, label=LC))#
+gp + geom_raster(aes(fill=LC))+theme_bw()#
+dev.off()
+pdf('../Images-future-work/region6-vegetation-map-nolegend.pdf')#
+gp <- ggplot(dat2, aes(x=locx, y=locy, label=LC))#
+gp + geom_raster(aes(fill=LC))+theme_bw(legend.position='none')#
+dev.off()
+pdf('../Images-future-work/region6-vegetation-map-nolegend.pdf')#
+gp <- ggplot(dat2, aes(x=locx, y=locy, label=LC))#
+gp + geom_raster(aes(fill=LC))+theme_bw()+theme(legend.position='none')#
+dev.off()
+library(plyr)#
+library(reshape)#
+library(ssfcov2)#
+library(fda)
+Chl.basis12 <- create.bspline.basis(c(0,1), nbasis=12, norder=4)
+plot(Chl.basis12)
+Chl.basis12 <- create.bspline.basis(c(0,1), nbasis=8, norder=4)
+plot(Chl.basis12)
+Chl.basis12 <- create.fourier.basis(c(0,1), nbasis=8)
+?create.fourier.basis
+Chl.basis12 <- create.fourier.basis(c(0,1), nbasis=9)
+plot(Chl.basis12)
+Chl.basis12 <- create.fourier.basis(c(0,1), nbasis=6)
+Chl.basis12 <- create.fourier.basis(c(0,1), nbasis=7)
+plot(Chl.basis12)
+Chl.basis12 <- create.bspline.basis(c(0,1), nbasis=7, norder=4)
+plot(Chl.basis12)
