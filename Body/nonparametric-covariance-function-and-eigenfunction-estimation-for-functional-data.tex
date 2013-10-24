@@ -408,6 +408,26 @@ The parameter $\alpha$ controls the degree of smoothness. We simulated 50 curves
         \label{fig:covfits}
 \end{figure}
 
+To understand the general behavior of the FPC estimator, we repeated this process 30 times using 50 curves with $\sigma_0=0.369$, and considered a small sample size per curve (m = 10) and moderate sample size per curve (m = 50). Talbe \ref{tab:pc-norm} summarizes the results.
+
+% Requires the booktabs if the memoir class is not being used
+\begin{table}[hb]
+   \centering
+    \caption{Average integrated squared error of the principal component functions $\norm{PC - \widehat{PC}}_{L_2}^2$. The standard errors are reported in parentheses next to the estimates.}
+   %\topcaption{Table captions are better up top} % requires the topcapt package
+   \begin{tabular}{@{} lcccc @{}} % Column formatting, @{} suppresses leading/trailing space
+      \toprule
+     &  \multicolumn{2}{c}{PC 1} & \multicolumn{2}{c}{PC 2}\\
+       \cmidrule(r){2-3} \cmidrule{4-5}
+         & m =10 & m = 50 & m = 10 & m = 50\\
+      \cmidrule(r){2-5}
+       Ind & 0.0452 (0.0360) & 0.0119 (0.0085) & 0.6302 (0.6113) & 0.0893 (0.0777) \\
+       Dep & 0.0373 (0.0258) & 0.0128 (0.0101) & 0.7438 (0.5778) & 0.0893 (0.0833)\\
+      \bottomrule
+   \end{tabular}
+   \label{tab:pc-norm}
+\end{table}
+
 %\begin{figure}
 %        \centering
 %                \begin{subfigure}[b]{0.40\textwidth}
