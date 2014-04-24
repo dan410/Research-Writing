@@ -7,8 +7,8 @@
 Functional principal components are often used in exploratory analysis and as a modeling tool. By assuming curves belong to a reproducing kernel Hilbert space, it has been shown that efficient nonparametric estimation of the covariance function is achieved through a regularization approach on the tensor product space. We adopt this framework and explore how the choice of function space and penalty effect the representation of the estimator. Closed form estimators of the principal component functions are derived, making this method well suited for use as an empirical basis. 
 
 \section{Introduction}
-Functional principal components are often used in functional data analysis as an efficient way to represent curves. In multivariate methods, principal components can be derived through an eigen-decomposition of the covariance matrix; however, with functional data the covariance is not a matrix, but a continuous bivariate function. One approach, particularly when the number of observations on each curve is sparse, is to pool covariance information from each curve and perform bivariate smoothing. What seems most common is to use local linear smoothing \cite{Li, others}. \cite{Cai:2010vr} propose a framework for nonparametric covariance function estimation motivated by theory for smoothing splines, which make use properties of reproducing kernel Hilbert space (RKHS). By assuming curves belong to a RKHS and examining the form of the covariance function, it can be shown that the covariance function resides in the tensor product reproducing kernel Hilbert space $\H\otimes \H$. The tensor product space is itself a RKHS whose reproducing kernel is strait forward to derive for the reproducing kernel on $\H$. Based on this result, a natural regularization procedure for covariance function estimation is the following:
-\begin{equation}
+Functional principal components are often used in functional data analysis as an efficient way to represent curves. In multivariate methods, principal components can be derived through an eigen-decomposition of the covariance matrix; however, with functional data the covariance is not a matrix, but a continuous bivariate function. One approach, particularly when the number of observations on each curve is sparse, is to pool covariance information from each curve and perform bivariate smoothing. What seems most common is to use local linear smoothing \cite{Li, others}. \cite{Cai:2010vr} propose a framework for nonparametric covariance function estimation motivated by theory for smoothing splines, which make use properties of reproducing kernel Hilbert space (RKHS). By assuming curves belong to a RKHS and examining the form of the covariance function, they show (their Theorem ??) that the covariance function resides in the tensor product reproducing kernel Hilbert space $\H\otimes \H$. The tensor product space is itself a RKHS whose reproducing kernel is strait forward to derive for the reproducing kernel on $\H$. Based on this result, a natural regularization procedure for covariance function estimation is the following:
+\begin{equation} \label{eq:cy-cov-est}
 \hat{C}_{\lambda} = \stackrel[C \in \H\otimes\H]{}{\mbox{argmin}} \{l_{n}(C)+\lambda\left\Vert C\right\Vert _{\H\otimes \H}^{2}\},
 \end{equation}
  where
@@ -21,11 +21,14 @@ $\lambda\geq0$ is a tuning parameter that balances the fidelity
 to the data measured by $l_{n}$ and smoothness of the estimate measured
 by the squared RKHS norm.
 
-In \cite{Cai:2010vr} the convergence rate of this estimator has been shown to be superior to the optimal rate for general bivariate smoothing on $[0,1]\times[0,1]$. This implies that the tensor product RKHS is to a certain degree smaller than the typical Sobelev space used for bivariate smoothing, thus reducing the effect of ``the curse of dimensionality''. 
+In \cite{Cai:2010vr} the convergence rate of this estimator has been shown to be superior to the optimal rate for general bivariate smoothing on $[0,1]\times[0,1]$, which is attributed to the fact that estimation is performed over functions in $\H \tprod \H$ instead of the typical Sobelev space used for bivariate smoothing. This implies that the tensor product RKHS is to a certain degree smaller than the typical Sobelev space, thus reducing the effect of ``the curse of dimensionality''. 
 
-Using standard arguments from smoothing spline theory (see \cite{Wahba:1990}), the covariance function estimator has a finite dimensional representation. Further, using this representation, closed form expressions for the eigenfunctions can be derived. This is a significant benefit, as one often has to numerically approximate the eigenfunctions by discretizing the covariance function. 
+Using standard arguments from smoothing spline theory (see \cite{Wahba:1990}), the covariance function estimator \eqref{eq:cy-cov-est} has a finite dimensional representation. Further, using this representation, closed form expressions for the eigenfunctions can be derived. This is a significant benefit, as one often has to numerically approximate the eigenfunctions by discretizing the covariance function. 
+
+\todo[inline]{Need to introduce the theoretical frame work and discuss in more detail the difference between the 'start from kernel' and 'start from penalty' approach. Also, it might be good to introduce the typical function spaces here (e.g. $W_2$ and $W_2^2$)}
 
 This approach assumes that the reproducing kernel is known and that the tensor product norm corresponding to the reproducing kernel penalizes smoothness in an appropriate way. It seems important, from a practical point of view, to have a clear understanding of how the penalty functional is operating. To accomplish this we propose an approach that begins with defining how univariate functions are penalized on the marginal domain (typically done by defining an appropriate high order derivative), then use the implied penalty on the tensor product domain to estimate the covariance function. This approach is more attractive from a practitioner's point of view, because it is more natural to define a differential operator to penalize smoothness, and in this case the functions annihilated by the differential operator form a non-null subspace. Our approach allows for a decomposition of the function space into penalized and unpenalized subspaces. To illustrate this, recall the general development for the smoothing spline in the univariate case (\cite{Wahba:1990}):  The solution of 
+\todo[inline]{This would make more sense if you already introduced the function space $W_2$ and discussed the typical penalty and corresponding unpenalized sunspace. }
 \begin{equation}
 \widehat{f}_{\lambda} = \hspace{.07in}\stackrel[f \in \H]{}{\mbox{argmin}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - f(t_i))^2 + \lambda\norm{f}^2_{\H} \right\}
 \end{equation}
@@ -87,7 +90,7 @@ The main goal in what follows is to describe the form of the covariance function
  \section{Covariance function estimation} \label{covariance estimation}
   %====================================================
   
-Consider the space $\H =  \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$. On this space the term $\int_0^1 f''g''dx$ is a semi-inner-product which can be extended to a full inner product by defining an inner product on the subspace $\H_0 = \{f : f'' = 0\}$. Common choices for inner products in $\H_0$ are $\inner{f}{g}_0 = f(0)g(0) + f'(0)g'(0)$ or $\inner{f}{g}_0 = (\int_0^1fdx)(\int_0^1gdx) + (\int_0^1f'dx)(\int_0^1g'dx)$. We work with the latter because it corresponds to a mathematically convenient expression for the reproducing kernel. 
+Consider the space \todo{introduce this space earlier} $\H =  \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$. On this space the term $\int_0^1 f''g''dx$ is a semi-inner-product which can be extended to a full inner product by defining an inner product on the subspace $\H_0 = \{f : f'' = 0\}$. Common choices for inner products in $\H_0$ are $\inner{f}{g}_0 = f(0)g(0) + f'(0)g'(0)$ or $\inner{f}{g}_0 = (\int_0^1fdx)(\int_0^1gdx) + (\int_0^1f'dx)(\int_0^1g'dx)$. We work with the latter because it corresponds to a mathematically convenient expression for the reproducing kernel. 
   
   The space $\H =  \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$ with inner product
   \begin{align*}
@@ -160,7 +163,7 @@ Let $\mathbf{b}^{(i)} = [(y_{ij}-\mu(t_{ij}))(y_{ij'}-\mu(t_{ij'}))]_{1\leq j\ne
 \[
 \mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T}   )^T,
 \]
-then the vectors $\mathbf{b}^{(i)}$ contain all pairwise products of observations on the $i$th curve. We propose the following estimator
+then the vectors $\mathbf{b}^{(i)}$ contain all pairwise products of observations on the $i$th curve. We propose the following estimator \todo[inline]{I think you need to scale first term by 1/nm(m-1)}
 \[
 \widehat{C}_{\lambda}=\stackrel[C \in \H\otimes \H]{}{\text{ argmin}} \left\{ (\mathbf{b} - \mathbf{C})^T(\mathbf{b} - \mathbf{C})+\lambda\left\Vert C\right\Vert _{\breve{\H}}^{2} \right\},
 \]
