@@ -50,3 +50,17 @@ dissertation.pdf
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# graphic files
+################
+*.png
+*.pdf
+*.eps
+*.jpeg
+*.gif
+
+# static style and config files
+*.bst
+*.sty
+*.cls
+
