@@ -101,25 +101,25 @@ Consider the space $\H =  \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2
   \begin{equation}
   k_r(x) = -\left( \sum_{\mu = -\infty}^{-1} + \sum_{\mu=1}^{\infty} \right) \frac{\exp(2\pi i \mu x)}{(2 \pi i \mu)^r}, r = 1,2, \dots.
   \label{eq:kfuns}
-  \end{equation}¥
+  \end{equation}
   The functions $k_r(x)$ in \eqref{eq:kfuns} are scaled Bernoulli polynomials, $k_r(x) = \frac{B(r)}{r!}$. The space $\H$ has an orthogonal decomposition $\H = \H_0 \tsum \H_1$ with corresponding reproducing kernel $R(x,y) = R_0(x,y) + R_1(x,y)$, where
   \begin{align}
   R_0(x,y) &= 1 + k_1(x)k_1(y) \\
   R_1(x,y) &= k_2(x)k_2(y) - k_4(x-y).
-  \end{align}¥
+  \end{align}
   Note that the functions  $k_r(x)$ in \eqref{eq:kfuns}  have a rather simple form
   \begin{align*}
   k_1(x) &= x - 0.5\\
   k_2(x) &= \frac{1}{2}(k_1^2(x) - \frac{1}{12}) \\
   k_4(x) &= \frac{1}{24} \left(k_1^4(x) - \frac{k_1^2(x)}{2} + \frac{7}{240} \right)
-  \end{align*}¥
+  \end{align*}
   for $x \in [0,1]$. 
   
   The unpenalized space $\H_0$ can be decomposed further as $\H_0 = \H_{00} \tsum \H_{01}$ with reproducing kernels
   \begin{align*}
-  ¥R_{00}(x,y) &= 1\\
+  R_{00}(x,y) &= 1\\
    R_{01}(x,y) &= k_1(x)k_1(y).\\
-  \end{align*}¥ 
+  \end{align*} 
 This formulation provides a decomposition of the unpenalized space into functions spanned by a constant and functions spanned by a linear term. This construction results in the overall decomposition $\H= \H_{00} \tsum \H_{01} \tsum \H_1$. Using this decomposition of $\H$ on both marginal domains of $[0,1] \times [0,1]$ results in a natural decomposition of the tensor product space 
 \[
 \H_{<1>} \tprod \H_{<2>} = (\H_{00<1>} \tsum \H_{01<1>} \tsum \H_{1<1>})\tprod (\H_{00<2>} \tsum \H_{01<2>} \tsum \H_{1<2>})
@@ -317,7 +317,7 @@ Random curves are simulated independently as
 \begin{equation}
 X(t) = \sum^{50}_{k=1}\zeta_k U_k \cos(k\pi t), \hspace{0.5cm} t \in [0,1],
 \label{eq:sim process}
-\end{equation}¥
+\end{equation}
 where $U_k$ were independently sampled from a Unif$(-\sqrt{3},\sqrt{3})$ distribution and \(\zeta=(-1)^{k+1}k^{-2}\). 
 The covariance function for this process can be shown to be
 \begin{equation*}

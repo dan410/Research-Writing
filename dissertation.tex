@@ -42,6 +42,9 @@
 \usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue,bookmarksnumbered=true,pdfview=FitB}
 
+% optional package to sync pdf output
+\usepackage{pdfsync}
+
 % optional package to create highlighted notes within the document indicating work that needs to be done
 \usepackage{todonotes}
 \usepackage{lineno}
@@ -94,9 +97,12 @@
 
 \DeclareGraphicsExtensions{.jpg, .pdf, .png, .mps}
 
+%%% Title Page %%%
 \include{Preface/title-page}
 % Optional thesis dedication
 %\include{Preface/dedication}
+
+%%% Preface Content %%%
 \pdfbookmark[1]{TABLE OF CONTENTS}{table}
 \tableofcontents
 \addtocontents{toc}{\def\protect\@chapapp{}} \cleardoublepage \phantomsection
@@ -115,15 +121,19 @@
 \newpage
 \pagenumbering{arabic}
 
+%%% Body %%%
 %\include{Body/general-introduction}
 \include{Body/nonparametric-covariance-function-and-eigenfunction-estimation-for-functional-data}
 \include{Body/ordinary-kriging-for-spatially-indexed-functional-data}
 \include{Body/future-work}
 \include{Body/summary-and-future-work}
-\include{Appendix/theoretical-background}
+
+%%% Appendix %%%
+%\include{Appendix/theoretical-background}
 %\include{Appendix/Rpackages}
-% Bibliography
-\include{Reference/bibtex}
+
+%%% Bibliography %%%
+%\include{Reference/bibtex}
 
 %\listoftodos
 \end{document}
