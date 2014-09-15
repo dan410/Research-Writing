@@ -86,9 +86,9 @@ Equation \eqref{eq:tpsum} is a direct sum of tensor product reproducing kernel H
 
 The main goal in what follows is to describe the form of the covariance function estimator when the tensor product space has a decomposition as in \eqref{eq:tpsum}. We describe the form of the estimator in this case as well as derive the principle component functions. Since our focus is on practical implementation of this method, we focus on the most common case where the smoothing penalty on the marginal domain is given by the integral of the squared second derivative.
 
- %====================================================
+%====================================================
  \section{Covariance function estimation} \label{covariance estimation}
-  %====================================================
+%====================================================
   
 Consider the space $\H =  \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$. On this space the term $\int_0^1 f''g''dx$ is a semi-inner-product which can be extended to a full inner product by defining an inner product on the subspace $\H_0 = \{f : f'' = 0\}$. Common choices for inner products in $\H_0$ are $\inner{f}{g}_0 = f(0)g(0) + f'(0)g'(0)$ or $\inner{f}{g}_0 = (\int_0^1fdx)(\int_0^1gdx) + (\int_0^1f'dx)(\int_0^1g'dx)$. We work with the latter because it corresponds to a mathematically convenient expression for the reproducing kernel. 
   
