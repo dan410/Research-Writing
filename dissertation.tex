@@ -1,93 +1,99 @@
+
+
 %
 %  PhD Dissertation 
 %
 %  Created by Fortin, Daniel C
 %
-
 \documentclass[12pt]{isuthesis}
 
 %%%%%%%%%%%%%%%%%%%
 %  packages                      
 %%%%%%%%%%%%%%%%%%%
-
 % Standard, old-style thesis
-\usepackage{isutraditional}   \chaptertitle
+\usepackage{isutraditional} 
+\chaptertitle
+
 % Old-style, thesis numbering down to subsubsection
-\alternate
+\alternate 
 \usepackage{rotating}
 
 \usepackage{booktabs}
 
 % Bibtex related stuff
-\usepackage{natbib}
-\bibliographystyle{apa}
-\bibpunct{(}{)}{;}{a}{}{,}
+\usepackage{natbib} 
+\bibliographystyle{apa} \bibpunct{(}{)}{;}{a}{}{,}
 
 % mathematical symbols
-\usepackage{amsmath, amssymb}
-\usepackage{stackrel}
+\usepackage{amsmath, amssymb} 
+\usepackage{stackrel} 
 \usepackage{arydshln}
 
-% graphics stuff
-%\usepackage[pdftex]{graphicx}
-\graphicspath{/Users/dan410/Google Drive/Research/Write_ups/Dissertation/Images-nonparametric/sim-study/}
-\usepackage{caption}
-\usepackage{subcaption}
-%\usepackage{pdfpages}
+% set graphics path(s). Latex will search for graphics in these directories
+\graphicspath{
+	{/Users/dan410/Google Drive/Research/Write_ups/Dissertation/Images-nonparametric/sim-study/} 	{/Users/fort002/Google Drive/Research/Projects/SimStudy_weighted_cov_est/Plots/}
+} 
 
+% graphics packages
+%\usepackage[pdftex]{graphicx}
+\usepackage{caption} 
+\usepackage{subcaption}
+
+%\usepackage{pdfpages}
 % formating tables
 \usepackage{multirow}
 
 %Optional Package to add PDF bookmarks and hypertext links
-\usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
-\hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue,bookmarksnumbered=true,pdfview=FitB}
+\usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref} \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue,bookmarksnumbered=true,pdfview=FitB}
 
 % optional package to sync pdf output
 %\usepackage{pdfsync}
-
 % optional package to create highlighted notes within the document indicating work that needs to be done
-\usepackage{todonotes}
+\usepackage{todonotes} 
 \usepackage{lineno}
-%\linenumbers
 
+%\linenumbers
 % theorem environments
-\usepackage{amsthm}
-\newtheorem{thm}{Theorem}[section]
+\usepackage{amsthm} 
+\newtheorem{thm}{Theorem}[section] 
 \newtheorem{lemma}{Lemma}[section]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  list of user-defined commands         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\L}{\mathcal{L}}
-\renewcommand{\S}{\mathcal{S}}
-\renewcommand{\P}{\mathcal{P}}
-\newcommand{\A}{\mathcal{A}}
-\newcommand{\C}{\mathcal{C}}
-\newcommand{\X}{\mathcal{X}}
-\newcommand{\Y}{\mathcal{Y}}
-\newcommand{\T}{\mathcal{T}}
-\newcommand{\N}{\mathcal{N}}
-\newcommand{\Tmat}{\mathbf{T}}
+\renewcommand{\L}{\mathcal{L}} 
+\renewcommand{\S}{\mathcal{S}} 
+\renewcommand{\P}{\mathcal{P}} 
+\newcommand{\A}{\mathcal{A}} 
+\newcommand{\C}{\mathcal{C}} 
+\newcommand{\X}{\mathcal{X}} 
+\newcommand{\Y}{\mathcal{Y}} 
+\newcommand{\T}{\mathcal{T}} 
+\newcommand{\N}{\mathcal{N}} 
+\newcommand{\Tmat}{\mathbf{T}} 
 \newcommand{\Rmat}{\mathbf{R}}
+
 %\renewcommand{\H}{\ensuremath{\mathcal{H}}}
 \newcommand{\R}[1]{\ensuremath{ R_{#1} }}
+
 %\newcommand{\RR}[2]{\ensuremath{ R_{#1<#2>} }}
 \renewcommand{\H}{\mathcal{H}}
+
 %\newcommand{\HH}[2]{\ensuremath{ R_{#1<#2>} }}
-\newcommand{\tsum}{\ensuremath{\oplus}}
-\newcommand{\tprod}{\ensuremath{\otimes}}
-\newcommand{\tminus}{\ensuremath{\ominus}}
-\newcommand{\Real}{\ensuremath{ \mathbb{R} }}
-\newcommand{\norm}[1]{\left\|#1\right\|}
-\newcommand{\bbeta}{\boldsymbol\beta}
-\newcommand{\balpha}{\boldsymbol\alpha}
-\newcommand{\bgamma}{\boldsymbol\gamma}
-\newcommand{\bepsilon}{\boldsymbol\epsilon}
-\newcommand{\blambda}{\boldsymbol\lambda}
-\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\tsum}{\ensuremath{\oplus}} 
+\newcommand{\tprod}{\ensuremath{\otimes}} 
+\newcommand{\tminus}{\ensuremath{\ominus}} 
+\newcommand{\Real}{\ensuremath{ \mathbb{R} }} 
+\newcommand{\norm}[1]{\left\|#1\right\|} 
+\newcommand{\bbeta}{\boldsymbol\beta} 
+\newcommand{\balpha}{\boldsymbol\alpha} 
+\newcommand{\bgamma}{\boldsymbol\gamma} 
+\newcommand{\bepsilon}{\boldsymbol\epsilon} 
+\newcommand{\blambda}{\boldsymbol\lambda} 
+\newcommand{\wh}[1]{\widehat{#1}} 
 \newcommand{\inner}[2]{\langle #1, #2 \rangle}
 
-\newcommand{\hk}{H(K)}
+\newcommand{\hk}{H(K)} 
 \newcommand{\hkk}{H(K\otimes K)}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,41 +105,43 @@
 
 %%% Title Page %%%
 \include{Preface/title-page}
+
 % Optional thesis dedication
 %\include{Preface/dedication}
-
 %%% Preface Content %%%
-\pdfbookmark[1]{TABLE OF CONTENTS}{table}
-\tableofcontents
-\addtocontents{toc}{\def\protect\@chapapp{}} \cleardoublepage \phantomsection
-\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\pdfbookmark[1]{TABLE OF CONTENTS}{table} 
+\tableofcontents \addtocontents{toc}{
+\def\protect\@chapapp{}} \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{LIST OF TABLES}
+
 %\listoftables
 \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{LIST OF FIGURES}
+
 %\listoffigures
 % Comment out the next line if NOT using chaptertitle
-\addtocontents{toc}{\def\protect\@chapapp{CHAPTER\ }}
+\addtocontents{toc}{
+\def\protect\@chapapp{CHAPTER\ }}
+
 %Optional Acknowledgements
 \cleardoublepage \phantomsection
+
 %\include{Preface/acknowl}
 %Optional thesis abstract
 %\cleardoublepage \phantomsection
 %\include{Preface/abstract}
-\newpage
+\newpage 
 \pagenumbering{arabic}
 
 %%% Body %%%
 %\include{Body/general-introduction}
-\include{Body/nonparametric-covariance-function-and-eigenfunction-estimation-for-functional-data}
+%\include{Body/nonparametric-covariance-function-and-eigenfunction-estimation-for-functional-data}
 \include{Body/ordinary-kriging-for-spatially-indexed-functional-data}
+
 %\include{Body/phenology-fda-paper}
 %\include{Body/summary-and-future-work}
-
 %%% Appendix %%%
 %\include{Appendix/theoretical-background}
 %\include{Appendix/Rpackages}
-
 %%% Bibliography %%%
 %\include{Reference/bibtex}
-
 %\listoftodos
-\end{document}
+\end{document} 
