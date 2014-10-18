@@ -10,17 +10,14 @@ Phenology is the study of annual life-cycles of terrestrial vegetation and how t
 \section{Initial Exploratory Work} We have only recently started working with this data set. As an initial step we have chosen a subset of the data corresponding to the $10\time 10$ grid shown in Figure \ref{fig:land use map}. The first year of data for these locations are shown in Figure \ref{fig:region6 curves}, with colors indicating the four different land cover types in the subset. Using these data the nonparametric covariance estimator described in Chapter \ref{ch:covariance estimation} was used to estimate the covariance function and corresponding eigenfunctions. The first five eigenfunctions shown in Figure \ref{fig:basis functions} were used as basis functions producing the fitted curves shown in Figure \ref{fig:estimated curves}. 
 
 In order to understand the type of variation represented by an eigenfunction \cite{FDA} recommend adding and subtracting the eigenfunction from the mean function. Plots of this type are shown in Figure \ref{fig:interpreting eigenfunctions}. Notice how the second eigenfunction explains variation in the concavity of the function at the beginning of the season. The difference between tropical evergreen vegetation and coastal vegetation can largely be explained by the values of the coefficients for the second eigenfunction (see Figure \ref{fig:histogram coefs}). The total variation in coefficient values for all basis functions are shown in Figure \ref{fig:coef boxplot} illustrating how the majority of the variation is explained with only the first few eigenfunctions. 
-\begin{figure}
-	[htbp] 
-	
+\begin{figure}[htbp] 
 	\centering 
-	\includegraphics[width=\linewidth]{Images-future-work/PhenoVars_Jegan.png} 
-	\caption{Diagram illustrating typical phenology patterns for agricultural land and natural vegetation. } 	\label{fig:phenology diagram} 
+	\includegraphics[width=\linewidth]{Images-phenology-fda/PhenoVars_Jegan.png} \caption{Diagram illustrating typical phenology patterns for agricultural land and natural vegetation. } \label{fig:phenology diagram} 
 \end{figure}
 
 %\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
 %   \centering
-%   \includegraphics[width=\linewidth]{Images-future-work/PhenoScheme.png} 
+%   \includegraphics[width=\linewidth]{Images-phenology-fda/PhenoScheme.png} 
 %   \caption{example caption}
 %   \label{fig:example}
 %\end{figure}
@@ -28,19 +25,19 @@ In order to understand the type of variation represented by an eigenfunction \ci
 	[htbp] 
 	
 	\centering 
-	\includegraphics[width=\linewidth]{Images-future-work/LCAndSubregion_SIX.pdf} \caption{Map of southern India with pixels colored according to dominant vegetation type. The white dots indicate a 100-pixel subregion used for exploratory analysis.} \label{fig:land use map} 
+	\includegraphics[width=\linewidth]{Images-phenology-fda/LCAndSubregion_SIX.pdf} \caption{Map of southern India with pixels colored according to dominant vegetation type. The white dots indicate a 100-pixel subregion used for exploratory analysis.} \label{fig:land use map} 
 \end{figure}
 \begin{figure}
 	[htbp] 
 	
 	\centering 
 	\includegraphics[width=0.6 
-	\textwidth]{Images-future-work/region6-curves.pdf} \caption{One year of MTCI data for the subset of locations on a $10\times 10$ grid.} \label{fig:region6 curves} 
+	\textwidth]{Images-phenology-fda/region6-curves.pdf} \caption{One year of MTCI data for the subset of locations on a $10\times 10$ grid.} \label{fig:region6 curves} 
 \end{figure}
 \begin{figure}
 	\centering 
 	\includegraphics[width=0.5 
-	\textwidth]{Images-future-work/region6-covfit.pdf} \caption{Nonparametric estimate of the covariance function using one year of MTCI data for the subset of locations on a $10\times 10$ grid.} \label{fig:region6 covfit} 
+	\textwidth]{Images-phenology-fda/region6-covfit.pdf} \caption{Nonparametric estimate of the covariance function using one year of MTCI data for the subset of locations on a $10\times 10$ grid.} \label{fig:region6 covfit} 
 \end{figure}
 
 %\todo{check x-axis scaling here}
@@ -52,7 +49,7 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef0.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef0.pdf} \caption{} \label{} 
 	\end{subfigure}
 	
 	%
@@ -60,27 +57,13 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef1.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef1.pdf} \caption{} \label{} 
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef2.pdf} \caption{} \label{} 
-	\end{subfigure}
-	
-	%
-	\begin{subfigure}
-		[b]{0.32 
-		\textwidth} \centering 
-		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef3.pdf} \caption{} \label{} 
-	\end{subfigure}
-	\begin{subfigure}
-		[b]{0.32 
-		\textwidth} \centering 
-		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef4.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef2.pdf} \caption{} \label{} 
 	\end{subfigure}
 	
 	%
@@ -88,7 +71,21 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef5.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef3.pdf} \caption{} \label{} 
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.32 
+		\textwidth} \centering 
+		\includegraphics[width=0.99 
+		\textwidth]{Images-phenology-fda/ef4.pdf} \caption{} \label{} 
+	\end{subfigure}
+	
+	%
+	\begin{subfigure}
+		[b]{0.32 
+		\textwidth} \centering 
+		\includegraphics[width=0.99 
+		\textwidth]{Images-phenology-fda/ef5.pdf} \caption{} \label{} 
 	\end{subfigure}
 	\caption{Basis functions consisting of a constant function and the first five eigenfunctions of the estimated covariance function. The curves were not centered, so the first eigenfunction shown in (b) represents the mean.} \label{fig:basis functions} 
 \end{figure}
@@ -100,7 +97,7 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef0.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef0.pdf} \caption{} \label{} 
 	\end{subfigure}
 	
 	%
@@ -108,27 +105,13 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef1.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef1.pdf} \caption{} \label{} 
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef2pn.pdf} \caption{} \label{} 
-	\end{subfigure}
-	
-	%
-	\begin{subfigure}
-		[b]{0.32 
-		\textwidth} \centering 
-		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef3pn.pdf} \caption{} \label{} 
-	\end{subfigure}
-	\begin{subfigure}
-		[b]{0.32 
-		\textwidth} \centering 
-		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef4pn.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef2pn.pdf} \caption{} \label{} 
 	\end{subfigure}
 	
 	%
@@ -136,7 +119,21 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.32 
 		\textwidth} \centering 
 		\includegraphics[width=0.99 
-		\textwidth]{Images-future-work/ef5pn.pdf} \caption{} \label{} 
+		\textwidth]{Images-phenology-fda/ef3pn.pdf} \caption{} \label{} 
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.32 
+		\textwidth} \centering 
+		\includegraphics[width=0.99 
+		\textwidth]{Images-phenology-fda/ef4pn.pdf} \caption{} \label{} 
+	\end{subfigure}
+	
+	%
+	\begin{subfigure}
+		[b]{0.32 
+		\textwidth} \centering 
+		\includegraphics[width=0.99 
+		\textwidth]{Images-phenology-fda/ef5pn.pdf} \caption{} \label{} 
 	\end{subfigure}
 	\caption{Figure (b) is the first eigenfunction of the uncentered curve and represents the mean. Figures (c) - (f) show the mean curve and the curves that result when you add (+) and subtract (-) a multiple of the respective eigenfunctions. Figure (c) indicates that the second eigenfunction represents the type of concavity curves exhibit at the beginning of the year.} \label{fig:interpreting eigenfunctions} 
 \end{figure}
@@ -146,7 +143,7 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.5 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/region6-curves-facet.pdf} 
+		\textwidth]{Images-phenology-fda/region6-curves-facet.pdf} 
 	\end{subfigure}
 	
 	%
@@ -154,7 +151,7 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.5 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/region6-estimated-curves-facet.pdf} 
+		\textwidth]{Images-phenology-fda/region6-estimated-curves-facet.pdf} 
 	\end{subfigure}
 	\caption{Observed values for the $10\times 10$ grid of locations and fitted curves.} \label{fig:estimated curves} 
 \end{figure}
@@ -164,7 +161,7 @@ In order to understand the type of variation represented by an eigenfunction \ci
 	%  figure placement: here, top, bottom, or page
 	\centering 
 	\includegraphics[width=0.5 
-	\textwidth]{Images-future-work/boxplot-coefs.pdf} \caption{Boxplots of the coefficients for the fitted curves using the eigenfunction basis. } \label{fig:coef boxplot} 
+	\textwidth]{Images-phenology-fda/boxplot-coefs.pdf} \caption{Boxplots of the coefficients for the fitted curves using the eigenfunction basis. } \label{fig:coef boxplot} 
 \end{figure}
 \begin{figure}
 	[htbp] 
@@ -172,7 +169,7 @@ In order to understand the type of variation represented by an eigenfunction \ci
 	%  figure placement: here, top, bottom, or page
 	\centering 
 	\includegraphics[width=0.5 
-	\textwidth]{Images-future-work/hist-trpEvgrn-CstVeg-coef3.pdf} \caption{Histograms of coefficients corresponding to the third basis function for tropical evergreen and coastal vegetation. } \label{fig:histogram coefs} 
+	\textwidth]{Images-phenology-fda/hist-trpEvgrn-CstVeg-coef3.pdf} \caption{Histograms of coefficients corresponding to the third basis function for tropical evergreen and coastal vegetation. } \label{fig:histogram coefs} 
 \end{figure}
 
 % spatial plots of basis coefficients 
@@ -182,37 +179,37 @@ In order to understand the type of variation represented by an eigenfunction \ci
 		[b]{0.3 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/region6-vegetation-map-nolegend.pdf} 
+		\textwidth]{Images-phenology-fda/region6-vegetation-map-nolegend.pdf} 
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.3 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/coef1-spatial.pdf} 
+		\textwidth]{Images-phenology-fda/coef1-spatial.pdf} 
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.3 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/coef2-spatial.pdf} 
+		\textwidth]{Images-phenology-fda/coef2-spatial.pdf} 
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.3 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/coef3-spatial.pdf} 
+		\textwidth]{Images-phenology-fda/coef3-spatial.pdf} 
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.3 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/coef4-spatial.pdf} 
+		\textwidth]{Images-phenology-fda/coef4-spatial.pdf} 
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.3 
 		\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images-future-work/coef5-spatial.pdf} 
+		\textwidth]{Images-phenology-fda/coef5-spatial.pdf} 
 	\end{subfigure}
 	\caption{Observed values for the $10\times 10$ grid of locations and fitted curves.} \label{fig:estimated curves} 
 \end{figure}

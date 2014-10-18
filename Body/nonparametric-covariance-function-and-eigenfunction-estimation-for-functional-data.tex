@@ -144,8 +144,7 @@ where
 
 Using the representer theorem in \cite{Wahba:1990} theorem 1.3.1, it can be shown that the estimated covariance function has the form 
 \begin{equation}
-	\hat{C}(s,t) = \sum_{\nu, \mu=00,01}d_{\nu,\mu}\phi_{\nu,\mu}(s,t) + \sum_{i,j}c_{i,j}\breve{R}((t_i,t_j),(s,t))
-	
+	\hat{C}(s,t) = \sum_{\nu, \mu=00,01}d_{\nu,\mu}\phi_{\nu,\mu}(s,t) + \sum_{i,j}c_{i,j}\breve{R}((t_i,t_j),(s,t))	
 	%\label{eq:}
 \end{equation}
 The four basis functions for the unpenalized space are $\phi_{\nu,\mu}$ are $\{ 1, k_1(s), k_1(t), k_1(s)k_1(t) \}$, so the solution can be written more explicitly as 
@@ -239,28 +238,22 @@ We compare the two methodologies by considering cases where the number of observ
 \begin{figure}
 	\centering 
 	\begin{subfigure}
-		[b]{0.40 
-		\textwidth} \centering 
+		[b]{0.40\textwidth} \centering 
 		\includegraphics[width= 
 		\textwidth]{Images-nonparametric/cy-fit-wireframe-m5.pdf} \caption{m = 5} \label{} 
 	\end{subfigure}
-	
-	%
 	\begin{subfigure}
-		[b]{0.40 
-		\textwidth} \centering 
+		[b]{0.40\textwidth} \centering 
 		\includegraphics[width= 
 		\textwidth]{Images-nonparametric/cy-fit-wireframe-m10.pdf} \caption{m = 10} \label{} 
 	\end{subfigure}
 	\begin{subfigure}
-		[b]{0.40 
-		\textwidth} \centering 
+		[b]{0.40\textwidth} \centering 
 		\includegraphics[width= 
 		\textwidth]{Images-nonparametric/cy-fit-wireframe-m40.pdf} \caption{m = 20} \label{} 
 	\end{subfigure}
 	\begin{subfigure}
-		[b]{0.40 
-		\textwidth} \centering 
+		[b]{0.40\textwidth} \centering 
 		\includegraphics[width= 
 		\textwidth]{Images-nonparametric/cy-true-wireframe.pdf} \caption{truth} \label{} 
 	\end{subfigure}

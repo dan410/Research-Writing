@@ -9,7 +9,7 @@
 % (fold)
 \label{sec:introduction}
 
-Data that arise from measurements at geographic locations often exhibit similarities at small spatial scales. Often a primary objective of the analysis is the prediction at unobserved locations. In this setting, geostatistical models are particularly useful because the spatial process is modeled as a continuous stochastic process. When the data are measurements for a ground-based sensor there is often temporal component to the data, examples include Kaiser et al(2002) who investigate the concentration of an air pollutant, Delaigle and Hall (2010) who consider Australian rainfall data, and the Canadian weather data showcased in Ramsay and Silverman (2005). When the temporal measurements are not regular in time its useful to treat the time process as functional data. The extension of geostatistical models for functional data were first considered in \cite{Goulard:1993} where two approaches are proposed: one approach involves cokriging by reducing the functional response to a multivariate response by modeling the spatial component through the coefficients of a parametric model, while the other approach utilizes a functional version of the variogram. The functional variogram approach has been further developed by \cite{Giraldo:2010jx} and \cite{Nerini:2010ba}. We pursue the first option, but do not make the assumption of a parametric model for the curves. We allow the curves to be represented nonparametrically using a principal component function basis. Typically, very few principal component functions are needed to represent the major modes of variation in the curves, thus making a multivariate geostatistical approach feasible without the need of a parametric model. 
+Data that arise from measurements at geographic locations often exhibit similarities at small spatial scales. Often a primary objective of the analysis is the prediction at unobserved locations. In this setting, geostatistical models are particularly useful because the spatial process is modeled as a continuous stochastic process. When the data are measurements for a ground-based sensor there is often temporal component to the data, examples include \cite{Kaiser:2002wna} who investigate the concentration of an air pollutant, Delaigle and Hall (2010) who consider Australian rainfall data, and the Canadian weather data showcased in Ramsay and Silverman (2005). When the temporal measurements are not regular in time its useful to treat the time process as functional data. The extension of geostatistical models for functional data were first considered in \cite{Goulard:1993} where two approaches are proposed: one approach involves cokriging by reducing the functional response to a multivariate response by modeling the spatial component through the coefficients of a parametric model, while the other approach utilizes a functional version of the variogram. The functional variogram approach has been further developed by \cite{Giraldo:2010jx} and \cite{Nerini:2010ba}. We pursue the first option, but do not make the assumption of a parametric model for the curves. We allow the curves to be represented nonparametrically using a principal component function basis. Typically, very few principal component functions are needed to represent the major modes of variation in the curves, thus making a multivariate geostatistical approach feasible without the need of a parametric model. 
 
 % section introduction (end)
 
@@ -85,6 +85,8 @@ An R package implementing this method is available at https://github.com/dan410/
 % (fold)
 \label{sec:functional_kriging_predictor}
 
+Note: The functinal kriging predictor is a form of multivariate cokriging, but it is isotopic by contruction and the assumption of zero crosscorrelation makes the cokriging predictor equivalent to kriging the components (Wackernagel 2003, Ch. 25). 
+
 Steps for prediction at unobserved location $s_0$: 
 \begin{enumerate}
 	\item compute the least-squares projection of sample curves onto eigenfunctions: $\hat{\psi}^{(1)}, \hat{\psi}^{(2)}, \dots, \hat{\psi}^{(q)}$ 
@@ -93,6 +95,7 @@ Steps for prediction at unobserved location $s_0$:
 	
 	%\todo{describe variance of the estimator}
 \end{enumerate}
+
 
 % section functional_kriging_predictor (end)
 
