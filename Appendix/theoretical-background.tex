@@ -7,7 +7,7 @@
 
 \section{Historical note on the use of reproducing kernel Hilbert spaces in statistics}
 
-My first encounter with reproducing kernel Hilbert spaces was through a paper describing a method of nonparametric covariance function estimation. At that point in time I had very little knowledge about nonparametric curve estimation, though I was certainly aware of smoothing splines and their basic properties. It was not at all obvious to me how this type of estimation could be related to something as mathematically exotic as a reproducing kernel Hilbert space. I felt like I needed some historical context to understand the motivation for the mathematical framework. In the following I would like to describe a little bit about how these special Hilbert spaces became mainstream in statistics and mention some of the key players. 
+This section contains some historical context to understand the motivation for the mathematical framework of reproducing kernel Hilber space and their use in statistics. In the following I would like to describe a little bit about how these special Hilbert spaces became mainstream in statistics and mention some of the key players. 
 %\begin{figure}[h] %  figure placement: here, top, bottom, or page
 %   \centering
 %      \begin{subfigure}[b]{0.40\textwidth}
@@ -29,9 +29,7 @@ My first encounter with reproducing kernel Hilbert spaces was through a paper de
 
 The origin of reproducing kernel Hilbert space methods in statistics is due to Emanuel Parzen. In an interview in a 2002 issue of Statistical Science, Parzen describes how he was introduced to the topic. He states that when he was a graduate student at Berkely, students did not take the usual Ph.D qualifying exam; instead, each student was tasked with giving a lecture to their committee on a specific topic --- Parzen's topic: reproducing kernels. When he began studying the topic, he only found one source in the literature and it was in French. The paper he found was work by Aronszajn, who had developed the abstract theory of reproducing kernels to generalize kernel methods popular in applied mathematics. 
 
-The use of Hilbert space methods to model continuous-parameter time series appears to be the Parzen's initial application of reproducing kernels in Statistics. Though Parzen was working on time series analysis, it seems that the reproducing kernel framework is used more widely in the smoothing spline methods as a regularization approach for nonparametric curve estimation due to the fact that minimization problems over a RKHS have a unique solution with a finite dimensional representation (the so-caledl representer theorem). It was Parzen's graduate student Grace Wahba who championed regularization via RKHS in her book, \emph{Spline Models for Observational Data}. Most of the current work using a RKHS framework for nonparametric estimation cite Wahba’s work, and it is telling that a lot of the current researchers on smoothing spline methods are themselves former students of Grace Wahba (e.g. Chong Gu, Yuedong Wang, Ming Yuan, Doug Nychka). 
-
-In the introduction to her book,  \emph{Spline Models for Observational Data}, Wahba offers some encouragement, which I have included below in quotations. I took this advice to heart when I first embarked on this topic --- I have to say that she has been true to her word. 
+The use of Hilbert space methods to model continuous-parameter time series appears to be the Parzen's initial application of reproducing kernels in statistics. Though Parzen was working on time series analysis, it seems that the reproducing kernel framework is used more widely in the smoothing spline methods as a regularization approach for nonparametric curve estimation due to the fact that minimization problems over a RKHS have a unique solution with a finite dimensional representation (the so-caledl representer theorem). It was Parzen's graduate student Grace Wahba who championed regularization via RKHS in her book, \emph{Spline Models for Observational Data} (\cite{Wahba:1990}). Most of the current work using a RKHS framework for nonparametric estimation cite Wahba’s work, and it is telling that a lot of the current researchers on smoothing spline methods are themselves former students of Grace Wahba (e.g. Chong Gu, Yuedong Wang, Ming Yuan, Doug Nychka). In the introduction to her book, Grace Wahba offers some encouragement, which I have included below in quotations. I took this advice to heart when I first embarked on this topic --- I have to say that she has been true to her word. 
 \begin{quote}
 ``I would like to assure the reader that the effort to master the basic properties of reproducing kernel Hilbert spaces, will be worth the effort.''\\
 -Grace Wahba
@@ -42,19 +40,19 @@ In the introduction to her book,  \emph{Spline Models for Observational Data}, W
 
 \subsection{Least Squares Estimation}
 Consider the regression problem where observations $(x_i, y_i), i=1,\dots,n,$ are modeled as $y_i = f(x_i) + \epsilon_i, \epsilon_i \sim N(0,\sigma^2).$ This model assumes that we observe an underlying signal, $f$, corrupted by noise. The desire is to recover $f$ from the observations $(x_i, y_i), i=1,\dots,n$. The noise terms $\{\epsilon_i\}$ are random variables and exact recovery of $f$ is not possible, thus our goal becomes to find a good approximation to $f$. The least squares estimator of $f$ is given by the minimizer $\hat{f}$ of the sum of the squared deviations over all functions $f \in \mathcal{A}$ 
-\begin{equation}
+\begin{equation*}
 \hat{f} = \hspace{.07in} \stackrel[f \in \mathcal{A}]{}{\mbox{argmin}} \frac{1}{n}\sum_{i=1}^{n}(y_i - f(x_i))^2.
 \label{eq:LS}
-\end{equation}
+\end{equation*}
 
 If the underlying signal $f$ does not lie in $\A$, then the estimator is guaranteed to be biased. In order to avoid misspecification of $\A$, a wide class of functions should be considered.  As a concrete example, in simple linear regression we have $\A = \{f: f(x_i) = \beta_0 + \beta_1x_i ; i=1,\dots,n \}$. In this setting, $\A$ is defined as the two dimensional subspace of $\Real^n$ spanned by a column of 1s and the column vector $(x_1,\dots, x_n)'$. The matrix consisting of these columns constitutes the \textit{model matrix.} Any function $f \in \A$ can be identified uniquely by the parameters $\beta_0$ and $\beta_1$ in its representation as a linear combination of the columns of the model matrix. Thus, the solution to the least squares minimization problem has the representation $\wh{f} = X\wh{\bbeta}$ satisfying 
-\begin{equation}
+\begin{equation*}
 \widehat{\bbeta} =  \hspace{.07in}  \stackrel[\bbeta \in \Real^2]{}{\mbox{argmin}} (\textbf{Y} - \textbf{X}\bbeta)'(\textbf{Y} - \textbf{X}\bbeta)
 \label{eq:LS2}
-\end{equation}
+\end{equation*}
 where $\textbf{Y}=(y_1,\dots, y_n)'$, and $\textbf{X}$ is the model matrix. Finding $\widehat{\bbeta}$ requires simple matrix calculus manipulations. 
 
-\subsection{Penalized Least Squares}
+\subsection{Penalized Least Squares} \label{PLS}
   The purpose of presenting the simple linear regression problem in the previous section was to emphasize how the choice of a parametric model can be framed as a choice of the structure of the function space $\A$. The simple linear regression model is equivalent to specifying $\A$ to be a known 2-dimensional subspace of $\Real^n$ -- the column space of $\textbf{X}$. In practice, many relationships of interest are approximately linear making this model suitable in such cases. However, in most applications it is not the \textit{truth} of the model we believe in, but its adequacy as a mathematical representation of the underlying relationship. When a parametric model is adequate the parameters often give us insight into the structure of the relationship and scientific questions of interest can often be stated in using contrasts of the parameters. However, there is usually very little known about the functional form of $f$, and hence there is very little justification for restricting the estimator to belong to a particular class of parametric functions. 
  
 Therefore, it seems desirable to consider a larger class of functions. To decide on how large this class should be, we remark that any reasonably large class of functions will contain functions that interpolate the data. Since we believe the observational process is corrupted by noise, we do not wish to model the idiosyncrasies of the data; that is,  we believe the estimator $\hat{f}$ must be smoother than an interpolating function. Penalized least squares is one method where this problem is addressed by including a term that penalizes the roughness of the function. The penalized least squares estimator of $f$ is formulated to balance two competing functionals 
@@ -80,10 +78,10 @@ The answer is affirmative to both questions; furthermore, the solution is a piec
 
 In this section we will cover a brief introduction to reproducing kernel Hilbert spaces. Two excellent introductions to this material are given in \cite{Heckman:1997vp} and \cite{Storlie:2011tz}, while more rigorous presentations are given by \cite{Wahba:1990} and \cite{Aronszajn:1950tq}. 
 Notice that in \eqref{eq:PLS} the sum of squares term involves evaluation of $f$. A reproducing kernel Hilbert space is a Hilbert space where function evaluation is a continuous linear operator. That is a Hilbert space $\H$ on a domain $\T$ is a reproducing kernel Hilbert space if $L_t(f) = f(t)$ is continuous in $\H$, $\forall t \in \T$. The domain $\T$ often represents a continuous time domain and will typically be the close interval $[0,1]$. It is well known that continuity of a linear functional is equivalent to boundedness of the functional, where boundedness means that there exists an $M_t$ such that 
-\begin{equation}
+\begin{equation*}
 	|L_t(f)|=|f(t)|\leq M_t\norm{f}_{\H}, \mbox{ for all $f$ in the RKHS}.
 \label{eq:}
-\end{equation}
+\end{equation*}
 The Riesz representation theorem states that any continuous linear operator on $\H$ has a representation in terms of the inner product on $\H$
 \begin{equation}
 	L_t(f) = \inner{R_t(\cdot)}{f(\cdot)} = f(t), \forall f\in \mathcal{H},
@@ -106,29 +104,32 @@ If the reproducing kernel R of a space $\H$ on domain $\T$ can be decomposed int
 In Section \ref{PLS} the space $\A = \{f: f, f' \mbox{are absolutely continuous and } \int_0^1f''(x)^2dx <\infty\}$ was chosen as a solution space for the optimization problem in \eqref{eq:PLS}. This space with the inner product $\inner{f}{g} = f(0)g(0) + f'(0)g'(0) + \int_0^1 f''(x)g''(x)dx$ is a Hilbert space with the reproducing property. In this section we derive the solution to \eqref{eq:PLS} highlighting the use of the reproducing property.  
 
 Let $\H$ be a the Hilbert space $\{f: f, f' \mbox{are absolutely continuous and } \int_0^1f''(x)^2dx <\infty\}$ with inner product $\inner{f}{g} = f(0)g(0) + f'(0)g'(0) + \int_0^1 f''(x)g''(x)dx$. Notice that the penalty functional in \eqref{eq:PLS}, $\int_0^1f''(x)^2dx$, corresponds to a squared semi-norm with null space $\N = \{f: f=\alpha_0 + \alpha_1x\}$. This is a closed linear subspace of $\H$ which means $\H$ has a direct sum decomposition $\H = \H_0 \oplus \H_1$, where $\H_0 = \N$ and $\H_1 = \N^{\bot}= \{f: f(0)=f'(0)=0 \mbox{ and } \int_0^1(f''(x))^2dx < \infty\}$. Any $f \in \H$ has the representation $f = f_0 + f_1$, where $f_0 \in \H_0$ and $f_1 \in \H_1$. On $\H_1$ the penalty term $\int_0^1f''(x)^2dx$ corresponds to a full squared norm, thus the penalty term can be written as $\norm{P_1(f)}_{\H_1}^2$ where $P_1(f) = f_1$ is the projection of $f$ onto $\H_1$. This allows \eqref{eq:PLS} to be put in the more general form
-\begin{equation}
+\begin{equation*}
 \widehat{f}_{\lambda} = \hspace{.07in}\stackrel[f \in \H]{}{\mbox{arg min}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - f(x_i))^2 + \lambda\norm{P_1(f)}^2_{\H_1} \right\}.
 \label{eq:PLS_norm}
-\end{equation}
+\end{equation*}
 
 Recall that in the discussion of the least squares estimation problem in Section \ref{PLS} the minimization problem was reduced to a matrix calculus problem by restricting the solution space to a finite dimensional space spanned by the columns of the model matrix. In the current problem the minimizer lies in a finite dimensional subspace---this is a direct consequence of the reproducing property. To see this, let us further decompose $\H_1$ into two orthogonal subspaces $\H_1 =\mbox{span}\{R_1(\cdot,x_i); i = 1,\dots, n\}$ and $\H_1\ominus \mbox{span}\{R_1(\cdot,x_i); i = 1,\dots, n\}$. Any function $f \in  \H$  has the representation 
-\begin{equation}
+\begin{equation*}
 f(x) = \alpha_0 + \alpha_1x + \sum_{i=1}^n \beta_iR_1(x, x_i) + \eta(x)=f_0 + f_{1} + \eta.
 \label{eq:ds_representation} %direct sum representation
-\end{equation}
+\end{equation*}
 Substituting this representation into \eqref{eq:PLS_norm} we have 
 
 \begin{align}
-\widehat{f}_{\lambda} &= \hspace{.07in}\stackrel[f \in \H]{}{\mbox{arg min}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - \alpha_0 - \alpha_1x_i - \sum_{i=1}^n \beta_iR_1(\cdot, x_i) - \eta(x_i))^2 + \lambda\norm{\sum_{i=1}^n \beta_iR_1(\cdot, x_i) + \eta}^2_{\H_1} \right\}\\
-											&= \hspace{.07in}\stackrel[f \in \H]{}{\mbox{arg min}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - \alpha_0 - \alpha_1x_i - \sum_{i=1}^n \beta_iR_1(\cdot, x_i) - \eta(x_i))^2 + \lambda\norm{\sum_{i=1}^n \beta_iR_1(\cdot, x_i) }^2_{\H_1} + \lambda\norm{\eta}^2_{\H_1} \right\}.
+\widehat{f}_{\lambda} &= \hspace{.07in}\stackrel[f \in \H]{}{\mbox{arg min}} 
+\left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - \alpha_0 - \alpha_1x_i - \sum_{i=1}^n \beta_iR_1(\cdot, x_i) - \eta(x_i))^2 \right. \nonumber \\
+	 & \mbox{\hspace{1.5in}} + \left. \lambda\norm{\sum_{i=1}^n \beta_iR_1(\cdot, x_i) + \eta}^2_{\H_1} \right\} \nonumber \\
+	 & = \hspace{.07in}\stackrel[f \in \H]{}{\mbox{arg min}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - \alpha_0 - \alpha_1x_i - \sum_{i=1}^n \beta_iR_1(\cdot, x_i) - \eta(x_i))^2 \right. \nonumber \\
+  & \mbox{\hspace{1.5in}} + \left. \lambda\norm{\sum_{i=1}^n \beta_iR_1(\cdot, x_i) }^2_{\H_1} + \lambda\norm{\eta}^2_{\H_1} \right\}.
 \label{eq:PLS_norm2}
 \end{align}
 
 The reproducing property allows us to express the function evaluation terms $\eta(x_i); i = 1,\dots, n$ as inner products with the reproducing kernel on $\H_1$
-\begin{equation}
+\begin{equation*}
 \eta(x_i) = \inner{R_1(x_i,\cdot)}{\eta}; \hspace{0.1in} i = 1,\dots,n,
 \label{eq:rep_property}
-\end{equation}
+\end{equation*}
 which is equal to zero for $i=1,\dots,n$ due to orthogonality. Thus, with this construction, $\eta$ only contributes to the minimization term through its norm, which is clearly minimized for $\eta$ equal to the zero function.
 
 We now see that for a Hilbert space $\H$ where function evaluation is a continuous linear operator, the minimizer of \eqref{eq:PLS_norm2} has the form 
