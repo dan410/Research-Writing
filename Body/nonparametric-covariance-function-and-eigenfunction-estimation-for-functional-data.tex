@@ -35,7 +35,11 @@ Using standard arguments from smoothing spline theory (see \cite{Wahba:1990}), t
 
 This approach assumes that the reproducing kernel is known and that the tensor product norm corresponding to the reproducing kernel penalizes smoothness in an appropriate way. It seems important, from a practical point of view, to have a clear understanding of how the penalty functional is operating. To accomplish this we propose an approach that begins with defining how univariate functions are penalized on the marginal domain (typically done by defining an appropriate high order derivative), then use the implied penalty on the tensor product domain to estimate the covariance function. This approach is more attractive from a practitioner's point of view, because it is more natural to define a differential operator to penalize smoothness, and in this case the functions annihilated by the differential operator form a non-null subspace. In \cite{Cai:2010vr}, they propose as an example a kernel based on penalizing the integrated squared second derivative, but define a function space where all non-zero functions are penalized. This seems a bit contrived and it is not necessarily connected to the main objective of covariance estimation.
 
-Our approach allows for the typical function space, $W_2 = \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$, to be used and accounts for the decomposition of the function space into penalized and unpenalized subspaces. To illustrate this, recall the general development for the smoothing spline in the univariate case (\cite{Wahba:1990}): The solution of 
+Our approach allows for the typical function space, 
+\begin{equation}
+	W_2 = \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\},
+\end{equation} 
+to be used and accounts for the decomposition of the function space into penalized and unpenalized subspaces. To illustrate this, recall the general development for the smoothing spline in the univariate case (\cite{Wahba:1990}): The solution of 
 \begin{equation}
 	\widehat{f}_{\lambda} = \hspace{.07in}\stackrel[f \in \H]{}{\mbox{argmin}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - f(t_i))^2 + \lambda\norm{f}^2_{\H} \right\} 
 \end{equation}
@@ -51,7 +55,7 @@ has the form
 \begin{equation}
 	\hat{f}(t) = \sum_{j=1}^M d_j\phi_j(t) + \sum_{i=1}^N c_iR_1(t, t_i), \label{eq:unpenalized solution} 
 \end{equation}
-where $\{\phi_j(\cdot)\}_{j=1}^M$ are a basis for the space of unpenalized functions $\H_0$ and $P_1(f)=f_1$ is the projection of $f$ onto the space $\H_1$. (Details of the derivation of \eqref{eq:unpenalized solution} from \eqref{eq:unpenalized objective function} are shown in the Appendix ). In Section \ref{covariance estimation} we show how the regularization procedure for covariance function can account for this type of decomposition. In Section \ref{eigenfunctions} we derive closed form estimators of the principal component functions based on the generalized covariance estimator.
+where $\{\phi_j(\cdot)\}_{j=1}^M$ are a basis for the space of unpenalized functions $\H_0$ and $P_1(f)=f_1$ is the projection of $f$ onto the space $\H_1$. (Details of the derivation of \eqref{eq:unpenalized solution} from \eqref{eq:unpenalized objective function} are shown in the Appendix ). In Section \ref{sec:covariance_function_estimation} we show how the regularization procedure for covariance function can account for this type of decomposition. In Section \ref{sec:estimation_of_functional_principal_components} we derive closed form estimators of the principal component functions based on the generalized covariance estimator.
 
 % section introduction (end)
 \section{Methodology} 
@@ -90,7 +94,7 @@ The main goal in what follows is to describe the form of the covariance function
 
 Consider the space $\H = \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$. On this space the term $\int_0^1 f''g''dx$ is a semi-inner-product which can be extended to a full inner product by defining an inner product on the subspace $\H_0 = \{f : f'' = 0\}$. Common choices for inner products in $\H_0$ are $\inner{f}{g}_0 = f(0)g(0) + f'(0)g'(0)$ or $\inner{f}{g}_0 = (\int_0^1fdx)(\int_0^1gdx) + (\int_0^1f'dx)(\int_0^1g'dx)$. We work with the latter because it corresponds to a mathematically convenient expression for the reproducing kernel. 
 
-The space $\H = \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$ with inner product 
+The space $\H$ with inner product 
 \begin{align*}
 	\inner{f}{g} &= \inner{f}{g}_0 + \inner{f}{g}_1 \\
 	&= \left(\int_0^1fdx\right)\left(\int_0^1gdx\right) + \left(\int_0^1f'dx\right)\left(\int_0^1g'dx\right) + \int_0^1 f''g''dx 
@@ -151,7 +155,7 @@ The four basis functions for the unpenalized space are $\phi_{\nu,\mu}$ are $\{ 
 \begin{equation}
 	\hat{C}(s,t) = d_{00,00} + d_{01,00}k_1(t) + d_{00,01}k_1(s) + d_{01,01}k_1(s)k_1(t) + \sum_{i,j}c_{i,j}\breve{R}((t_i,t_j),(s,t)). \label{eq:covest} 
 \end{equation}
-Efficient estimation of \eqref{eq:covest} including smoothing parameter selection can be accomplished using methods described in \cite{Gu2002} and implemented in the \texttt{gss} R package. (In fact, the motivation for this work is largely due to the fact that \cite{Cai:2010vr} implemented their method for covariance estimation using \texttt{gss} functions, which use tensor product decompositions to fit models.)
+Efficient estimation of \eqref{eq:covest} including smoothing parameter selection can be accomplished using methods described in \cite{Gu2002} and implemented in the \texttt{gss} R package. 
 
 %\todo{include the quadratic form version of the minimization problem}
 %The estimator in \eqref{eq:covest} involves slices of the reproducing kernel on the penalized space. These slices are 2-dimensional surfaces and it is of some interest to investigate these surfaces. Figure~\ref{fig:basis_fns} shows some of these functions corresponding to knot locations on a five by five grid. 
