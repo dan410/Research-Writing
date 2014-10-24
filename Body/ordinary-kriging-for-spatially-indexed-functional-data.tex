@@ -20,15 +20,13 @@ Data that arise from measurements at geographic locations often exhibit similari
 
 We work with data consisting of curves $\chi(s_k; t),$ $t \in [0,T]$, at spatial locations $s_1, \dots, s_n$. We define a \emph{spatial functional process} as
 \[ \left\{ \boldsymbol\chi(s; t): s \in D \subseteq \Real^2, t \in \T \right\}, \]
-where, for fixed location $s_k$, $\boldsymbol\chi(s_k; \cdot)$ is a random function on the closed interval $\mathcal{T} = [a,b]$ taking values in a reproducing kernel Hilbert space of functions $\H$ with reproducing kernel $K(s,t)$ which is assumed to be square integrable. The requirement that the curves belong to a reproducing kernel Hilbert space instead of typical $L^p$ space has to do with the method we employ to estimate the principal component functions in sections \ref{sec:eigenfunction_estimation}.
+where, for fixed location $s_k$, $\boldsymbol\chi(s_k; \cdot)$ is a random function on the closed interval $\mathcal{T}$ taking values in a reproducing kernel Hilbert space of functions $\H$ with reproducing kernel $K(s,t)$ which is assumed to be square integrable. The requirement that the curves belong to a reproducing kernel Hilbert space instead of typical $L^p$ space has to do with the method we employ to estimate the principal component functions in section \ref{sec:eigenfunction_estimation}.
 
 The functions $\chi(s;t)$ admit the following representation 
 \begin{equation}
 	\chi(s;t) = \mu(t) + \epsilon(s;t), 
 \end{equation}
-where $\mu(t)$ represents large-scale structure which does not depend on spatial location and $\epsilon(s;t)$ is a mean zero spatially correlated random effect. The methodology we propose assumes $\epsilon(s;t)$ can be represented by the Karhunen-Loeve expansion $\epsilon(s;t) = \sum_{k=1}^{\infty} \alpha_k(s)\psi_k(t)$.
-
-The functions $\psi_k(\cdot)$ are eigenfunctions of the covariance operator and are called the principal component functions (PCF). For each integer $k$, $\alpha_k(s) = \inner{\epsilon(s;t)}{ \psi_k(t)}$ is assumed to be a second-order stationary isotropic scalar random field. Spatial random fields connected to different PCFs are assumed to be uncorrelated, that is 
+where $\mu(t)$ represents large-scale structure which does not depend on spatial location and $\epsilon(s;t)$ is a mean zero spatially correlated random effect. The methodology we propose assumes $\epsilon(s;t)$ can be represented by the Karhunen-Loeve expansion $\epsilon(s;t) = \sum_{k=1}^{\infty} \alpha_k(s)\psi_k(t)$. The functions $\psi_k(\cdot)$ are eigenfunctions of the covariance operator and are called the principal component functions (PCF). For each integer $k$, $\alpha_k(s) = \inner{\epsilon(s;t)}{ \psi_k(t)}$ is a scalar random field assumed to be a second-order stationary and isotropic. Spatial random fields connected to different PCFs are assumed to be uncorrelated, that is 
 \begin{equation}
 	\text{Cov}(\alpha_j(s), \alpha_l(s')) = 0 \hspace{1cm} \text{for } j \neq l. \label{eq:nocrosscor} 
 \end{equation}
@@ -38,9 +36,9 @@ For simplicity assume the functions are centered (i.e. $\mu(t)=0$), then under a
 	\text{Cov}(\chi(s_j,t), \chi(s_l, t')) &= \sum_{k=1}^{\infty}\text{Cov}(\alpha_k(s_j), \alpha_k(s_l))\psi_k(t)\psi_k(t')\\
 	&= \sum_{k=1}^{\infty}h_k(\norm{s_j-s_l})\psi_k(t)\psi_k(t'). \label{eq:cov} 
 \end{align}
-Gromenko and Kokozka (2012) point out that assumption \eqref{eq:nocrosscor} is implied by a separable spatio-temporal covariance function, and is necessary to ensure positive definiteness. Further, it is clear from the form of the covariance function \eqref{eq:cov} that the spatial component is stationary, while the temporal component is nonstationary.
+Gromenko and Kokozka (2012) point out that assumption \eqref{eq:nocrosscor} is implied by a separable spatio-temporal covariance function, and is necessary to ensure positive definiteness. Further, it is clear from the form of the covariance function \eqref{eq:cov} that the spatial component is stationary, while the temporal component is nonstationary. Assumption \ref{eq:nocrosscor} also give a parsimonious model as it does not require modeling the cross covarances between coefficient random fields. 
 
-In practice we work with the truncated expansion $\epsilon(s;t) = \sum_{k=1}^{q} \alpha_k(s)\psi_k(t)$, where $q$ is chosen to preserve most of the variation. Conventional wisdom stipulates that this means at least 85\% of the total variation is accouted for by the truncated expansion. In the next section we introduce our method for estimating the principal component functions.
+In practice we work with the truncated expansion $\epsilon(s;t) = \sum_{k=1}^{q} \alpha_k(s)\psi_k(t)$, where $q$ is chosen to preserve most of the variation. Conventional wisdom stipulates that this means at least 85\% of the total variation is accounted for by the truncated expansion. Our experience suggests that often no more then 2-4 PCFs are need to capture 85\% of the variation, so this approach often reduces to a very low dimensional multivariate problem. 
 
 % section statistical_model_for_spatially_indexed_functional_data (end)
 
@@ -48,7 +46,7 @@ In practice we work with the truncated expansion $\epsilon(s;t) = \sum_{k=1}^{q}
 \section{Estimation of principal component functions} 
 
 % (fold)
-\label{sec:eigenfunction_estimation} By assuming curves belong to a reproducing kernel Hilbert space, a fully nonparametric estimator for the covariance function, from which closed form expressions for the eigenfunctions are computed. The methodology we adopt was developed in (Cai, Yuan, 2010) and Fortin et al. (2014) \ref{ch:covariance estimation} for independent data. We use it here recognizing the assumption of independece is violated, and we describe some modifications to the estimator that account for spatial dependence in section \ref{sec:adjustments to the covariance}.
+\label{sec:eigenfunction_estimation} By assuming curves belong to a reproducing kernel Hilbert space, a fully nonparametric estimator for the covariance function, from which closed form expressions for the eigenfunctions are computed. The methodology we adopt was developed in \cite{Cai:2010vr} and Fortin et al. (2014) \ref{ch:covariance estimation} for independent data. We use it here recognizing the assumption of independece is violated, and we describe some modifications to the estimator that account for spatial dependence in section \ref{sec:adjustments to the covariance}.
 
 Functional principal components are related to the well-known Karhunen-Loeve representation theorem. For a square-integrable stochastic process $X(t)$ defined on a closed interval $[a,b]$, with continuous covariance $C(s,t)$, there corresponds a linear operator $[T_Cf](s) = \int_a^bC(s,t)f(t)dt$. Since $C(s,t)$ is symmetric and non-negative definite, it has the following representation 
 
@@ -85,13 +83,17 @@ An R package implementing this method is available at https://github.com/dan410/
 % (fold)
 \label{sec:functional_kriging_predictor}
 
-Note: The functinal kriging predictor is a form of multivariate cokriging, but it is isotopic by contruction and the assumption of zero crosscorrelation makes the cokriging predictor equivalent to kriging the components (Wackernagel 2003, Ch. 25). 
+By representing curves as a finite basis expansion, the problem of kriging is reduced to kriging a coefficient vector, thus the functional kriging predictor is a form of multivariate cokriging. It is isotopic by construction--that is, each location has an observation for each component of the vector. For an isotopic process with no cross-correlation, the kriging predictor is equivalent to kriging the components (\cite{wackernagel2003multivariate}, Ch. 25). The problem or kriging a curve is reduced to univariate kriging of the coefficient fields. This is not necessarily a simple task, but is made much easier by using a principal component function basis expansion which can achieve an adequate representation of the curves with few basis functions.
 
 Steps for prediction at unobserved location $s_0$: 
 \begin{enumerate}
-	\item compute the least-squares projection of sample curves onto eigenfunctions: $\hat{\psi}^{(1)}, \hat{\psi}^{(2)}, \dots, \hat{\psi}^{(q)}$ 
-	\item compute kriging estimates of the coefficients: $\hat{\alpha}_{s_0}^{(1)}, \hat{\alpha}_{s_0}^{(2)}, \cdots, \hat{\alpha}_{s_0}^{(q)}$ 
-	\item $\widehat{\chi_{s_0}(t)}_{ok} = \sum_{k=1}^{q} \hat{\alpha}_{s_0}^{(k)}\hat{\psi}^{(k)}(t)$ 
+	\item Compute the least-squares projection of sample curves onto principal component functions: $\hat{\psi}^{(1)}, \hat{\psi}^{(2)}, \dots, \hat{\psi}^{(q)}$ 
+	\item Fit variagrams to each scalar coefficient field.
+	\item Compute kriged estimates of the coefficients: $\hat{\alpha}_{s_0}^{(1)}, \hat{\alpha}_{s_0}^{(2)}, \cdots, \hat{\alpha}_{s_0}^{(q)}$ .
+	\item The functional ordinary kriging predictor of the curve at location $s_0$ is given by
+	\begin{equation}
+		\widehat{\chi_{s_0}(t)}_{ok} = \sum_{k=1}^{q} \hat{\alpha}_{s_0}^{(k)}\hat{\psi}^{(k)}(t).
+	\end{equation} 
 	
 	%\todo{describe variance of the estimator}
 \end{enumerate}
@@ -108,20 +110,20 @@ In this section we investigate the performance of the estimator by simulating 11
 \begin{equation}
 	X(t) = \sum^{3}_{k=1}\zeta_k Z_k \cos(k\pi t), \hspace{0.5cm} t \in [0,1], \label{eq:sim process2} 
 \end{equation}
-where $Z_k$ were sampled from a Gaussian random field and \(\zeta=(-1)^{k+1}k^{-2}\). Ten of the simulated curves were used as a hold-out set and the remaining 100 curves we used for estimation. Figure \ref{fig:locations} shows the locations of the curves. Figure \ref{fig:curve kriging predictions} shows the predictions for the unobserved curves in the hold-out set. 
+where $Z_k$ were sampled from a Gaussian random field and \(\zeta=(-1)^{k+1}k^{-2}\). Ten of the simulated curves were used as a hold-out set and the remaining 100 curves we used for estimation. Figure \ref{fig:locations} shows the locations of the curves. Figure \ref{fig:curve kriging predictions} shows the predictions for the unobserved curves in the hold-out set. The curves a generated from a zero mean process, so the observed curves also represent the residual process under the assumption of independence; therefore, the difference between the first and third plot in figure \ref{fig:curve kriging predictions} shows the efficiency gained by accounting for spatial dependence.
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=0.5
 		\textwidth]{images/kriging/locations.pdf} 
 	\end{center}
-	\caption{Locations of simulated curves. Solid dots are prediction locations.} \label{fig:locations} 
+	\caption{Locations of 110 simulated curves. The ten solid red dots are prediction locations and were not used for estimation of the functional kriging predictor.} \label{fig:locations} 
 \end{figure}
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=0.6
 		\textwidth]{images/kriging/residual-curves.pdf} 
 	\end{center}
-	\caption{Predicted curves at unobserved locations. } \label{fig:curve kriging predictions} 
+	\caption{Ten true curves for a simulated process (left). Predictions of the ten curves using functional kriging (center). Residual curves equal to the difference between the true and kriged curves (right). } \label{fig:curve kriging predictions} 
 \end{figure}
 
 % section numerical_experiments (end)
@@ -130,49 +132,48 @@ where $Z_k$ were sampled from a Gaussian random field and \(\zeta=(-1)^{k+1}k^{-
 \newpage
 
 %===========================================
-\section{Investigating the effects of spatial dependence} 
+\section{Adjustments to the covariance estimator which account for spatial dependence between curves} 
 
 % (fold)
 \label{sec:investigating_the_effects_of_spatial_dependence}
 
-This section describes our effort toward gaining a better understanding of how the covariance function estimator, from which the principal component functions are derived, performs when the independence assumption is violated. We explores possible modifications to the covariance function estimator that account for spatial dependence. 
+This section describes our effort toward gaining a better understanding of how the covariance function estimator---from which the principal component functions are derived---performs when the independence assumption is violated. We explore possible modifications to the covariance function estimator that account for spatial dependence. 
 
-\subsection{Simulation framework useful for studying spatial dependence between curves} By using the simulation framework in Chapter \ref{ch:covariance estimation}, but using a spatially correlated Gaussian random variables instead of uniform random variables we can investigate the effects of spatial dependence on estimation of functional principal components. Already included here is a simulated example under independence. 
+% \subsection{Simulation framework useful for studying spatial dependence between curves} By using the simulation framework in Chapter \ref{ch:covariance estimation}, but using a spatially correlated Gaussian random variables instead of uniform random variables we can investigate the effects of spatial dependence on estimation of functional principal components. Already included here is a simulated example under independence.
+%
+% Random curves are simulated independently as
+% \begin{equation}
+% 	X(t) = \sum^{3}_{k=1}\zeta_k Z_k \cos(k\pi t), \hspace{0.5cm} t \in [0,1], \label{eq:sim process2}
+% \end{equation}
+% where $Z_k$ were independently sampled from a $N(0,1)$ distribution and \(\zeta=(-1)^{k+1}k^{-\alpha}\). The covariance function for this process can be easily show to be
+% \begin{equation}
+% 	C(s,t) = \sum^{3}_{k=1}k^{-2\alpha} \cos(k\pi s)\cos(k\pi t).
+% \end{equation}
+%
+% Figure \ref{fig:sim curves2} shows 100 curves simulated independently from the process in \eqref{eq:sim process} with $\alpha=2$.
+%
+% % simulated curves
+% \begin{figure}
+% 	\begin{center}
+% 		\includegraphics[width=0.5
+% 		\textwidth]{images/Ch3/sim-curves.pdf}
+% 	\end{center}
+% 	\caption{One hundred curves simulated independently from the process $X(t)$ in \eqref{eq:sim process2}.} \label{fig:sim curves2}
+% \end{figure}
+%
+% % estimated first FPC
+% \begin{figure}
+% 	\includegraphics[width=
+% 	\textwidth]{images/Ch3/eigenfun1-sig-0368.pdf} \caption{1st eigenfunction estimated from 100 simulated curves, where each curves is observed at $m$ random locations with noise ($\sigma = 0.0368$). The number of observations per curve is indicated in the plot label. }
+% \end{figure}
+%
+% % estimated second FPC
+% \begin{figure}
+% 	\includegraphics[width=
+% 	\textwidth]{images/Ch3/eigenfun2-sig-0368.pdf} \caption{2nd eigenfunction estimated from 100 simulated curves, where each curves is observed at $m$ random locations with noise ($\sigma = 0.0368$). The number of observations per curve is indicated in the plot label. }
+% \end{figure}
 
-Random curves are simulated independently as 
-\begin{equation}
-	X(t) = \sum^{3}_{k=1}\zeta_k Z_k \cos(k\pi t), \hspace{0.5cm} t \in [0,1], \label{eq:sim process2} 
-\end{equation}
-where $Z_k$ were independently sampled from a $N(0,1)$ distribution and \(\zeta=(-1)^{k+1}k^{-\alpha}\). The covariance function for this process can be easily show to be 
-\begin{equation}
-	C(s,t) = \sum^{3}_{k=1}k^{-2\alpha} \cos(k\pi s)\cos(k\pi t). 
-\end{equation}
-
-Figure \ref{fig:sim curves2} shows 100 curves simulated independently from the process in \eqref{eq:sim process} with $\alpha=2$. 
-
-% simulated curves
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=0.5
-		\textwidth]{images/Ch3/sim-curves.pdf} 
-	\end{center}
-	\caption{One hundred curves simulated independently from the process $X(t)$ in \eqref{eq:sim process2}.} \label{fig:sim curves2} 
-\end{figure}
-
-% estimated first FPC
-\begin{figure}
-	\includegraphics[width=
-	\textwidth]{images/Ch3/eigenfun1-sig-0368.pdf} \caption{1st eigenfunction estimated from 100 simulated curves, where each curves is observed at $m$ random locations with noise ($\sigma = 0.0368$). The number of observations per curve is indicated in the plot label. } 
-\end{figure}
-
-% estimated second FPC
-\begin{figure}
-	\includegraphics[width=
-	\textwidth]{images/Ch3/eigenfun2-sig-0368.pdf} \caption{2nd eigenfunction estimated from 100 simulated curves, where each curves is observed at $m$ random locations with noise ($\sigma = 0.0368$). The number of observations per curve is indicated in the plot label. } 
-\end{figure}
-
-\newpage 
-\subsection{Adjustments to the covariance function estimation which account for spatial dependence} \label{sec:adjustments to the covariance}
+\subsection{Inverse covariance weighting} \label{sec:adjustments to the covariance}
 
 Let $\mathbf{b}^{(i)} = [(y_{ij}-\mu(t_{ij}))(y_{ij'}-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, n$. Let
 \[ \mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T} )^T, \]
@@ -196,6 +197,11 @@ and
 \[ \mathbf{C} = [C(t_{i,j}, t_{i'j'})] \]
 
 Though computation of $\mathbf{W}^{-1}$ is theoretically possible, the dimension of $\mathbf{W}$ is computationally prohibitive. 
+
+\subsection{Downweighting high location density curves} % (fold)
+\label{sub:downweighting_high_location_density_curves}
+
+% subsection downweighting_high_location_density_curves (end)
 
 We propose a computationally simpler way to adjust for spatial dependence using a weighting scheme motivated by the fundamental principle in spatial statistics, which states that data in close proximity contribute similar information; hence should be down weighted relative to data at sparse locations. Deriving a single weight for each curve corresponds to a diagonal $\mathbf{W}$ matrix in \eqref{eq:weighted loss function}. 
 
@@ -245,7 +251,7 @@ Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that 
 
 \section{Discussion} % (fold)
 \label{sec:discussion}
-Put discussion here
+Put discussion here \cite{cressie1993statistics}
 % section discussion (end)
 
 %\todo[inline]{discuss how possible measures of interest (e.g. min, max, average) are functionals of the curve predictor. Should this go in the introduction? }
