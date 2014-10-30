@@ -16,20 +16,15 @@ Functional principal components has gained much popularity in the are of functio
 % (fold)
 \label{sec:introduction}
 
-Functional principal components are often used in functional data analysis as an efficient way to represent curves. In multivariate methods, principal components can be derived through an eigen-decomposition of the covariance matrix; however, with functional data the covariance is not a matrix, but a continuous bivariate function. When the number of observations per curve is sparse often one approaches the problem by pooling covariance information from each curve and performing bivariate smoothing. What seems most common in the literature is to use local polynomial smoothing (\cite{Yao:2005cv}). \cite{Cai:2010vr} propose a framework for nonparametric covariance function estimation motivated by theory for smoothing splines, which make use properties of reproducing kernel Hilbert space (RKHS). One major benefit of this approach is that it can be used for both sparse and dense functional data, whereas previous methods have been shown to work well in one case but not optimal in the other. The field of functional data analysis is relatively new, growing, and in flux. Unifying theoretical results serve to strengthen the foundation of the field and provide much needed insight. The theoretical framework of RKHS seems particularly suited for the task of covariance function estimation as the rate of convergence can be shown to be near-optimal. A more practical benefit of this approach is the ability to derive closed form estimates of the eigenfunctions. This fact alone makes this appraoch extremely useful, as one often seeks to represent curves using a principal component function basis. In this work, we adopt and investigate this approach to covariance function estimation gaining insight into Hilbert space decompositions as they relate to specific reproducing kernels that are used by practioners; derive a more general version of the eigenfunction estimator; and provide a computational tool in the form of an R package including functions for both covariance function estimation and principal component function estimation (https://github.com/dan410/sseigfun).
+Functional principal components are often used in functional data analysis as an efficient way to represent curves. In multivariate methods, principal components can be derived through an eigen-decomposition of the covariance matrix; however, with functional data the covariance is not a matrix, but a continuous bivariate function. When the number of observations per curve is sparse often one approaches the problem by pooling covariance information from each curve and performing bivariate smoothing. What seems most common in the literature is to use local polynomial smoothing (\cite{Yao:2005cv}). \cite{Cai:2010vr} propose a framework for nonparametric covariance function estimation motivated by theory for smoothing splines, which make use properties of reproducing kernel Hilbert space (RKHS). One major benefit of this approach is that it can be used for both sparse and dense functional data, whereas previous methods have been shown to work well in one case but not optimal in the other. The field of functional data analysis is relatively new, growing, and in flux. As there has been much interest in developing a functional data approach to sparsely observed curves, a pressing need exists for a unifying theory for sparse functional data and longitudinal data as mentioned by the discussants in (\cite{guo2004discussion}). 
+
+The theoretical framework of RKHS seems well suited for the task of covariance function estimation as the rate of convergence can be shown to be near-optimal. A more practical benefit of this approach is the ability to derive closed form estimates of the eigenfunctions. This fact alone makes this appraoch extremely useful, as one often seeks to represent curves using a principal component function basis. In this work, we adopt and investigate this approach to covariance function estimation gaining insight into Hilbert space decompositions as they relate to specific reproducing kernels that are used by practioners; derive a more general version of the principal component function estimator; and provide a computational tool in the form of an R package including functions for both covariance function estimation and principal component function estimation (https://github.com/dan410/sseigfun).
 
 For curves belonging to a RKHS, it can be shown that the covariance function resides in the tensor product reproducing kernel Hilbert space $\H\otimes \H$. The tensor product space is itself a RKHS whose reproducing kernel is strait forward to derive for the reproducing kernel on $\H$. Based on this result, a natural regularization procedure for covariance function estimation is the following: 
 \begin{equation}
 	\label{eq:cy-cov-est} \hat{C}_{\lambda} = \stackrel[C \in \H\otimes\H]{}{\mbox{argmin}} \{l_{n}(C)+\lambda\left\Vert C\right\Vert _{\H\otimes \H}^{2}\}, 
 \end{equation}
-where
-
-%\begin{equation}
-%l_{n}(C)=\frac{1}{n*}\sum_{i=1}^{n}\sum_{1\leq j_{1}\neq j_{2}\leq m}([Y_{ij_{1}}-\mu_{0}(t_{ij})][Y_{ij_{2}}-\mu_{0}(t_{ij_{2}})]-C(t_{ij_{1}},t_{ij_{2}}))^{2}
-%\label{eq:loss}
-%\end{equation}
-% where $n* = 1/nm(m-1)$ and
-$\lambda\geq0$ is a tuning parameter that balances the fidelity to the data measured by $l_{n}$ and smoothness of the estimate measured by the squared RKHS norm.
+where $\lambda\geq0$ is a tuning parameter that balances the fidelity to the data measured by $l_{n}$ and smoothness of the estimate measured by the squared RKHS norm.
 
 In \cite{Cai:2010vr} the convergence rate of this estimator was shown to be superior to the optimal rate for general bivariate smoothing on $[0,1]\times[0,1]$, which is attributed to the fact that estimation is performed over functions in $\H \tprod \H$ instead of the typical Sobelev space used for bivariate smoothing. This implies that the tensor product RKHS is to a certain degree smaller than the typical Sobelev space, thus reducing the effect of ``the curse of dimensionality''.
 
@@ -167,6 +162,56 @@ Efficient estimation of \eqref{eq:covest} including smoothing parameter selectio
 % subsection practical_considerations_for_knot_selection (end)
 In practice, when curves are not sparsely observed, the number of observed pairs $(t_i, t_j)$ will be large. In this case \cite{CFZ} recommend using knot locations forming a regular grid within the convex hull of the observed points. \cite{Kim:2004tt} investigate this with a simulation study and give a general recommendation of $10n^{2/9}$, where $n$ is the sample size on the product domain. Following this advice, we fix knot locations on a regular grid Let $t_i \in [0,1]; i=1,\dots, K$ be the chosen knot locations on the univariate domain, making $(t_i,t_j)_{1\leq i,j \leq K}$ a regular grid of knot locations on $[0,1]\times[0,1]$. The number of knot locations $K$ puts an upper bound of $K+2$ eigenfunctions because the number of knot locations plus the dimension of the unpenalized space bound the dimension of the solution space for the eigenfunctions as shown in Lemma \ref{thm:eigenfunctions}.
 
+\begin{figure}
+	\centering 
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn1.png} \caption{}  
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn2.png} \caption{} 
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn3.png} \caption{}  
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn4.png} \caption{}  
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn5.png} \caption{}  
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn6.png} \caption{} 
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn7.png} \caption{}  
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn8.png} \caption{}  
+	\end{subfigure}
+	\begin{subfigure}
+		[b]{0.30\textwidth} \centering 
+		\includegraphics[width= 
+		\textwidth]{Images/basis_fn9.png} \caption{} 
+	\end{subfigure}
+	\caption{Examples of basis functions from knot locations located on a regular grid on $[0,1]\times [0,1]$.} \label{fig:basis functions} 
+\end{figure}
+
 % section covariance_function_estimation (end)
 \section{Estimation of functional principal components} 
 
@@ -205,7 +250,9 @@ Using $\mathbf{g}$ in \eqref{eq:g} the covariance function estimator in \eqref{e
 	\end{array}
 	\right)$. 
 \end{center}
-\vspace{0.8cm} Note that \cite{Cai:2010vr} use the tensor product norm on $\H\tprod \H$, thus there is no unpenalized subspace. In this case the matrix $A$ reduces to the bottom right submatrix. 
+\vspace{0.8cm} 
+
+We have included dashed lines in this matrix to highlight its structure. Note that \cite{Cai:2010vr} use the tensor product norm on $\H\tprod \H$, which results in a trivial unpenalized subspace. In this case the matrix $A$ reduces to the bottom right submatrix, making it clear how our result generalizes the computational result in \cite{Cai:2010vr}.
 
 %Software packages, such as the gss package in R, will return the fitted coefficients $c$ and $d$ in \eqref{eq:covets}, The matrix $A$ can be constructed directly from the fitted coefficients in the output of the sspreg1() function which makes this straight forward to implement. 
 Define the matrix $Q$ to be 
@@ -276,7 +323,7 @@ The general wisdom is to avoid smoothing individual curves with sparse data; how
 
 The most striking difference in performance between the two methods was when we allowed the `time' points for each curved to be generated from different beta distributions (scenario III). The skewed and U-shaped distributions can severely restrict across-the-curve information, and it is clear from Figure \ref{fig:fpca-fda-3} that the SIC method performs poorly at estimating the second functional principal component. By pooling all the data the SSCOV method still performs adequately in this scenario. 
 \begin{table}
-	[ht] \caption{Average integrated squared error $\norm{\hat{\psi}(t) - \psi(t)}^2_{L_2}$: averaged over 100 runs. The Monte Carlo standard error is shown in parentheses.} \centering 
+	[ht] \caption{Integrated squared error, $\norm{\hat{\psi}(t) - \psi(t)}^2_{L_2}$, for the first two functional principal compoenents averaged over 100 runs. The value m indicates the number of observations per curve. The Monte Carlo standard error is shown in parentheses.} \centering 
 	\begin{tabular}
 		{|c|c|l|cc|} \hline Scenerio & FPC & m & SSCOV & SIC \\
 		\hline \multirow{6}{*}{I}& \multirow{3}{*}{1st} & 5 & 0.0231 (0.0018) & 0.0150 (0.0011) \\
@@ -398,11 +445,12 @@ The most striking difference in performance between the two methods was when we 
 
 We have shown how the reproducing kernel Hilbert space framework for covariance estimation can be extended to allow the use of function spaces where the penalty functional induces a non-empty unpenalized subspace. We have also derived a functional principal component estimator for this case. Even though development here was for a specific penalty, the method is very general and could easily be applied to other penalties, though the form of the reproducing kernel and the basis for the null space will depend on this choice. 
 
-Our simulations show that this method performs well even when sampling points on each curve do not follow a common distribution on $\T$. The robustness to the assumption of common distribution is encouraging as longitudinal data often do not satisfy this assumption. It is somewhat surprising that this method does not seem to perform much better than standard methods in terms of integrated squared error in the other scenerios as can be seen in Table \ref{tab:fpc-norm}. However, there appears to be a clear difference in terms of bias in estimating the second FPC, particularly in the sparse case (m = 5). The standard method over smoothes in this case as the true seoncd FPC is far outside the error bands.   
+Our simulations show that this method performs well even when sampling points on each curve do not follow a common distribution on $\T$. The robustness to the assumption of common distribution is encouraging as longitudinal data often do not satisfy this assumption (e.g. CD4 count data from AIDS Clinical Trial Group 193A (Henry et al., 1998)). It is somewhat surprising that this method does not seem to perform much better than standard methods in terms of integrated squared error in the other scenerios as can be seen in Table \ref{tab:fpc-norm}. However, there appears to be a clear difference in terms of bias in estimating the second FPC, particularly in the sparse case (m = 5). The standard method over-smooths in this case as the true seoncd FPC is far outside the error bands. This indicates that even though our method is suitable for both sparse and dense functional data, practical differences may only occur for data with sparsly observed curves.
 
-We have also created an R package implementation of this method with user-friendly functions for estimating the covariance function and principal component functions for functional data, making it convenient to use empirical basis representation for functional data analyses. 
+An R package implementation of this method with user-friendly functions for estimating the covariance function and principal component functions for functional data is available, making it convenient to use an empirical basis representation for functional data analyses. 
 
 % section conclusions (end)
+\newpage
 \section{Proofs} 
 
 % (fold)
