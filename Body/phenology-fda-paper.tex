@@ -127,7 +127,7 @@ where
 \[ \mathbf{C} = [C(t_{i,j}, t_{i'j'})] \]
 and $\lambda$ is a smoothing parameter estimated using cross validation.
 
-In order to account for possible spatial correlation between curves we apply the weighting scheme developed in Chapter \ref{ch:functional kriging}. In Section \ref{sub:downweighting_high_location_density_curves} we shoed that we can achieve significant improvements in covariance estimation by down-weighting curves corresponding to high location density areas.
+In order to account for possible spatial correlation between curves we apply the weighting scheme developed in Chapter \ref{ch:functional kriging}. In Section \ref{sub:weighted covariance} we showed that we can achieve significant improvements in covariance estimation by down weighting curves corresponding to high location density areas.
 
 We proceed to define location intensity as the number of locations per unit area and denote location intensity at location $i$ by $\gamma_i$.  The following weight function provides a simple yet flexible way to construct weights,
 \begin{equation}
@@ -142,12 +142,12 @@ Let $\mathbf{W} = diag(\mathbf{w}_1, \dots, \mathbf{w}_n)$, where $\mathbf{w}_i$
 \end{equation}
 Details of the estimation of $\widehat{C(s,t)}$ and its corresponding eigenfunctions $\hat{\psi}_k(t)$ are described in Chapter \ref{ch:covariance estimation}. 
 
-To produce smooth estimates of the trajectories $X_i(t)$, project the observations $Y_i(t_j), j = 1, \dots, 46$ onto the finite dimensional functional basis $\{\hat{\psi}_k(t), k = 1, \dots, q\}$, where $q$ is chosen such that at least $90\%$ of the variation is accounted for. The fitted trajectories admit the following representation
+To produce smooth estimates of the trajectories $X_i(t)$, project the observations $Y_i(t_j), j = 1, \dots, 46$ onto the finite dimensional functional basis $\{\hat{\psi}_k(t), k = 1, \dots, q\}$, where $q$ is chosen such that at least $90\%$ of the variation is explained. The fitted trajectories admit the following representation
 \begin{equation}
 	\widehat{X_i(t)} = \sum_{k=1}^q\alpha_{k,i} \hat{\psi}_k(t) = \boldsymbol{\alpha_i'}\boldsymbol{\psi}.
 	\label{phen:coef}
 \end{equation}
-In this representation the randomness associated with each random trajectory $X(t)$ is captured in the coefficient vector $\boldsymbol{\alpha}$. In Section \ref{sub:land_cover_classification} the coefficients are treated as features in a classification model for land cover type. 
+In this representation the randomness associated with each random trajectory $X(t)$ is captured in the coefficient vector $\boldsymbol{\alpha}$. This allows one to take advantage the vast methods available for multivariate data. In this work we use linear discriminant analysis to classify land cover, but this framework allows for many possibilities for using multivariate methods for functional data analysis. 
 \subsubsection{Selecting an appropriate weight} 
 
 % (fold)
@@ -171,7 +171,7 @@ The representation of each curve in terms of the FPC expansion \eqref{phen:coef}
 
 \subsubsection{Linear Discriminant Analysis} % (fold)
 \label{sub:LDA}
-Linear discrimant analysis is a popular method in the class of linear classifiers, that is classifiers that result in a linear decision boundary. Let $\mathcal{C} = \{ \text{Agriculture}, \text{Vegetation}\}$ be the set of all possible classes, and let C be a random variable taking values in $\mathcal{C}$. The classification decision is based on the rule
+Linear discrimant analysis is a popular method in the class of linear classifiers; here the term linear referes to the structure of the decision boundary. Let $\mathcal{C} = \{ \text{Agriculture}, \text{Vegetation}\}$ be the set of all possible classes, and let C be a random variable taking values in $\mathcal{C}$. The classification decision is based on the rule
 \begin{equation}
 	\hat{\text{C}}(\boldsymbol{\alpha}) = 
 	\begin{cases}
@@ -220,9 +220,9 @@ where $\pi_{ag}$ and $\pi_{veg}$ are the prior probabilities class membership. T
 % section methodology (end)
 \section{Results} 
 % (fold)
-For each year function principal components were computed and for all years only three FPCs were needed to account for at least 90\% of the variation based on the eigenvalues. The first three FPCs for each year are shown in Figure \ref{fig:pcf all years}. These functions and a constant function were used as basis functions which were fit to all locations. The classification results are shown in Figure \ref{fig:classification map}, where only discrepancies in classification between the classifier proposed in this work and the GLC2000 classification are shown with highlighted red and green grid cells. 
+For each year function principal components were computed and for all years only three FPCs were needed to account for at least 90\% of the variation based on the eigenvalues. The first three FPCs for each year are shown in Figure \ref{fig:pcf all years}. These functions and a constant function were used as basis functions which were fit to all locations. The classification results are shown in Figures \ref{fig:misclassified vegetation} and \ref{fig:misclassified agriculture}, where only discrepancies in classification between the classifier proposed in this work and the GLC2000 classification are shown with highlighted red cells. Figure \ref{fig:misclassified vegetation} indicates and extensive area in the northern part of the study region that is being classified as agriculture by the LDA classifier, but is labeled as natural vegetion using the GLC2000 data base. 
 
-Figures \ref{partimat 2003}, \ref{partimat 2004},\ref{partimat 2005},\ref{partimat 2006}, and \ref{partimat 2007} show LDA estimates for all unique pairs of variables with colors highlighting the linear decision boundary. These Figures indicate that the model assumptions are not a concern in this case, and that a linear decision boundary is sufficient. 
+Figures \ref{partimat 2003}, \ref{partimat 2004},\ref{partimat 2005},\ref{partimat 2006}, and \ref{partimat 2007} show LDA estimates for all unique pairs of variables with colors highlighting the linear decision boundary. These Figures indicate that the model assumptions are not a concern in this case, and that a linear decision boundary is likely sufficient for these data. 
 
 \begin{figure}
 	[htbp] \centering 
@@ -232,13 +232,13 @@ Figures \ref{partimat 2003}, \ref{partimat 2004},\ref{partimat 2005},\ref{partim
 \begin{figure}
 	[htbp] \centering 
 	\includegraphics[width=\linewidth]{Images-phenology-fda/Plots/misclassified_vegetation.pdf} \caption{Map of the study region showing locations where classification results differ from the original GLC2000 derived land classification. Locations that the GLC2000 identified as vegetation, but were classified as agricultural are shown in red.   } 
-	\label{fig:classification map} 
+	\label{fig:misclassified vegetation} 
 \end{figure}
 
 \begin{figure}
 	[htbp] \centering 
 	\includegraphics[width=\linewidth]{Images-phenology-fda/Plots/misclassified_agriculture.pdf} \caption{Map of the study region showing locations where classification results differ from the original GLC2000 derived land classification. Locations that the GLC2000 identified as agriculture, but were classified as natural vegetation are shown in red.} 
-	\label{fig:classification map} 
+	\label{fig:misclassified agriculture} 
 \end{figure}
 
 \begin{figure}

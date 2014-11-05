@@ -130,7 +130,7 @@ into a sum of nine subspaces of the tensor product space. These nine subspaces a
 
 Inspection of the tensor product subspaces listed in Table \ref{tab:tp decomp} shows that only five have the space $\H_1$ as one of their marginal domain spaces, thus it is these five spaces that comprise the space of penalized functions. In order to represent the reproducing kernel on the penalized space the following notation is useful. Denote $\H_{\nu, \mu}=\H_{\nu <1>}\otimes \H_{\mu <2>}$ and $R_{\nu, \mu}=R_{\nu <1>}R_{\mu <2>}$, then $\breve{R} = R_{1,00}+R_{1,01}+R_{00,1}+R_{01,1}+R_{1,1}$ is the reproducing kernel on $\breve{\H} = \H_{1,00}\oplus\H_{1,01}\oplus\H_{00,1}\oplus\H_{01,1}\oplus\H_{1,1}$. The space $\breve{\H}$ contains all functions on the product domain that have a non-zero smoothing penalty.
 
-Let $\mathbf{b}^{(i)} = [(y_{ij}-\mu(t_{ij}))(y_{ij'}-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, n$. Let
+Let $\mathbf{b}^{(i)} = [(Y_{ij}-\mu(t_{ij}))(Y_{ij'}-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, n$. Let
 \[ \mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T} )^T, \]
 then the vectors $\mathbf{b}^{(i)}$ contain all pairwise products of observations on the $i$th curve, excluding those that are the product of an observation with itself. We propose the following estimator:
 \[ \widehat{C}_{\lambda}=\stackrel[C \in \H\otimes \H]{}{\text{ argmin}} \left\{\frac{1}{nm^2-nm} (\mathbf{b} - \mathbf{C})^T(\mathbf{b} - \mathbf{C})+\lambda\left\Vert C\right\Vert _{\breve{\H}}^{2} \right\}, \]
@@ -167,47 +167,47 @@ In practice, when curves are not sparsely observed, the number of observed pairs
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn1.png} \caption{}  
+		\textwidth]{Images/basis_fn1.png}   
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn2.png} \caption{} 
+		\textwidth]{Images/basis_fn2.png}  
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn3.png} \caption{}  
+		\textwidth]{Images/basis_fn3.png}   
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn4.png} \caption{}  
+		\textwidth]{Images/basis_fn4.png}   
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn5.png} \caption{}  
+		\textwidth]{Images/basis_fn5.png}   
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn6.png} \caption{} 
+		\textwidth]{Images/basis_fn6.png}  
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn7.png} \caption{}  
+		\textwidth]{Images/basis_fn7.png}   
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn8.png} \caption{}  
+		\textwidth]{Images/basis_fn8.png}   
 	\end{subfigure}
 	\begin{subfigure}
 		[b]{0.30\textwidth} \centering 
 		\includegraphics[width= 
-		\textwidth]{Images/basis_fn9.png} \caption{} 
+		\textwidth]{Images/basis_fn9.png}  
 	\end{subfigure}
 	\caption{Examples of basis functions from knot locations located on a regular grid on $[0,1]\times [0,1]$.} \label{fig:basis functions} 
 \end{figure}
@@ -268,7 +268,7 @@ then the following result states that the eigenfunctions can be expressed as a l
 	where $b_k$ is the $k$-th column of $B=Q^{-1/2}U$ and $U$ is the eigenvectors of $Q^{1/2}AQ^{1/2}$, and
 	\[ \mathbf{g(\cdot)}=(1, k_1(\cdot),R_{1}(\cdot, t_1),R_{1}(\cdot, t_2),\dots, R_{1}(\cdot, t_K))'. \]
 \end{lemma}
-
+Proof of the lemma is in Section \ref{sec:proofs}.
 % section estimation_of_functional_principal_components (end)
 \section{Simulations} 
 
