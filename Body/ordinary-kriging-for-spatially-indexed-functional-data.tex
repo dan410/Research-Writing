@@ -10,6 +10,8 @@
 \label{sec:introduction}
 Data that arise from measurements at geographic locations often exhibit similarities at small spatial scales. When the primary objective of analysis is to predict values at unobserved locations geostatistical models are particularly useful. When data are measurements from a ground-based sensor there is often temporal component to the data, examples include: \cite{Kaiser:2002wna} who investigate the concentration of an air pollutant; Delaigle and Hall (2010) who consider Australian rainfall data; and the Canadian weather data showcased in Ramsay and Silverman (2005). When the temporal measurements are not regular in time its useful to treat the time process as functional data. The extension of geostatistical models for functional data were first considered in \cite{Goulard:1993} where two approaches are proposed: one approach involves cokriging by reducing the functional response to a multivariate response by modeling the spatial component through the coefficients of a parametric model, while the other approach utilizes a functional version of the variogram. The functional variogram approach has been further developed by \cite{Giraldo:2010jx}. We pursue the first option, but do not make the assumption of a parametric model for the curves. We allow the curves to be represented nonparametrically using a principal component function basis. Typically, very few principal component functions are needed to represent the major modes of variation in the curves, thus making a multivariate geostatistical approach feasible without the need of a parametric model. 
 
+
+
 % \begin{figure}
 % 	\begin{center}
 % 		\includegraphics[width=0.7\textwidth]{images-ordinary-kriging/plot_from_Nerini2010.png}
@@ -63,54 +65,57 @@ The following formal assumptions establish the stationarity conditions:
 \end{itemize}
 The estimator in \eqref{OKFD predictor} is a linear predictor and the weights $\lambda_i$ are derived such that the predictor is the best linear unbiased predictor (BLUP). The unbiased constraint requires that $\sum_{i=1}^n\lambda_i = 1$, and the BLUP is obtained by minimizing
 \begin{equation}
-	\sigma^2_{s_0} = V(\hat{X}_{s_0} - X_{s_0}).
+	\sigma^2_{s_0} = Var(\hat{X}_{s_0} - X_{s_0}).
 \end{equation}
+Implementation of this method requires a preprocessing step involving non-parametric fitting of the observed data to achieve smooth representations of the functions $X_{s_1}(t), \dots, X_{s_n}(t)$. This is accomplished by fitting a finite b-spline basis where the dimension of the basis and the smoothing parameter are chosen by a functional cross-validation algorithm. 
 % section ordinary_kriging_of_function_valued_data (end)
 
-\section{Cokriging functional principal compents scores} % (fold)
+\section{Cokriging functional principal components scores} % (fold)
 \label{sec:cokriging_functional_principal_compents_scores}
 In the method described in the previous section, the set of curves are modeled directly as a spatial random field. The approach we describe here is fundamentally different in that the spatial model is defined on the coefficient vectors corresponding to a finite basis expansion. To ensure the coefficient vector is not high dimensional, each curve is represented as a linear combination of functional principal components. To guarantee such a representation exists and can be estimated efficiently requires assumptions on the function space itself, which we describe here. 
   We model trajectories $X_s(t)$ as a continuos second order stochastic process with mean $\mu(t)$ and bivariate temporal covariance function
 \begin{equation}
-	C_{0}(s,t)=E([X(s)-E(X(s))][X(t)-E(X(t))]),\mbox{ }\forall s,t\in \T=[a,b]. 
+	C_{0}(t',t)=E([X(t')-\mu(t')][X(t)-\mu(t)]),\mbox{ }\forall t',t\in \T=[a,b]. 
 \end{equation} 
- We assume the underling trajectories $X_s(\cdot)$ are smooth in that they take values in the reproducing kernel Hilbert space $\H= \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[\T]\}$. 
+ We assume the underling trajectories $X_s(t)$ are smooth in that they take values in the reproducing kernel Hilbert space $\H= \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[\T]\}$, with inner product $\inner{f}{g}_{\H}$ described in \eqref{inner prod}.
 
-Let $X_{s_1}(t), \dots, X_{s_n}(t)$ represent the collection of realizations of $X_s(t)$. The data we consider are discrete observations of each curve with noise. The model for the observed values $Y_{ij}$ is described as follows,
-\[ Y_s(t_{ij})=X_s(t_{ij})+\epsilon_{ij},\mbox{ }j=1,\dots,m;\mbox{ }i=1,\dots,N, \]
-where $i$ indexes spatial location and $j$ indexes the finite observations on a single trajectory. The $\epsilon_{ij}$ are independently and identically distributed measurement errors with mean zero and finite variance $\sigma_{0}^{2}.$ It is further assumed that the random functions $X_s(t)$, and measurement errors $\epsilon$ are mutually independent. 
+Let $X_{s_1}(t), \dots, X_{s_n}(t)$ represent the collection of realizations of $X_s(t)$. The data we consider are finite observations of each curve corrupted by noise. The model for the observed values $Y_s(t_{ij})$ is described by,
+\begin{equation}
+	Y_s(t_{ij})=X_s(t_{ij})+\epsilon_{ij},\mbox{ }j=1,\dots,m;\mbox{ }i=1,\dots,N, \label{kriging:observation model}
+\end{equation} 
+where $i$ indexes spatial location and $j$ indexes the finite observations on a single trajectory. The `time' observations are not assumed to be the same across curves; that is, $t_{ij}$ does not necessarily equal $t_{i'j}$ for $i \neq i'$. To simplify notation we assume the number of observations on each curve, $m$, is consistent across curves though this assumption can be relaxed. The $\epsilon_{ij}$ are independently and identically distributed measurement errors with mean zero and finite variance $\sigma_{0}^{2}.$ It is further assumed that the random functions $X_s(t)$, and measurement errors $\epsilon$ are mutually independent. 
 
 To simplify notation assume $\mu(t)=0$, so that functions $X_s(t)$ admit the following representation 
 \begin{equation}
-	X_{s}(t) = \sum_{k=1}^{q} \alpha_{s}^{(k)}\psi^{(k)}(t) = \boldsymbol{\alpha'}\boldsymbol{\psi},
+	X_{s}(t) = \sum_{k=1}^{q} \alpha_k(s)\psi_k(t) = \boldsymbol{\alpha}\boldsymbol{\psi}, \label{kriging: fpc expansion}
 \end{equation}
-where the functions $\psi^{(k)}(t)$ are eigenfunctions of the covariance function $C_0(s,t)$, and $\alpha_{s}^{(k)} = \inner{X_s(t)}{ \psi^{(k)}(t)}$. Note that in our notations the index $k$ is a superscript indicating the $kth$ FPC, not an exponent. The value of $q$ is determined such that at least 90\% of the variation in the curves is explained by the first $q$ FPCs. In this framework, predicting a curve at an unobserved location $s_0$ is achieved by predincting the corresponding coefficient vector $\boldsymbol{\alpha'}_{s_0}=[\alpha_{s_0}^{(1)}, \dots, \alpha_{s_0}^{(q)}]$. This approach requires two seperate tasks: estimating the functional principal components, and modeling the coefficient random fields. Section \ref{sub:FPC estimation} describes our method for estimating FPCs, and Section \ref{sec:functional_kriging_predictor} describes our approach to prediction by modeling the coefficients as a spatial random field.
+where the functions $\psi_k(t)$ are eigenfunctions of the covariance function $C_0(t',t)$, and $\alpha_k(s) = \inner{X_s(t)}{ \psi_k(t)}_{\H}$. The value of $q$ is determined such that at least 90\% of the variation in the curves is explained by the first $q$ FPCs. In this framework, predicting a curve at an unobserved location $s_0$ is achieved by predicting the corresponding coefficient vector $\boldsymbol{\alpha(s_0)}=[\alpha_1(s_0), \dots, \alpha_q(s_0)]$. This approach requires two separate tasks: estimating the functional principal components, and modeling the coefficient random fields. Section \ref{sub:FPC estimation} describes our method for estimating FPCs, and Section \ref{sec:functional_kriging_predictor} describes our approach to prediction by modeling the coefficients as a multivariate spatial random field.
 % subsection subsection_name (end)
 \subsection{Estimation} % (fold)
 \label{sub:estimation}
 
 % subsection estimation (end)
-We achieve smooth versions of the underlying trajectories $X_s(t)$ by expressing them as a finite basis expansion of principal component functions corresponding the the covariance function $C_0(s,t)$. The covariance of the observational process $Y_{ij}$ is given by
+We achieve smooth versions of the underlying trajectories $X_s(t)$ by expressing them as a finite basis expansion of principal component functions corresponding the the covariance function $C_0(t',t)$. The covariance of the observational process $Y_{ij}$ is given by
 \begin{equation}
 	C(Y_i(t_{ij}), Y_i(t_{ik})) = C_0(X_i(t_{ij}), X_i(t_{ik})) + \sigma^2_0 \delta_{jk}
 \end{equation}
-where $\delta_{jk}$ equals 1 if $j=k$ and is equal to zero otherwise. The covariance function $C_0(s,t)$ is recovered by performing bivariate smoothing on the sample covariance omitting the diagonal values.  The covariance function estimator we use is described in Chapter \ref{ch:covariance estimation} and is a modefied version of the one proposed in \cite{Cai:2010vr} who show that this method has many desirable theoretical properties. The methodology, which is described in detail in described in Chapter \ref{ch:covariance estimation}, achieves both efficient estimation of $C_0(s,t)$ and results in closed-form estimates of corresponding FPCs.
+where $\delta_{jk}$ equals 1 if $j=k$ and is equal to zero otherwise. The covariance function $C_0(t',t)$ is recovered by performing bivariate smoothing on the sample covariance omitting the diagonal values.  The covariance function estimator we use is described in Chapter \ref{ch:covariance estimation} and is a modified version of the one proposed in \cite{Cai:2010vr} who show that this method has many desirable theoretical properties. The methodology, which is described in detail in described in Chapter \ref{ch:covariance estimation}, achieves both efficient estimation of $C_0(t',t)$ and results in closed-form estimates of corresponding FPCs.
 
 \subsubsection{Covariance Estimation for independent curves} % (fold)
 \label{sub:subsection_name}
 
 % subsection subsection_name (end)
-In this section we describe a nonparametric estimator for the covariance function $C_0(s,t)$ based on a collection $X_{s_1}(t), \dots, X_{s_n}(t)$ of independent realizations of the functional process $X_s(t)$. Let $\mathbf{b}^{(i)} = [(Y_i(t_{ij})-\mu(t_{ij}))(Y_i(t_{ij'})-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, N$; $j,j' \in 1, \dots, m$. Further, let
+In this section we describe a nonparametric estimator for the covariance function $C_0(t',t)$ based on a collection $X_{s_1}(t), \dots, X_{s_n}(t)$ of independent realizations of the functional process $X_s(t)$. Let $\mathbf{b}^{(i)} = [(Y_i(t_{ij})-\mu(t_{ij}))(Y_i(t_{ij'})-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, N$; $j,j' \in 1, \dots, m$. Further, let
 \begin{equation}
 	\mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T} )^T, \label{b}
 \end{equation} 
-where the column vectors $\mathbf{b}^{(i)}$ contain all pairwise products of observations on the $i$th curve, excluding those that are the product of an observation with itself which correspond to the diagonal values on $[0,1]\times [0,1]$. The column vector $\mathbf{b}$ contains information accross all observed curves. Using this notation the covariance estimator is defined by the following optimization problem,
+where the column vectors $\mathbf{b}^{(i)}$ contain all pairwise products of observations on the $i$th curve, excluding those that are the product of an observation with itself which correspond to the diagonal values on $[0,1]\times [0,1]$. The column vector $\mathbf{b}$ contains all the information in the sample about the covariance function. Using this notation the covariance estimator is defined by the following optimization problem,
 \begin{equation}
 	 \widehat{C}_{\lambda}=\stackrel[C \in \H\otimes \H]{}{\text{ argmin}} \left\{\frac{1}{nm^2-nm} (\mathbf{b} - \mathbf{C})^T(\mathbf{b} - \mathbf{C})+\lambda\left\Vert C\right\Vert _{\breve{\H}}^{2} \right\},
 	 \label{kriging: cov est}
 	 \end{equation}
 where
-\[ \mathbf{C} = [C(t_{ij}, t_{i'j'})], \]
+\[ \mathbf{C} = [C(t_{ij}, t_{ij'})], \]
  $\lambda$ is a smoothing parameter estimated using cross validation, and $\breve{\H}$ is a subspace of $\H\tprod\H$. Details about the Hilbert space structure of $\H\tprod\H$ and form of the estimator see Chapter \ref{ch:covariance estimation}. 
 
 \subsubsection{Covariance Estimation for spatially dependent curves} % (fold)
@@ -129,8 +134,7 @@ Let $\mathbf{W}=diag(\mathbf{w}_1, \dots, \mathbf{w}_n)$, where $\mathbf{w}_i$ i
 \begin{equation}
 	l_{n}(C)= (\mathbf{b} - \mathbf{C})^T\mathbf{W}(\mathbf{b} - \mathbf{C}). \label{eq:diag weighted loss function} 
 \end{equation}
-Note that for independent data, $p = 0$ will give equal weights and result in $\mathbf{W} = \mathbf{I}$. Small sample behavior of the proposed estimator are investigated in Section \ref{sub:simulation covariance}. 
-
+Note that for independent data, $p = 0$ will give equal weights and result in $\mathbf{W} = \mathbf{I}$. In Section \ref{sub:simulation covariance} we conduct a simulation study aimed at identifying optimal choice of $p$ under various spatial dependence scenarios. 
 
 % To produce smooth estimates of the trajectories $X_i(t)$, project the observations $Y_i(t_j), j = 1, \dots, m$ onto the finite dimensional functional basis $\{\hat{\psi}_k(t), k = 1, \dots, q\}$, where $q$ is chosen such that at least $90\%$ of the variation is accounted for. The fitted trajectories admit the following representation
 % \begin{equation}
@@ -150,25 +154,25 @@ Note that for independent data, $p = 0$ will give equal weights and result in $\
 % subsection subsection_name (end)
 One of the practical benefits of the covariance estimator in \eqref{kriging: cov est} is that closed form expressions for the principal component functions can be computed. The methodology we describe here was developed in Chapter \ref{ch:covariance estimation}.
 
-Functional principal components are related to the well-known Karhunen-Loeve representation theorem. For a square-integrable stochastic process $X(t)$ defined on a closed interval $[a,b]$, with continuous covariance $C(s,t)$, there is a corresponding linear operator $[T_Cf](s) = \int_a^bC(s,t)f(t)dt$. Since $C(s,t)$ is symmetric and non-negative definite, it has the following representation 
+Functional principal components are related to the well-known Karhunen-Loeve representation theorem. For a square-integrable stochastic process $X(t)$ defined on a closed interval $[a,b]$, with continuous covariance $C(t',t)$, there is a corresponding linear operator $[T_Cf](t') = \int_a^bC(t',t)f(t)dt$. Since $C(t',t)$ is symmetric and non-negative definite, it has the following representation 
 
 %(see Mercer's theorem)
 \begin{equation*}
-	C(s,t) = \sum_{i=1}^{\infty}\lambda_i\psi_i(s)\psi_i(t), 
+	C(t',t) = \sum_{i=1}^{\infty}\lambda_i\psi_i(t')\psi_i(t), 
 \end{equation*}
-where $\{\psi_m(t)\}_{m=1,2,\ldots}$ are a sequence of orthonormal eigenfunctions which form a complete basis in $L_2[a,b]$, and $\{\lambda_m \}_{m=1,2,\ldots}$ are nonnegative and nondecreasing eigenvalues. The eigenfunction-eigenvalue pair $\{\lambda_j, \psi_j(t)\}$ satisfy $\int_a^bC(s,t)\psi_j(t)dt = \lambda_j\psi_j(t)$, in other words the FPCs $\{\psi_j(t)\}$ are eigenfunctions of the covariance operator. The Karhunen-Loeve theorem states that the process $X(t)$ admits the representation 
+where $\{\psi_m(t)\}_{m=1,2,\ldots}$ are a sequence of orthonormal eigenfunctions which form a complete basis in $L^2[a,b]$, and $\{\lambda_m \}_{m=1,2,\ldots}$ are nonnegative and nondecreasing eigenvalues. The eigenfunction-eigenvalue pair $\{\lambda_j, \psi_j(t)\}$ satisfy $\int_a^bC(t',t)\psi_j(t)dt = \lambda_j\psi_j(t)$, in other words the FPCs $\{\psi_j(t)\}$ are eigenfunctions of the covariance operator. The Karhunen-Loeve theorem states that the process $X(t)$ admits the representation 
 \begin{equation*}
 	X(t) = \sum_{m=1}^{\infty}\alpha_m \psi_m(t), \mbox{ where } \alpha_m = \int_a^b X(t) \psi_m(t)dt, 
 \end{equation*}
-and the random variables $\{\alpha_m \}_{m=1,2,\ldots}$ are uncorrelated and satisfy $E(\alpha_m)=0$ and Var($\alpha_m$) = $\lambda_m$, $\sum_m \lambda_m < \infty$. The eigenfunctions $\{\psi_m(t)\}_{m=1,2,\ldots}$ corresponding to $C(s,t)$ are the principal component functions and the coefficients $\{\alpha_m \}$ are the functional principal component scores of $X(t)$.
+and the random variables $\{\alpha_m \}_{m=1,2,\ldots}$ are uncorrelated and satisfy $E(\alpha_m)=0$ and Var($\alpha_m$) = $\lambda_m$, $\sum_m \lambda_m < \infty$. The eigenfunctions $\{\psi_m(t)\}_{m=1,2,\ldots}$ corresponding to $C(t',t)$ are the principal component functions and the coefficients $\{\alpha_m \}$ are the functional principal component scores of $X(t)$.
 
 We seek functions $\hat{\psi}(s)$ that satisfy satisfy 
 \begin{equation}
-	\label{eq:eigenfuns} \int \hat{C}(s,t)\hat{\psi}(t)dt=\theta\hat{\psi}(s). \nonumber
+	\label{eq:eigenfuns} \int \hat{C}(t',t)\hat{\psi}(t)dt=\theta\hat{\psi}(t'). \nonumber
 \end{equation}
 The following Lemma which is Lemma \ref{thm:eigenfunctions} in Chapter \ref{ch:covariance estimation} states that the eigenfunction are linear combinations of function derived from the reproducing kernel on $\H$. 
 \begin{lemma}
-	\label{thm:eigenfunctions2} The eigenfunctions of $\hat{C}(s,t)$ can be expressed as 
+	\label{thm:eigenfunctions2} The eigenfunctions of $\hat{C}(t',t)$ can be expressed as 
 	\begin{equation*}
 		\hat{\psi}_k(\cdot) = \mathbf{b}'_k\mathbf{g}(\cdot), 
 	\end{equation*}
@@ -183,25 +187,53 @@ The exact form of the reproducing kernel on $\H$ is described in \ref{ch:covaria
 % (fold)
 \label{sec:functional_kriging_predictor}
 
-By representing curves as a finite basis expansion, the problem of kriging a function is transformed into one of kriging a vector. In multivariate geostatistics this called cokriging, and more specifically it is isotopic cokriging---meaning that each location has an observation for each component of the vector. For each integer $k$, $\alpha_k(s) = \inner{\epsilon(s;t)}{ \psi_k(t)}$ is a scalar random field assumed to be a second-order stationary and isotropic. Spatial random fields connected to different FPCs are assumed to be uncorrelated, that is
+Using the functional principal components representation of $X_s(t)$ from \eqref{kriging: fpc expansion},
 \begin{equation}
-	\text{Cov}(\alpha_j(s), \alpha_l(s')) = 0 \hspace{1cm} \text{for } j \neq l. \label{eq:nocrosscor}
+	X_{s}(t) = \sum_{k=1}^{q} \alpha_k(s)\psi_k(t) = \boldsymbol{\alpha}(s)\boldsymbol{\psi}, 
 \end{equation}
-For an isotopic process with no cross-correlation, the kriging predictor is equivalent to kriging the components (\cite{wackernagel2003multivariate}, Ch. 25). Thus the problem of kriging a function is reduced to univariate kriging of scalar coefficients. This is not necessarily a simple task, but is made much easier by using a principal component function basis expansion which can achieve an adequate representation of the curves with few basis functions.
+the objective of constructing the best linear unbiased predictor of $X_{s_0}(t)$ and unobserved location $s_0$ is reframed as constructing the best linear unbiased predictor of the vector $\balpha_{s_0}$ given $\balpha(s_1), \dots, \balpha(s_n)$. We model $\balpha(s)$ as a stationary random field. A linaer predictor of the multivariate data $\balpha(s_1), \dots, \balpha_{s_1}$ has the form
+\begin{equation}
+	\hat{\balpha}(s_0) = \sum_{i=1}^n \balpha(s_i)\Gamma_i \label{kriging:predictor}
+\end{equation}
+where $\Gamma_i$ is a $q \times q$ matrix with $ij^{th}$ element equal to $\lambda_{ij}$. 
+\begin{equation}
+		\hat{\balpha}(s_0) = \sum_{i=1}^n [\alpha_1(s_i), \dots, \alpha_q(s_i)] 
+		\left[ 
+			\begin{array}{ccc}
+				\lambda^i_{11} & \dots & \lambda^i_{1q}\\
+				\vdots & \ddots & \vdots \\
+				\lambda^i_{q1} & \dots & \lambda^i_{qq}
+			\end{array}
+		\right]
+		\label{kriging:predictor 2}
+\end{equation}
+From \eqref{kriging:predictor 2} it is straight forward to derive the form of the components of $\hat{\balpha}(s_0)=[\hat{\alpha}_1(s_0), \dots, \hat{\alpha}_q(s_0)]$
+\begin{equation}
+	\hat{\alpha}_k(s_0) = \sum_{i=1}^n\sum_{j=1}^q\alpha_j(s_i)\lambda^i_{jk}, \mbox{ } k = 1, \dots, q.
+\end{equation}
+The off-diagonal values, $\lambda^i_{jk}$ $j \neq k$, are connected to the cross-covariance of the scalar random fields $\alpha(s)$ and are all equal to zero for a process with no cross-covariance; that is, under the assumption that $Cov(\alpha_j(s), \alpha_k(s)) = 0$ for $j \neq k$
+\begin{equation}
+	\lambda^i_{jk} = \begin{cases}
+														0 & \text{ if } j \neq k\\
+														\sum_{jj}^i = 1 & \text{for each $j$}\\
+ 										\end{cases}
+\end{equation}
 
-Steps for prediction at unobserved location $s_0$: 
-\begin{enumerate}
-	\item Estimate the principal component functions, $\hat{\psi}^{(1)}, \hat{\psi}^{(2)}, \dots, \hat{\psi}^{(q)}$, choosing $q$ to account for at least 90\% of the total variation. 
-	\item Compute the projection of sample curves onto principal component functions 
-	\item Perform standard scalar-valued geostatistical analysis by fitting variograms to each scalar coefficient field.
-	\item Compute kriged estimates of the coefficients: $\hat{\alpha}_{s_0}^{(1)}, \hat{\alpha}_{s_0}^{(2)}, \cdots, \hat{\alpha}_{s_0}^{(q)}$ .
-	\item The functional cokriging predictor of the curve at location $s_0$ is given by
-	\begin{equation}
-		\widehat{X}_{s_0}(t)_{ok} = \sum_{k=1}^{q} \hat{\alpha}_{s_0}^{(k)}\hat{\psi}^{(k)}(t).
-	\end{equation} 
+This shows that for an isotopic process with no cross-correlation, the kriging predictor is equivalent to kriging the components (\cite{wackernagel2003multivariate}, Ch. 25). Thus the problem of kriging a function is equival to univariate kriging of scalar coefficients. 
+
+% Steps for prediction at unobserved location $s_0$:
+% \begin{enumerate}
+% 	\item Estimate the principal component functions, $\hat{\psi}^{(1)}, \hat{\psi}^{(2)}, \dots, \hat{\psi}^{(q)}$, choosing $q$ to account for at least 90\% of the total variation.
+% 	\item Compute the projection of sample curves onto principal component functions
+% 	\item Perform standard scalar-valued geostatistical analysis by fitting variograms to each scalar coefficient field.
+% 	\item Compute kriged estimates of the coefficients: $\hat{\alpha}_{s_0}^{(1)}, \hat{\alpha}_{s_0}^{(2)}, \cdots, \hat{\alpha}_{s_0}^{(q)}$ .
+% 	\item The functional cokriging predictor of the curve at location $s_0$ is given by
+% 	\begin{equation}
+% 		\widehat{X}_{s_0}(t)_{ok} = \sum_{k=1}^{q} \hat{\alpha}_{s_0}^{(k)}\hat{\psi}^{(k)}(t).
+% 	\end{equation}
 	
 	%\todo{describe variance of the estimator}
-\end{enumerate}
+%\end{enumerate}
 
 
 % section functional_kriging_predictor (end)
@@ -211,12 +243,19 @@ Steps for prediction at unobserved location $s_0$:
 % (fold)
 \label{sec:numerical_experiments}
 
-In this section we conduct investigations of the properties of the estimators and predictors using the function process
+In this section we conduct investigations using simulated data. We generate functional data as
 \begin{equation}
-	X(t) = \sum^{3}_{k=1}\zeta_k Z_k \cos(k\pi t), \hspace{0.5cm} t \in [0,1], 
+	X_s(t) = \sum^{3}_{k=1}\zeta_k Z_k(s) \cos(k\pi t) \hspace{0.5cm} t \in [0,1], 
 	\label{eq:sim process2} 
 \end{equation}
-where $Z_k$ were sampled from a Gaussian random field and \(\zeta=(-1)^{k+1}k^{-2}\). 
+where \(\zeta_k=(-1)^{k+1}k^{-2}\). The random variables $Z_k(s)$ are sampled from a Gaussian random field with $E[Z_k(s)]=0$ and 
+\begin{equation}
+	Cov(Z_k(s_i), Z_j(s_l)) = \begin{cases} 
+																e^{-\norm{s_i - s_l}/r} &\mbox{ if } k = j\\
+																0 & \mbox{ if } j \neq k.
+															\end{cases}
+	\	label{eq:exp cov}
+\end{equation} 
 
 
 \subsection{Simulation study of the spatially weighted covariance function estimator} % (fold)
@@ -247,14 +286,25 @@ where $Z_k$ were sampled from a Gaussian random field and \(\zeta=(-1)^{k+1}k^{-
 % 	\widehat{C}_{\lambda}=\stackrel[C \in \H\otimes \H]{}{\text{ argmin}} \left\{ l_{n}(C)+\lambda\left\Vert C\right\Vert _{\breve{\H}}^{2} \right\},
 % 	\label{covest}
 
-In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from a grid consisting of sparse locations (low point intensity) and a clustered group of locations (high point intensity) shown in Figure~\ref{fig:grid3}. Different levels of spatial dependence are modeled through the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2} each having an exponential covariance function, 
+In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from the grid shown in Figure~\ref{fig:grid3} consisting of sparse locations and a clustered group of locations. Different levels of spatial dependence are modeled through the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2} each having an exponential covariance function, 
 \begin{equation}
 	cov(s_j, s_k) = \sigma^2e^{-\frac{\norm{s_j - s_k}}{r}},\label{eq:exp cov}
 \end{equation}
 but with different cases corresponding to different values of the range parameter. 
 
+Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that correspond to the range values: $r = 0.1, 0.2, 0.3$ ($\sigma^2=1$), representing cases of weak, moderate and strong spatial dependence, respectively. To help understand how the connection between the covariance functions and the spatial locations, Table~\ref{tab:corr values} shows the value of the correlation function at the shortest distance between clustered curves, and the value of the correlation function at the shortest distance between the sparse locations. 
 
-Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that correspond to the range values: $r = 0.1, 0.2, 0.3$ ($\sigma^2=1$), representing cases of weak, moderate, and strong spatial dependence, respectively. Table~\ref{tab:corr values} shows the value of the correlation function at the shortest distance between densely located curves, and the value of the correlation function at the shortest distance between the sparse locations. We used 20 observations per curve and a negligible noise variance in the simulations. 
+In order to gain insight into the performance of the covariance estimator in \eqref{eq:diag weighted loss function} simulate functional data sets using the observation model 
+\begin{equation}
+	Y^{(k)}_{ij}(t_{ij}) = X_{ij}(t_{ij}) + \epsilon_ij, \mbox{ } i = 1, \dots, 68; j = 1, \dots, 20; k = 1, \dots, 100,
+\end{equation}
+where $\epsilon_{ij} \sim N(0, 0.01^2)$ and the superscript $k$ indexes simulated data sets. The number of observations per curve and observation error variance are fixed. We generate data sets from this model varying the range parameter $r \in \{0.1, 0.2, 0.3\}$ and the weight parameter $p \in \{0, 1/3, 1/2, 1\}$. 
+
+For each simulated data set, $Y^{(k)}$, the integrated squared difference between the estimated and true covariance function is calculated. We define the quantity $L$ to be the average integrated squared difference
+\begin{equation}
+	L = \frac{1}{100}\sum_{k=1}^{100}\int_{[0,1]^2} [\hat{C}^{(k)}(t_1, t_2) - C(t_1,t_2)]^2dt_1dt_2.
+\end{equation}
+The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where value of $L$ for each simulation scenario is plotted with lines connecting points with the same strength of spatial dependence. The spatial weights make more of an improvement on estimation for curves with stronger spatial correlation, though the optimal choice of the weight parameter appears to be near $1/2$ for all scenarios. We also note that very little estimation performance is sacrificed by using the spatial weights for independent curves for $p \leq 1/2$.
 
 % plot of locations used to simulate curves
 \begin{figure}[h]
@@ -301,12 +351,12 @@ Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that 
 
 \subsection{Comparing prediction performance} % (fold)
 \label{sub:comparing_prediction_performance}
-This simulation study is designed to compare the prediction performance among methods for functional kriging. Figure \ref{fig:pred locations} shows a spatial grid of 68 location from which spatially correlated data were simulated using an exponential covariance function with range $r = 2$ (see Figure \ref{fig:exp_corr_funs}), and observed data consisted of 10 observations from each curve with noise ($\sigma=0.3$). Prediction of functions at 12 unobserved locations was carried out for each of the following four methods.
+This simulation study is designed to compare the prediction performance among methods for functional kriging. Figure \ref{fig:pred locations} shows a spatial grid of 68 locations from which spatially correlated data were simulated using an exponential covariance function with range $r = 2$ (see Figure \ref{fig:exp_corr_funs}), and observed data consisted of 10 observations from each curve with noise ($\sigma_0=0.3$). Prediction of functions at 12 unobserved locations was carried out for each of the following methods.
 \begin{itemize}
-	\item IND: This method uses the overall mean as the prediction for each location.
-	\item OKFD: Ordinary kriging of functional data method described in Section \ref{sec:ordinary_kriging_of_function_valued_data}.
+	%\item IND: This method uses the overall mean as the prediction for each location.
 	\item CFPC: Cokriging functional principal components. This is the (un-weighted) estimator developed in this paper.
 	\item CFPCw: This is the method developed in this paper, but using the weighted covariance estimator with $p=0.5$.
+	\item OKFD: Ordinary kriging of functional data method described in Section \ref{sec:ordinary_kriging_of_function_valued_data}.
 \end{itemize}
 Figure~\ref{fig:curve kriging predictions} an example of predictions for one simulated data set. The numbers on the plots correspond to the numbered locations on the simulation grid (Figure \ref{fig:pred locations}). Boxplots summarizing 100 simulated data sets are shown in Figure~\ref{fig:boxplots pred mse}, where the measured variable is the average prediction mean squared error for the 12 prediction locations. 
 
@@ -315,22 +365,88 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
 
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/pred_locations.pdf} 
+		\includegraphics[width=0.7\textwidth]{Images-ordinary-kriging/Plots/pred_locations.pdf} 
 	\end{center}
-	\caption{Numbers labeled on the plot indicate unobserved locations used for predicting curves.} \label{fig:pred locations} 
+	\caption{Locations of curves generated for the simulation study. Black points show locations used for fitting each model. The 12 red numbers labeled on the plot show prediction locations.} \label{fig:pred locations} 
 \end{figure}
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/pred_curves_exp.pdf} 
+		\includegraphics[width=0.8\textwidth]{Images-ordinary-kriging/Plots/pred_curves_exp.pdf} 
 	\end{center}
-	\caption{Predicted curves at the 12 unobserved locations for a single simulated data set. The black curve is the true curve. The red curve is the CFPC method. The purple curve is the CFPCw method. The blue curve is the OKFD method. } \label{fig:curve kriging predictions} 
+	\caption{Predicted curves at the 12 unobserved locations for a single simulated data set using the process \ref{eq:sim process2} with exponential covariance \eqref{eq:exp cov} $(r = 0.2; \sigma = 1 )$, 20 observations per curve, and observation error standard deviation $\sigma_0 = 0.3$. The true curves at prediction locations are shown as black solid lines. } \label{fig:curve kriging predictions} 
 \end{figure}
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/boxplots_dep2_m10_sigma3.pdf} 
+		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/kriging_boxplots_all.pdf} 
 	\end{center}
-	\caption{Boxplots showing prediction mean squared error from 12 unobserved locations for 100 simulated data sets. } \label{fig:boxplots pred mse} 
+	\caption{Boxplots showing distribution of the average prediction error, $\norm{\hat{X}(t) - X(t)}^2_{L_2}$, across the 12 unobserved locations shown in \ref{fig:pred locations} for 100 simulated data sets. The curves were simulated using the functional process in \eqref{eq:sim process2} with the covariance function in \eqref{eq:exp cov}. The plot label `dependence' refers to the value of the range parameter, $r$, in the covariance function. The plot label `sigma' refers to the observation error standard deviation $\sigma_0$ in \eqref{kriging:observation model}. } 
+	\label{fig:boxplots pred mse} 
 \end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% tables prediction MSE for various functional kriging methods
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{table}
+	\begin{center}
+	\caption{Prediction error for the kriging predictors using exponential covariance function with r = 0.2}
+		\begin{tabular}
+			{|c|c|l|c|} \hline $\sigma_0$ & m & method & MSE \\
+			\hline \multirow{6}{*}{0.01}& \multirow{3}{*}{10}
+			  &CFPC&  0.230  (0.011)  \\
+			& &CFPCw& 0.218  (0.010)  \\
+			& &OKFD& 0.198  (0.009) \\
+			\cline{2-4} & \multirow{3}{*}{20}
+			  &CFPC& 0.206  (0.009) \\
+			& &CFPCw&  0.188  (0.008)  \\
+			& &OKFD& 0.182  (0.008)  \\
+			\hline \multirow{6}{*}{0.3}& \multirow{3}{*}{10}
+			  &CFPC& 0.233  (0.011)   \\
+			& &CFPCw& 0.210  (0.008) \\
+			& &OKFD& 0.214  (0.009)  \\
+			\cline{2-4} & \multirow{3}{*}{20}
+			  &CFPC& 0.227  (0.011)  \\
+			& &CFPCw& 0.222  (0.009)  \\
+			& &OKFD& 0.225  (0.010)  \\
+			\hline
+		\end{tabular}
+	\label{tab:kriging_pred}
+	\end{center}
+\end{table}
+
+\begin{table}
+	\begin{center}
+	\caption{Prediction error for the kriging predictors using exponential covariance function with r = 0.3}
+		\begin{tabular}{|c|c|l|c|} \hline
+			$\sigma_0$ & m & method & MSE \\
+			\hline
+			\multirow{6}{*}{0.01}& \multirow{3}{*}{10}
+			  &CFPC&  0.153  (0.007)  \\
+			& &CFPCw& 0.153  (0.007)  \\
+			& &OKFD& 0.138  (0.006) \\
+			\cline{2-4} & \multirow{3}{*}{20}
+			  &CFPC& 0.138  (0.007) \\
+			& &CFPCw&  0.144  (0.006)  \\
+			& &OKFD& 0.137  (0.006) \\
+			\hline \multirow{6}{*}{0.3}& \multirow{3}{*}{10}
+			  &CFPC& 0.164  (0.006)  \\
+			& &CFPCw& 0.149  (0.006) \\
+			& &OKFD& 0.155  (0.006) \\
+			\cline{2-4} & \multirow{3}{*}{20}
+			  &CFPC& 0.151  (0.006)  \\
+			& &CFPCw& 0.141  (0.005) \\
+			& &OKFD& 0.135  (0.005)  \\
+			\hline
+		\end{tabular}
+	\label{tab:kriging_pred_2}
+	\end{center}
+\end{table}
+
 % subsection comparing_prediction_performance (end)
 
 \section{Discussion} % (fold)

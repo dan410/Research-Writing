@@ -3,6 +3,10 @@
 %!TEX root = ../dissertation.tex
 \chapter{FUNCTIONAL DATA ANALYSIS APPROACH TO LAND COVER CLASSIFICATION IN INDIA USING MERIS TERRESTRIAL CHLOROPHYLL INDEX} \label{phenology}
 
+\section{Abstract}
+
+We introduce a functional data analysis approach to land cover classification using Medium Resolution Imaging Spectrometer (MERIS) Terrestrial Chlorophyll Index (MTCI) data. MTCI data are used to study annual life-cycles of terrestrial vegetation. Past studies have focused on estimating phenological variables such as onset of greenness and end of senescence for specific vegetation types. Here we consider the converse question: can phenological patterns be used to identify vegetation types? We propose a two-stage modeling approach. First, the annual temporal measurements at each spatial location are modeled as functional data and are represented using the leading functional principal components (FPC) as the empirical basis functions. We describe a nonparametric estimator of FPCs using a reproducing kernel Hilbert space framework and introduce a modified version of this estimator suitable for spatially dependent functional data. Second, we perform classification based on linear discriminant analysis by modeling the coefficient vectors as multivariate random variables. We demonstrate this methodology on a region in southern India using MTCI data from 2003-2007, where we focus on distinguishing between agricultural land and natural vegetation.
+
 \section{Introduction}
 
 Phenology is the study of annual life-cycles of terrestrial vegetation and how they are effected by climate change or other environmental variables. Understanding vegetation phenology and its spatio-temporal variation is required to reveal and predict ongoing changes in Earth system dynamics (\cite{Jeganathan:2010gqa}). While ground based phenological measurements can provide information on specific species with high temporal resolution it is challenging to get rich spatial information (\cite{Studer:2007hd}). Monitoring phenology at the ground level also suffers from subjectivity, and a difficulty to relate field data with climatic variables (\cite{Jeganathan:2010gqa}). Remotely sensed data, on the other hand, can provide spatial information at local and global scales, but satellite based equipment typically has a lower limit to the spatial resolution it can achieve, thus making it challenging to associate a spatial unit with a species or vegetation type. 
@@ -46,14 +50,10 @@ The MTCI data we work with has been preprocessed to deal with erroneous values. 
 
 
 \begin{figure}
-	[htbp] \centering 
-	\includegraphics[width=0.49\linewidth]{Images-phenology-fda/Satellite/India-current.png} 
-	\includegraphics[width=0.49\linewidth]{Images-phenology-fda/Satellite/India-5-12-2000.png} \caption{Satellite image of study region in souther India from 2014 (left) and 2000 (right).} \label{fig:india} 
-\end{figure}
-
-\begin{figure}
-	[htbp] \centering 
-	\includegraphics[width=\linewidth]{Images-phenology-fda/land_cover.pdf} \caption{Land cover classification at 4.6~km spatial resolution derived from GLC2000 land cover database} \label{fig:land cover} 
+	[htbp] 
+	%\includegraphics[width=0.49\linewidth]{Images-phenology-fda/Satellite/India-current.png} 
+	\hspace{1.5cm}\includegraphics[width=0.55\linewidth]{Images-phenology-fda/Satellite/India-5-12-2000.png}   \\
+	\includegraphics[width=\linewidth]{Images-phenology-fda/land_cover.pdf} \caption{Satellite image of study region in souther India from May 2000 (top). Land cover classification at 4.6~km spatial resolution derived from GLC2000 land cover database (bottom).} \label{fig:land cover} 
 \end{figure}
 
 \begin{figure}
@@ -252,7 +252,7 @@ Figures \ref{partimat 2003}, \ref{partimat 2004},\ref{partimat 2005},\ref{partim
 
 
 % section results (end)
-\section{Discussion} 
+\section{Conclusions} 
 We have developed an approach to land cover classification between agricultural and natural vegetation using observe MTCI data. The classification maps shown in Figure \ref{fig:classification map} indicate that a large number of locations that the GLC2000 based classification labelled as natural vegetation are being classified as agriculture. Many of the discrepancies are along the center ridge of where it is not surprising to see conflicting classifications as this is where the agricultural east converges with the tropical west; however there are two areas within on the west side of the country that seem to be consistently classified as agricultural: a large area toward the northern border of the region, and a small grouping of cells near the middle of the western side of the country. 
 
 Satellite imagery sheds some light on what might be causing this effect. Figure \ref{fig:north india} shows a zoomed in satellite image of the northern area of the region both in the year 2000 and in 2003. There appears to be large area of possible deforested land that is much more apparent in 2003 than it is the satellite picture from 2000. Figure \ref{fig:north india zoom} shows a high resolution image of the deforested area. This finding shows that the classification method is effective at detecting anthropomorphic changes in vegetation land cover using the MTCI data. 
@@ -264,14 +264,24 @@ The results do not necessarily indicate an increase of agricultural land over ti
 
 % (fold)
 \label{sec:discussion}
+
+
+\begin{figure}
+	[htbp] \centering 
+	\includegraphics[width=0.7\linewidth]{Images-phenology-fda/Plots/landcover_overlay_background.png} \\[0.5cm]
+	\includegraphics[width=0.7\linewidth]{Images-phenology-fda/Plots/landcover_overlay.png} \\
+	\caption{Satellite image of northwestern part of the study region in southern India in 2014 (top). Areas in the year 2007 designated as agricultural by the LDA classifier, but labeled as vegetation by the GLC2000 database are shown in red (bottom).} 
+	\label{fig:classification overlay} 
+\end{figure}
+
 \begin{figure}
 	[htbp] \centering 
 	\includegraphics[width=0.7\linewidth]{Images-phenology-fda/Satellite/India-2000.png} \\[1cm]
 	\includegraphics[width=0.7\linewidth]{Images-phenology-fda/Satellite/India-10-10-2003.png} \\
 	\caption{Satellite image of northwestern part of the study region in southern India from 2000 (top) and 2003 (bottom). } 
-	
 	\label{fig:north india} 
 \end{figure}
+
 \begin{figure}
 	[htbp] \centering 
 	\includegraphics[width=0.7\linewidth]{Images-phenology-fda/Satellite/India-12-29-2003.png} \caption{Satellite image of study region in souther India showing an area of possible deforestation and agricultural development.} 
@@ -284,27 +294,27 @@ The results do not necessarily indicate an increase of agricultural land over ti
 
 \begin{figure}
 	[htbp] \centering 
-	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2003.pdf} \caption{} 
+	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2003.pdf}  \caption{Plot of linear discriminant analysis decision boundary for all 2-d partitions the empirical basis functions using data from 2003.}
 	\label{partimat 2003} 
 \end{figure}
 \begin{figure}
 	[htbp] \centering 
-	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2004.pdf} \caption{} 
+	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2004.pdf}  \caption{Plot of linear discriminant analysis decision boundary for all 2-d partitions the empirical basis functions using data from 2004.}
 	\label{partimat 2004} 
 \end{figure}
 \begin{figure}
 	[htbp] \centering 
-	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2005.pdf} \caption{} 
+	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2005.pdf}  \caption{Plot of linear discriminant analysis decision boundary for all 2-d partitions the empirical basis functions using data from 2005.}
 	\label{partimat 2005} 
 \end{figure}
 \begin{figure}
 	[htbp] \centering 
-	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2006.pdf} \caption{} 
+	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2006.pdf}  \caption{Plot of linear discriminant analysis decision boundary for all 2-d partitions the empirical basis functions using data from 2006.}
 	\label{partimat 2006} 
 \end{figure}
 \begin{figure}
 	[htbp] \centering 
-	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2007.pdf} \caption{} 
+	\includegraphics[width=0.8\linewidth]{Images-phenology-fda/Plots/partimat_2007.pdf}  \caption{Plot of linear discriminant analysis decision boundary for all 2-d partitions the empirical basis functions using data from 2007.}
 	\label{partimat 2007} 
 \end{figure}
 

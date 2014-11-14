@@ -51,6 +51,14 @@
 % optional package to create highlighted notes within the document indicating work that needs to be done
 \usepackage{todonotes} 
 \usepackage{lineno}
+\usepackage{xcolor, colortbl}
+\newcommand{\mc}[2]{\multicolumn{#1}{c}{#2}}
+\definecolor{Gray}{gray}{0.85}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\definecolor{lightgray}{gray}{0.9}
+
+\newcolumntype{a}{>{\columncolor{Gray}}c}
+\newcolumntype{b}{>{\columncolor{white}}c}
 
 %\linenumbers
 % theorem environments
@@ -92,6 +100,7 @@
 \newcommand{\blambda}{\boldsymbol\lambda} 
 \newcommand{\wh}[1]{\widehat{#1}} 
 \newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\renewcommand{\balpha}{\boldsymbol\alpha}
 
 \newcommand{\hk}{H(K)} 
 \newcommand{\hkk}{H(K\otimes K)}

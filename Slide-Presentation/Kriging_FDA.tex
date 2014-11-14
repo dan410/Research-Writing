@@ -1,0 +1,169 @@
+%!TEX root = /Users/fort002/Google Drive/Research/Write_ups/Dissertation/Slide-Presentation/Fortin_diss_slides.tex
+
+
+%%%%% FUNCTIONAL KRIGING %%%%%
+\frame{
+\begin{center}
+ESTIMATION AND KRIGING FOR SPATIALLY INDEXED FUNCTIONAL DATA
+\end{center}
+}
+\frame
+{
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in]{Plots/canadian-weather.pdf}
+\caption{ Mean monthly temperatures for Canadian weather stations.}
+\end{center}
+\end{figure}
+}
+
+
+\frame
+{
+\frametitle{Geostatics for scalar valued random fields}
+\[
+	 \left\{ \boldsymbol\chi_s: s \in D  \subseteq \Real^2\right\} 
+\] 
+data: $\left\{ \chi_{s_1}, \chi_{s_2}, \dots, \chi_{s_n} \right\} \hspace{0.2cm} i = 1, \dots, n$
+
+Kriging predictor (Best linear unbiased predictor):
+
+\[
+\widehat{\chi_{s_0}} = \sum_{i=1}^n \lambda_i \chi_{s_i}
+\]
+Unbiased constraint: 
+\[
+\sum_{i=1}^n \lambda_i = 1
+\]
+Weights $\lambda_i$ are determined by the variogram
+\[
+\gamma(h) = \frac{1}{2}Var(\chi_{s+h} -\chi_s)
+\]
+}
+
+\frame
+{
+  \textbf{Spatial functional process:}\\
+	\[
+	 \left\{ \boldsymbol\chi_s(\cdot): s \in D  \subseteq \Real^2\right\} 
+	 \] 
+	 
+	$\boldsymbol\chi_s(\cdot)$ second order stochastic process on a compact set $\mathcal{T} \subset \Real$\\[0.2cm]
+	
+	\textbf{What we actually observe}:\\[0.2cm]
+	
+	$y_{i,j} = \chi_{s_i}(t_j) + \epsilon_{i,j} \hspace{1cm} i = 1,\dots, n; \hspace{0.2cm} j = 1,\dots, m_i$\\[0.3cm]
+	
+	$n =$ number of curves\\
+	$m_i=$ number of observations on curve $i$
+}
+
+\frame
+{
+First attempt at functional geostatistics: Goulard and Volts (1993)
+\begin{itemize}
+\item{\textbf{Method 1}} functional version of the variogram
+\item{\textbf{Method 2}} fitting curves, cokriging the coefficients\\[0.2cm]
+\end{itemize}
+Giraldo, Delicado, and Mateu (2011) extend \textbf{Method 1}
+\begin{itemize}
+\item assume $\chi_s(t)$ take values in $L_2(\T)$
+\item estimate curves non-parametrically using B-splines
+\item Functional Variogram \[ \gamma(h) = \frac{1}{2}E\left[ \int_{\T}(\chi_t(s_i) - \chi_t(s_j))^2 dt \right] , h = \norm{s_i - s_j}\]
+\item Predictor \[
+\widehat{\chi_{s_0}(t)} = \sum_{i=1}^n \lambda_i \chi_{s_i}(t)
+\]
+\end{itemize}
+%Nerini, Monestiez, Mant\'e (2009) extend \textbf{Method 2}
+%\begin{itemize}
+%\item assume $\chi_s(t)$ take values in a Reproducing Kernel Hilbert Space
+%\item project sample curves into an orthogonal basis (Legendre polynomials)
+%\end{itemize}
+}
+
+
+
+\frame
+{
+\frametitle{Our Approach extends method 2}
+\begin{itemize}
+\item We assume $\boldsymbol\chi(s; \cdot)$  takes values in a RKHS $\H$. \\[0.2cm]
+\item $\chi(s;t)$ admit the following representation 
+\begin{equation}
+ 	\chi(s;t) = \mu(t) + \epsilon(s;t),
+\end{equation}
+where $\mu(t)$ represents large-scale structure which does not depend on spatial location and $\epsilon(s;t)$ is a mean zero spatially correlated random effect. 
+ \item $\epsilon(s;t)$ can be represented by the Karhunen-Loeve expansion $\epsilon(s;t) = \sum_{k=1}^{\infty} \alpha_k(s)\psi_k(t)$. 
+ \item For each integer $k$, $\alpha_k(s) = \inner{\epsilon(s;t)}{ \psi_k(t)}$ is assumed to be a second-order stationary isotropic random field. 
+ \item Spatial random fields connected to different eigenfunctions are assumed to be uncorrelated, that is 
+\begin{equation}
+	\text{Cov}(\alpha_j(s), \alpha_l(s')) = 0 \hspace{1cm} \text{for } j \neq l.
+	\label{eq:nocrosscor}
+\end{equation} 
+\end{itemize}
+}
+
+\begin{frame}
+The covariance between curves at locations $s_j$ and $s_l$ are given by 
+\begin{align}
+	\text{Cov}(\chi(s_j,t), \chi(s_l, t')) &= \sum_{k=1}^{\infty}\text{Cov}(\alpha_k(s_j), \alpha_k(s_l))\psi_k(t)\psi_k(t')\\
+	&= \sum_{k=1}^{\infty}h_k(\norm{s_j-s_l})\psi_k(t)\psi_k(t'). 
+	\label{eq:cov}
+\end{align}
+
+In practice we work with the truncated expansion $\epsilon(s;t) = \sum_{k=1}^{q} \alpha_k(s)\psi_k(t)$, where $q$ is chosen to preserve most of the (interesting/low frequency) variation. Estimation of the eigenfunctions is done using a method described earlier.
+\end{frame}
+
+
+\frame
+{
+Steps for prediction at unobserved location $s_0$:
+\begin{enumerate}
+\item project sample curves into eigenfunctions: $\hat{\psi}^{(1)}, \hat{\psi}^{(2)}, \dots, \hat{\psi}^{(q)}$ 
+\item compute kriging estimates of the coefficients: $\hat{\alpha}_{s_0}^{(1)}, \hat{\alpha}_{s_0}^{(2)}, \cdots, \hat{\alpha}_{s_0}^{(q)}$ 
+\item $\widehat{\chi_{s_0}(t)}_{ok} = \sum_{k=1}^{q} \hat{\alpha}_{s_0}^{(k)}\hat{\psi}^{(k)}(t)$
+\end{enumerate}
+
+}
+
+
+\begin{frame}
+\frametitle{Adjustments to the covariance function estimation which account for spatial dependence}
+
+Let $\mathbf{b}^{(i)} = [(y_{ij}-\mu(t_{ij}))(y_{ij'}-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, n$. Let
+\[
+\mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T}   )^T,
+\]
+ The elements of $\mathbf{b}$ have non-trivial covariances due to spatial correlation among curves. However, we show that the elements of Cov$(\mathbf{b})$ can be compute using only covariances of the form \eqref{eq:cov}. Let
+\[
+\mathbf{W}= \text{Cov}(\mathbf{b}), 
+\]
+
+then elements of $\mathbf{W}$ can be computed as follows,
+\begin{align} 
+	&\text{Cov}(\epsilon(s_i; t_{j}) \epsilon(s_i;t_{j'}), \epsilon(s_{i'}; t_{l}) \epsilon(s_{i'};t_{l'}) ) \nonumber\\
+	&= 
+	  \text{Cov}(\epsilon(s_i; t_{j}), \epsilon(s_{i'}; t_{l}))\text{Cov}( \epsilon(s_i;t_{j'}), \epsilon(s_{i'};t_{l'})  ) \nonumber \\
+	&+
+		 \text{Cov}(\epsilon(s_i; t_{j}),  \epsilon(s_{i'};t_{l'}) )\text{Cov}(\epsilon(s_i;t_{j'}), \epsilon(s_{i'}; t_{l})) \label{eq:cov of products}
+\end{align}
+The right hand side of \eqref{eq:cov of products} holds under the assumption of Gaussian distributions (see Bohrnstedt). 
+\end{frame}
+
+\begin{frame}
+We propose the following estimator
+\[
+\widehat{C}_{\lambda}=\stackrel[C \in \H\otimes \H]{}{\text{ argmin}} \left\{ l_{n}(C)+\lambda\left\Vert C\right\Vert _{\breve{\H}}^{2} \right\},
+\]
+ where
+
+\begin{equation}
+l_{n}(C)= (\mathbf{b} - \mathbf{C})^T\mathbf{W}^{-1}(\mathbf{b} - \mathbf{C})
+\label{eq:weighted loss function}
+\end{equation}
+and 
+\[
+\mathbf{C} = [C(t_{i,j}, t_{i'j'})]
+\]
+\end{frame}
+%=====================================

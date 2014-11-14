@@ -92,13 +92,14 @@ The main goal in what follows is to describe the form of the covariance function
 Consider the space $\H = \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$. On this space the term $\int_0^1 f''g''dx$ is a semi-inner-product which can be extended to a full inner product by defining an inner product on the subspace $\H_0 = \{f : f'' = 0\}$. Common choices for inner products in $\H_0$ are $\inner{f}{g}_0 = f(0)g(0) + f'(0)g'(0)$ or $\inner{f}{g}_0 = (\int_0^1fdx)(\int_0^1gdx) + (\int_0^1f'dx)(\int_0^1g'dx)$. We work with the latter because it corresponds to a mathematically convenient expression for the reproducing kernel. 
 
 The space $\H$ with inner product 
-\begin{align*}
-	\inner{f}{g} &= \inner{f}{g}_0 + \inner{f}{g}_1 \\
+\begin{align}
+	\inner{f}{g} &= \inner{f}{g}_0 + \inner{f}{g}_1 \nonumber \\
 	&= \left(\int_0^1fdx\right)\left(\int_0^1gdx\right) + \left(\int_0^1f'dx\right)\left(\int_0^1g'dx\right) + \int_0^1 f''g''dx 
-\end{align*}
+	\label{inner prod}
+\end{align}
 is a RKHS with a reproducing kernel that can be conveniently expressed in terms of the functions 
 \begin{equation}
-	k_r(x) = -\left( \sum_{\mu = -\infty}^{-1} + \sum_{\mu=1}^{\infty} \right) \frac{\exp(2\pi i \mu x)}{(2 \pi i \mu)^r}, r = 1,2, \dots. \label{eq:kfuns} 
+	k_r(x) = -\left( \sum_{\mu = -\infty}^{-1} + \sum_{\mu=1}^{\infty} \right) \frac{\exp(2\pi i \mu x)}{(2 \pi i \mu)^r}, r = 1,2, \dots.\nonumber \label{eq:kfuns} 
 \end{equation}
 The functions $k_r(x)$ in \eqref{eq:kfuns} are scaled Bernoulli polynomials, $k_r(x) = \frac{B(r)}{r!}$. The space $\H$ has an orthogonal decomposition $\H = \H_0 \tsum \H_1$ with corresponding reproducing kernel $R(x,y) = R_0(x,y) + R_1(x,y)$, where 
 \begin{align}
@@ -230,7 +231,7 @@ where $\{\psi_m(t)\}_{m=1,2,\ldots}$ are a sequence of orthonormal eigenfunction
 \end{equation*}
 and the random variables $\{\alpha_m \}_{m=1,2,\ldots}$ are uncorrelated and satisfy $E(\alpha_m)=0$ and Var($\alpha_m$) = $\lambda_m$, $\sum_m \lambda_m < \infty$. The eigenfunctions $\{\psi_m(t)\}_{m=1,2,\ldots}$ corresponding to $C(s,t)$ are called the principal component functions and the coefficients $\{\alpha_m \}$ are the functional principal component scores of $X(t)$. We seek functions $\hat{\psi}(s)$ that satisfy satisfy 
 \begin{equation}
-	\label{eq:eigenfuns} \int \hat{C}(s,t)\hat{\psi}(t)dt=\theta\hat{\psi}(s). 
+	\label{eq:eigenfuns} \int \hat{C}(s,t)\hat{\psi}(t)dt=\theta\hat{\psi}(s). \nonumber
 \end{equation}
 
 Methods for deriving principal component functions were developed in \cite{FDA} for functions represented by finite basis representation, i.e. $X(t) = \mathbf{b}'\mathbf{g}(t)$, where $\mathbf{g}(t)$ is a vector of basis functions. Using the finite dimensional covariance function representation in \eqref{eq:covest} we adapt these results by considering the vector of functions 
@@ -240,10 +241,10 @@ Methods for deriving principal component functions were developed in \cite{FDA} 
 Using $\mathbf{g}$ in \eqref{eq:g} the covariance function estimator in \eqref{eq:covest} has the representation $\hat{C}(s,t)= \mathbf{g}(s)'A\mathbf{g}(t)$ where \vspace{0.8cm} 
 \begin{center}
 	$A = \left( 
-	\begin{array}{cc:cccc}
+	\begin{array}{cc|cccc}
 		d_{00,00} & d_{01,00} & c_{1.} & c_{2.} & \dots & c_{K.}\\
 		d_{00,01} & d_{01,01} & \sum_j c_{1j}k_1(t_j) & \sum_j c_{2j}k_1(t_j) & \dots & \sum_j c_{Kj}k_1(t_j)\\
-		\hdashline c_{.1} & \sum_j c_{j1}k_1(t_j) & c_{11} & c_{12} & \dots & c_{1K}\\
+		\hline c_{.1} & \sum_j c_{j1}k_1(t_j) & c_{11} & c_{12} & \dots & c_{1K}\\
 		c_{.2} & \sum_j c_{j2}k_1(t_j) & c_{21} & c_{22} & \dots & c_{2K}\\
 		\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
 		c_{.K} & \sum_j c_{jK}k_1(t_j) & c_{K1} & c_{K2} & \dots & c_{KK} 
