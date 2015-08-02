@@ -64,4 +64,5 @@ Thumbs.db
 *.bst
 #*.sty
 #*.cls
+.dissertation.lb
 

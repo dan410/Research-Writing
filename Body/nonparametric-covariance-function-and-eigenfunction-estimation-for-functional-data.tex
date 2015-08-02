@@ -8,7 +8,7 @@
 % (fold)
 \label{sec:abstract}
 
-Functional principal components has gained much popularity in the are of functional data analysis as an exploratory and as a modeling tool. Principal compenent functions are known to correspond to the eigenfunctions of the covariance operator. Due to this fact, much work has been done on flexible methods for covariance function estimation. In this paper we investigate an approach to covariance function estimation where the curves are assumed to belong to a reproducing kernel Hilbert space (RKHS). By assuming curves belong to a RKHS, it has been shown that the covariance function necessarily belongs to the corresponding tensor product space--which is itself an RKHS. This fact motivates an approach for nonparametric estimation using the norm on the tensor product space as a smoothing penalty. We adopt this framework and explore how the choice of function space and penalty effect the representation of the estimator---in particular we consider function spaces where the norm is defined on a subspace, resulting in a non-empty unpenalized subspace. We describe the form of the covariance function estimator in this case and derive closed form estimators of the principal component functions. 
+Functional principal components has gained much popularity in the area of functional data analysis as an exploratory and as a modeling tool. Functional principal components are known to correspond to the eigenfunctions of the covariance operator. Due to this fact, much work has been done on flexible methods for covariance function estimation. In this paper we investigate an approach to covariance function estimation where the curves are assumed to belong to a reproducing kernel Hilbert space (RKHS). By assuming curves belong to a RKHS, it has been shown that the covariance function necessarily belongs to the corresponding tensor product space--which is itself an RKHS. This fact motivates an approach for nonparametric estimation using the norm on the tensor product space as a smoothing penalty. We adopt this framework and explore how the choice of function space and penalty affect the representation of the estimator---in particular we consider function spaces where the norm is defined on a subspace, resulting in a non-empty unpenalized subspace. We describe the form of the covariance function estimator in this case and derive closed form estimators of the principal component functions. 
 
 % section abstract (end)
 \section{Introduction} 
@@ -26,7 +26,7 @@ For curves belonging to a RKHS, it can be shown that the covariance function res
 \end{equation}
 where $\lambda\geq0$ is a tuning parameter that balances the fidelity to the data measured by $l_{n}$ and smoothness of the estimate measured by the squared RKHS norm.
 
-In \cite{Cai:2010vr} the convergence rate of this estimator was shown to be superior to the optimal rate for general bivariate smoothing on $[0,1]\times[0,1]$, which is attributed to the fact that estimation is performed over functions in $\H \tprod \H$ instead of the typical Sobelev space used for bivariate smoothing. This implies that the tensor product RKHS is to a certain degree smaller than the typical Sobelev space, thus reducing the effect of ``the curse of dimensionality''.
+In \cite{Cai:2010vr} the convergence rate of this estimator was shown to be superior to the optimal rate for general bivariate smoothing on $[0,1]\times[0,1]$, which is attributed to the fact that estimation is performed over functions in $\H \tprod \H$ instead of the typical Sobelev space used. This implies that the tensor product RKHS is to a certain degree smaller than the typical Sobelev space, thus reducing the effect of ``the curse of dimensionality''.
 
 Using standard arguments from smoothing spline theory (see \cite{Wahba:1990}), the covariance function estimator \eqref{eq:cy-cov-est} has a finite dimensional representation. Further, using this representation, closed form expressions for the eigenfunctions can be derived. This is a significant benefit, as one often has to numerically approximate the eigenfunctions by discretizing the covariance function.
 
@@ -123,7 +123,7 @@ This formulation provides a decomposition of the unpenalized space into function
 \[ \H_{<1>} \tprod \H_{<2>} = (\H_{00<1>} \tsum \H_{01<1>} \tsum \H_{1<1>})\tprod (\H_{00<2>} \tsum \H_{01<2>} \tsum \H_{1<2>}) \]
 into a sum of nine subspaces of the tensor product space. These nine subspaces and their corresponding reproducing kernels are shown in Table \ref{tab:tp decomp}. It is straight forward to derive the reproducing kernels in Table \ref{tab:tp decomp} using the fact that the reproducing kernel on the tensor product space is the product of the reproducing kernels on the marginal spaces, i.e. $R((x_{<1>}, x_{<2>}), (y_{<1>}, y_{<2>}) ) = R_{<1>}(x_{<1>}, y_{<1>})\times R_{<2>}(x_{<2>}, y_{<2>})$. 
 \begin{table}
-	[h] \centering \caption{Tensor product space decomposition with corresponding reproducing kernels.} \label{tab:tp decomp} 
+	[h] \centering \isucaption{Tensor product space decomposition with corresponding reproducing kernels.} \label{tab:tp decomp} 
 	\begin{tabular}
 		{|c|c|} \hline Subspace & Reproducing Kernel\tabularnewline \hline \hline $H_{00<1>}\otimes H_{00<2>}$ & 1\tabularnewline \hline $H_{00<1>}\otimes H_{01<2>}$ & $k_{1}(x_{<2>})k_{1}(y_{<2>})$\tabularnewline \hline $H_{00<1>}\otimes H_{1<2>}$ & $k_2(x_{<2>})k_2(y_{<2>}) - k_4(x_{<2>} - y_{<2>})$\tabularnewline \hline $H_{01<1>}\otimes H_{00<2>}$ & $k_1(x_{<1>})k_1(y_{<1>})$ \tabularnewline \hline $H_{01<1>}\otimes H_{01<2>}$ & $k_1(x_{<1>})k_1(y_{<1>})k_1(x_{<2>})k_1(y_{<2>})$ \tabularnewline \hline $H_{01<1>}\otimes H_{1<2>}$ & $k_1(x_{<1>})k_1(y_{<1>})[k_2(x_{<2>})k_2(y_{<2>}) - k_4(x_{<2>} - y_{<2>})]$\tabularnewline \hline $H_{1<1>}\otimes H_{00<2>}$ & $k_2(x_{<1>})k_2(y_{<1>}) - k_4(x_{<1>} - y_{<1>})$\tabularnewline \hline $H_{1<1>}\otimes H_{01<2>}$ & $[k_2(x_{<1>})k_2(y_{<1>}) - k_4(x_{<1>} - y_{<1>})]k_1(x_{<1>})k_1(y_{<1>})$\tabularnewline \hline $H_{1<1>}\otimes H_{1<2>}$ & $[k_2(x_{<1>})k_2(y_{<1>}) - k_4(x_{<1>} - y_{<1>})]\times$ \tabularnewline & $[k_2(x_{<2>})k_2(y_{<2>}) - k_4(x_{<2>} - y_{<2>})]$\tabularnewline \hline 
 	\end{tabular}
@@ -161,7 +161,7 @@ Efficient estimation of \eqref{eq:covest} including smoothing parameter selectio
 \label{sub:practical_considerations_for_knot_selection}
 
 % subsection practical_considerations_for_knot_selection (end)
-In practice, when curves are not sparsely observed, the number of observed pairs $(t_i, t_j)$ will be large. In this case \cite{CFZ} recommend using knot locations forming a regular grid within the convex hull of the observed points. \cite{Kim:2004tt} investigate this with a simulation study and give a general recommendation of $10n^{2/9}$, where $n$ is the sample size on the product domain. Following this advice, we fix knot locations on a regular grid Let $t_i \in [0,1]; i=1,\dots, K$ be the chosen knot locations on the univariate domain, making $(t_i,t_j)_{1\leq i,j \leq K}$ a regular grid of knot locations on $[0,1]\times[0,1]$. The number of knot locations $K$ puts an upper bound of $K+2$ eigenfunctions because the number of knot locations plus the dimension of the unpenalized space bound the dimension of the solution space for the eigenfunctions as shown in Lemma \ref{thm:eigenfunctions}.
+In practice, when curves are not sparsely observed, the number of observed pairs $(t_i, t_j)$ will be large. In this case \cite{CFZ} recommend using knot locations forming a regular grid within the convex hull of the observed points. \cite{Kim:2004tt} investigate this with a simulation study and give a general recommendation of $10n^{2/9}$, where $n$ is the sample size on the product domain. Following this advice, we fix knot locations on a regular grid. Let $t_i \in [0,1]; i=1,\dots, K$ be the chosen knot locations on the univariate domain, making $(t_i,t_j)_{1\leq i,j \leq K}$ a regular grid of knot locations on $[0,1]\times[0,1]$. The number of knot locations $K$ puts an upper bound of $K+2$ eigenfunctions because the number of knot locations plus the dimension of the unpenalized space bound the dimension of the solution space for the eigenfunctions as shown in Lemma \ref{thm:eigenfunctions}.
 
 \begin{figure}
 	\centering 
@@ -210,7 +210,7 @@ In practice, when curves are not sparsely observed, the number of observed pairs
 		\includegraphics[width= 
 		\textwidth]{Images/basis_fn9.png}  
 	\end{subfigure}
-	\caption{Examples of basis functions from knot locations located on a regular grid on $[0,1]\times [0,1]$.} \label{fig:basis functions} 
+	\isucaption{Examples of basis functions from knot locations located on a regular grid on $[0,1]\times [0,1]$.} \label{fig:basis functions} 
 \end{figure}
 
 % section covariance_function_estimation (end)
@@ -276,7 +276,7 @@ Proof of the lemma is in Section \ref{sec:proofs}.
 % (fold)
 \label{sec:simulations}
 
-This section investigates the finite sample performance of the FPC estimator. For comparison, we also consider the finite basis expansion approach described in \cite{FDA}, where smoothing is done on the individual curves. The choice of smoothing individual curves or performing bivariate smoothing of the sample covariance is typically determined by the sparsity of observations on each curve. Generally one would smooth individual curves when they are densely observed, but smooth the sample covariance when curves are sparsely observed and presumably do not contain enough information at the individual curve level to capture all important features. From here on we will refer to bivariate smoothing of the covariance described in the paper as SSCOV and smoothing individual curves through finite basis expansions as SIC. The \texttt{pca.fd()} function in the R package \texttt{fda} was used for the SIC method. Individual curves where fit using a finite b-spline basis with a smoothing penalty on the second derivative, and GCV was used to select an appropriate smoothing parameter. Five fold cross validation was used to select the smoothing parameter for the SSCOV method. 
+This section investigates the finite sample performance of the FPC estimator. For comparison, we also consider the finite basis expansion approach described in \cite{FDA}, where smoothing is done on the individual curves. The choice of smoothing individual curves or performing bivariate smoothing of the sample covariance is typically determined by the sparsity of observations on each curve. Generally one would smooth individual curves when they are densely observed, but smooth the sample covariance when curves are sparsely observed and presumably do not contain enough information at the individual curve level to capture all important features. From here on we will refer to bivariate smoothing of the covariance described in the paper as SSCOV and smoothing individual curves through finite basis expansions as SIC. The \texttt{pca.fd()} function in the R package \texttt{fda} was used for the SIC method. Individual curves were fit using a finite b-spline basis with a smoothing penalty on the second derivative, and GCV was used to select an appropriate smoothing parameter. Five fold cross validation was used to select the smoothing parameter for the SSCOV method. 
 
 Random curves are simulated independently as 
 \begin{equation}
@@ -315,7 +315,7 @@ We compare the two methodologies by considering cases where the number of observ
 		\includegraphics[width= 
 		\textwidth]{Images-nonparametric/cy-true-wireframe.pdf} \caption{truth} \label{} 
 	\end{subfigure}
-	\caption{Estimated covariance functions using the SSCOV method an a data set consisting of 100 curves simulated from the process $X(t)$ in \eqref{eq:sim process} using observation standard deviation equal to $\sigma_0 = 0.329$. Here $m$ equals the number of observations for each curve. } \label{fig:covfits} 
+	\isucaption{Estimated covariance functions using the SSCOV method an a data set consisting of 100 curves simulated from the process $X(t)$ in \eqref{eq:sim process} using observation standard deviation equal to $\sigma_0 = 0.329$. Here $m$ equals the number of observations for each curve. } \label{fig:covfits} 
 \end{figure}
 
 As an illustration, the fitted covariance function for a single simulated data set (under scenario I) is shown in Figure \ref{fig:covfits}. To understand the general performance of the FPC estimator, we repeated this process 100 times using 100 curves with $\sigma_0=0.369$, resulting in a signal to noise ratio of $2:1$. Figures \ref{fig:fpca-ss-1} and \ref{fig:fpca-fda-1} show the pointwise mean and pointwise central 95\% quantile of the first two estimated functional principal components under senario 1. Figures \ref{fig:fpca-ss-2} and \ref{fig:fpca-fda-2} show results from scenario II, Figures \ref{fig:fpca-ss-3} and \ref{fig:fpca-fda-3} show results from scenario III. Estimation error measured by integrated square error is summarized in Table \ref{tab:fpc-norm}. 
@@ -324,7 +324,7 @@ The general wisdom is to avoid smoothing individual curves with sparse data; how
 
 The most striking difference in performance between the two methods was when we allowed the `time' points for each curved to be generated from different beta distributions (scenario III). The skewed and U-shaped distributions can severely restrict across-the-curve information, and it is clear from Figure \ref{fig:fpca-fda-3} that the SIC method performs poorly at estimating the second functional principal component. By pooling all the data the SSCOV method still performs adequately in this scenario. 
 \begin{table}
-	[ht] \caption{Integrated squared error, $\norm{\hat{\psi}(t) - \psi(t)}^2_{L_2}$, for the first two functional principal compoenents averaged over 100 runs. The value m indicates the number of observations per curve. The Monte Carlo standard error is shown in parentheses.} \centering 
+	[ht] \isucaption{Integrated squared error, $\norm{\hat{\psi}(t) - \psi(t)}^2_{L_2}$, for the first two functional principal compoenents averaged over 100 runs. The value m indicates the number of observations per curve. The Monte Carlo standard error is shown in parentheses.} \centering 
 	\begin{tabular}
 		{|c|c|l|cc|} \hline Scenerio & FPC & m & SSCOV & SIC \\
 		\hline \multirow{6}{*}{I}& \multirow{3}{*}{1st} & 5 & 0.0231 (0.0018) & 0.0150 (0.0011) \\
@@ -361,7 +361,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\caption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-1} 
+	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-1} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -375,7 +375,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-fpca-fda-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\caption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-1} 
+	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-1} 
 \end{figure}
 
 %%%%%%%%%%%%%% Missing Gap data %%%%%%
@@ -391,7 +391,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-gap-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\caption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-2} 
+	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-2} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -405,7 +405,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-gap-fpca-fda-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\caption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-2} 
+	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-2} 
 \end{figure}
 
 %%%%%%%%%%%%%% BETA %%%%%%
@@ -421,7 +421,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-beta-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\caption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-3} 
+	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-3} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -435,7 +435,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-beta-fpca-fda-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\caption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-3} 
+	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-3} 
 \end{figure}
 
 % section simulations (end)

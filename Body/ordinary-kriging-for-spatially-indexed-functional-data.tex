@@ -72,7 +72,7 @@ Implementation of this method requires a preprocessing step involving non-parame
 
 \section{Cokriging functional principal components scores} % (fold)
 \label{sec:cokriging_functional_principal_compents_scores}
-In the method described in the previous section, the set of curves are modeled directly as a spatial random field. The approach we describe here is fundamentally different in that the spatial model is defined on the coefficient vectors corresponding to a finite basis expansion. To ensure the coefficient vector is not high dimensional, each curve is represented as a linear combination of functional principal components. To guarantee such a representation exists and can be estimated efficiently requires assumptions on the function space itself, which we describe here. 
+In the method described in the previous section, the set of curves are modeled directly as a spatial random field. The approach we describe here is fundamentally different in that the spatial model is defined on the coefficient vectors corresponding to a finite basis expansion. To ensure the coefficient vector is not high dimensional, each curve is represented as a linear combination of the leading functional principal components. To guarantee such a representation exists and can be estimated efficiently requires assumptions on the function space itself, which we describe here. 
   We model trajectories $X_s(t)$ as a continuos second order stochastic process with mean $\mu(t)$ and bivariate temporal covariance function
 \begin{equation}
 	C_{0}(t',t)=E([X(t')-\mu(t')][X(t)-\mu(t)]),\mbox{ }\forall t',t\in \T=[a,b]. 
@@ -254,49 +254,20 @@ where \(\zeta_k=(-1)^{k+1}k^{-2}\). The random variables $Z_k(s)$ are sampled fr
 																e^{-\norm{s_i - s_l}/r} &\mbox{ if } k = j\\
 																0 & \mbox{ if } j \neq k.
 															\end{cases}
-	\	label{eq:exp cov}
+	\label{eq:exp cov}
 \end{equation} 
 
 
 \subsection{Simulation study of the spatially weighted covariance function estimator} % (fold)
 \label{sub:simulation covariance}
 
-% subsection simulation_study_of_the_spatially_weighted_covariance_function_estimator (end)
-
-% section numerical_experiments (end)
-
-% %===========================================
-
-% \subsection{Inverse covariance weighting} \label{sec:adjustments to the covariance}
-%
-% Let $\mathbf{b}^{(i)} = [(y_{ij}-\mu(t_{ij}))(y_{ij'}-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, n$. Let
-% \[ \mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T} )^T, \]
-% then the vectors $\mathbf{b}^{(i)}$ contain values related to the sample covariance from curve $i$, and the vector $\mathbf{b}$ contains all sample covariance terms. The elements of $\mathbf{b}$ have non-trivial covariances due to spatial correlation among curves. However, we show that the elements of Cov$(\mathbf{b})$ can be compute using only covariances of the form \eqref{eq:cov}. Let
-% \[ \mathbf{W}= \text{Cov}(\mathbf{b}), \]
-%
-% then elements of $\mathbf{W}$ can be computed as follows,
-% \begin{align}
-% 	\text{Cov}(\epsilon(s_i; t_{j}) \epsilon(s_i;t_{j'}), \epsilon(s_{i'}; t_{l}) \epsilon(s_{i'};t_{l'}) ) &= \text{Cov}(\epsilon(s_i; t_{j}), \epsilon(s_{i'}; t_{l}))\text{Cov}( \epsilon(s_i;t_{j'}), \epsilon(s_{i'};t_{l'}) ) \nonumber \\
-% 	&+ \text{Cov}(\epsilon(s_i; t_{j}), \epsilon(s_{i'};t_{l'}) )\text{Cov}(\epsilon(s_i;t_{j'}), \epsilon(s_{i'}; t_{l})) \label{eq:cov of products}
-% \end{align}
-% The right hand side of \eqref{eq:cov of products} holds under the assumption of Gaussian distributions (see \cite{Bohrnstedt:2010ud}).
-%
-% We propose the following estimator
-% \begin{equation}
-% 	\widehat{C}_{\lambda}=\stackrel[C \in \H\otimes \H]{}{\text{ argmin}} \left\{ l_{n}(C)+\lambda\left\Vert C\right\Vert _{\breve{\H}}^{2} \right\},
-% 	\label{covest}
-
-In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from the grid shown in Figure~\ref{fig:grid3} consisting of sparse locations and a clustered group of locations. Different levels of spatial dependence are modeled through the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2} each having an exponential covariance function, 
-\begin{equation}
-	cov(s_j, s_k) = \sigma^2e^{-\frac{\norm{s_j - s_k}}{r}},\label{eq:exp cov}
-\end{equation}
-but with different cases corresponding to different values of the range parameter. 
+In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from the grid shown in Figure~\ref{fig:grid3} consisting of sparse locations and a clustered group of locations. Different levels of spatial dependence are modeled through the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2} through the range parameter $r$ in \eqref{eq:exp cov}.
 
 Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that correspond to the range values: $r = 0.1, 0.2, 0.3$ ($\sigma^2=1$), representing cases of weak, moderate and strong spatial dependence, respectively. To help understand how the connection between the covariance functions and the spatial locations, Table~\ref{tab:corr values} shows the value of the correlation function at the shortest distance between clustered curves, and the value of the correlation function at the shortest distance between the sparse locations. 
 
 In order to gain insight into the performance of the covariance estimator in \eqref{eq:diag weighted loss function} simulate functional data sets using the observation model 
 \begin{equation}
-	Y^{(k)}_{ij}(t_{ij}) = X_{ij}(t_{ij}) + \epsilon_ij, \mbox{ } i = 1, \dots, 68; j = 1, \dots, 20; k = 1, \dots, 100,
+	Y^{(k)}_{ij}(t_{ij}) = X_{ij}(t_{ij}) + \epsilon_{ij}, \mbox{ } i = 1, \dots, 68; j = 1, \dots, 20; k = 1, \dots, 100,
 \end{equation}
 where $\epsilon_{ij} \sim N(0, 0.01^2)$ and the superscript $k$ indexes simulated data sets. The number of observations per curve and observation error variance are fixed. We generate data sets from this model varying the range parameter $r \in \{0.1, 0.2, 0.3\}$ and the weight parameter $p \in \{0, 1/3, 1/2, 1\}$. 
 
@@ -311,7 +282,7 @@ The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where v
 	\begin{center}
 		\includegraphics[width=0.7\textwidth]{Images-ordinary-kriging/Plots/grid.pdf} 
 	\end{center}
-	\caption{Locations of curves used for the simulation.} \label{fig:grid3} 
+	\isucaption{Locations of curves used for the simulation.} \label{fig:grid3} 
 \end{figure}
 
 % plot of exponential covariance functions
@@ -319,7 +290,7 @@ The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where v
 	\begin{center}
 		\includegraphics[width=0.7\textwidth]{Images-ordinary-kriging/Plots/exp_corr_funs.pdf} 
 	\end{center}
-	\caption{Exponential covariance functions used in the simulation.} \label{fig:exp_corr_funs} 
+	\isucaption{Exponential covariance functions used in the simulation.} \label{fig:exp_corr_funs} 
 \end{figure}
 
 % plots of MSE vs spatial weight values for different values of spatial dependence
@@ -327,13 +298,13 @@ The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where v
 	\begin{center}
 		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/MSE_trends.pdf} 
 	\end{center}
-	\caption{The x-axis shows the value of the scale parameter, $p$, in the weight function. Large values of $p$ correspond to smaller weights for curves in high point intensity areas. The y-axis shows the average integrated square error for the covariance estimator. The error bars show +/- two standard errors.} \label{fig:MSE_trends} 
+	\isucaption{The x-axis shows the value of the scale parameter, $p$, in the weight function. Large values of $p$ correspond to smaller weights for curves in high point intensity areas. The y-axis shows the average integrated square error for the covariance estimator. The error bars show +/- two standard errors.} \label{fig:MSE_trends} 
 \end{figure}
 
 
 \begin{table}
 	\begin{center}
-	\caption{Correlation values corresponding to locations on the simulation grid (Figure~\ref{fig:grid3}) for each level of spatial dependence. The table shows the largest correlation among the subset of dense locations, and the largest correlation among the subset of sparse locations. Spatial dependence is represented by the value of the range parameter $r$ in the exponential covariance function in \eqref{eq:exp cov}.}
+	\isucaption{Correlation values corresponding to locations on the simulation grid (Figure~\ref{fig:grid3}) for each level of spatial dependence. The table shows the largest correlation among the subset of dense locations, and the largest correlation among the subset of sparse locations. Spatial dependence is represented by the value of the range parameter $r$ in the exponential covariance function in \eqref{eq:exp cov}.}
 \begin{tabular}{|c|c|c|}
 	\hline
 	range $r$ & dense locations & sparse locations \\
@@ -367,19 +338,19 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
 	\begin{center}
 		\includegraphics[width=0.7\textwidth]{Images-ordinary-kriging/Plots/pred_locations.pdf} 
 	\end{center}
-	\caption{Locations of curves generated for the simulation study. Black points show locations used for fitting each model. The 12 red numbers labeled on the plot show prediction locations.} \label{fig:pred locations} 
+	\isucaption{Locations of curves generated for the simulation study. Black points show locations used for fitting each model. The 12 red numbers labeled on the plot show prediction locations.} \label{fig:pred locations} 
 \end{figure}
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{Images-ordinary-kriging/Plots/pred_curves_exp.pdf} 
 	\end{center}
-	\caption{Predicted curves at the 12 unobserved locations for a single simulated data set using the process \ref{eq:sim process2} with exponential covariance \eqref{eq:exp cov} $(r = 0.2; \sigma = 1 )$, 20 observations per curve, and observation error standard deviation $\sigma_0 = 0.3$. The true curves at prediction locations are shown as black solid lines. } \label{fig:curve kriging predictions} 
+	\isucaption{Predicted curves at the 12 unobserved locations for a single simulated data set using the process \ref{eq:sim process2} with exponential covariance \eqref{eq:exp cov} $(r = 0.2; \sigma = 1 )$, 20 observations per curve, and observation error standard deviation $\sigma_0 = 0.3$. The true curves at prediction locations are shown as black solid lines. } \label{fig:curve kriging predictions} 
 \end{figure}
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/kriging_boxplots_all.pdf} 
 	\end{center}
-	\caption{Boxplots showing distribution of the average prediction error, $\norm{\hat{X}(t) - X(t)}^2_{L_2}$, across the 12 unobserved locations shown in \ref{fig:pred locations} for 100 simulated data sets. The curves were simulated using the functional process in \eqref{eq:sim process2} with the covariance function in \eqref{eq:exp cov}. The plot label `dependence' refers to the value of the range parameter, $r$, in the covariance function. The plot label `sigma' refers to the observation error standard deviation $\sigma_0$ in \eqref{kriging:observation model}. } 
+	\isucaption{Boxplots showing distribution of the average prediction error, $\norm{\hat{X}(t) - X(t)}^2_{L_2}$, across the 12 unobserved locations shown in \ref{fig:pred locations} for 100 simulated data sets. The curves were simulated using the functional process in \eqref{eq:sim process2} with the covariance function in \eqref{eq:exp cov}. The plot label `dependence' refers to the value of the range parameter, $r$, in the covariance function. The plot label `sigma' refers to the observation error standard deviation $\sigma_0$ in \eqref{kriging:observation model}. } 
 	\label{fig:boxplots pred mse} 
 \end{figure}
 
@@ -394,7 +365,7 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
 
 \begin{table}
 	\begin{center}
-	\caption{Prediction error for the kriging predictors using exponential covariance function with r = 0.2}
+	\isucaption{Prediction error for the kriging predictors using exponential covariance function with r = 0.2}
 		\begin{tabular}
 			{|c|c|l|c|} \hline $\sigma_0$ & m & method & MSE \\
 			\hline \multirow{6}{*}{0.01}& \multirow{3}{*}{10}
@@ -421,7 +392,7 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
 
 \begin{table}
 	\begin{center}
-	\caption{Prediction error for the kriging predictors using exponential covariance function with r = 0.3}
+	\isucaption{Prediction error for the kriging predictors using exponential covariance function with r = 0.3}
 		\begin{tabular}{|c|c|l|c|} \hline
 			$\sigma_0$ & m & method & MSE \\
 			\hline

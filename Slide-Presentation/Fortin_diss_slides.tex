@@ -52,8 +52,8 @@
 \newcommand{\wh}[1]{\widehat{#1}}
 \newcommand{\inner}[2]{\langle #1, #2 \rangle}
 
-\newcommand{\hk}{H(K)}
-\newcommand{\hkk}{H(K\otimes K)}
+\newcommand{\hk}{H(R)}
+\newcommand{\hkk}{H(R\otimes R)}
 
 
 
@@ -69,26 +69,40 @@ Iowa State University}
 \frame{\titlepage}
 
 %%%%% INTRODUCTION %%%%%
-\frame
-{
-\begin{figure}
-\begin{center}
-\includegraphics[width=\textwidth]{Plots/growth-curves.png}
-\caption{ The heights of 10 girls measured at 31 ages.}
-\end{center}
-\end{figure}
-}
 
-\frame
-{
-\begin{figure}
-\begin{center}
-\includegraphics[width=3in]{Plots/canadian-weather.pdf}
-\caption{ Mean monthly temperatures for Canadian weather stations.}
-\end{center}
-\end{figure}
-}
+\begin{frame}[t]{Functional Data Analysis (FDA)}
+	All data are discrete, so why adopt an FDA approach to analysis?
+	
+	\begin{quote}
+ A functional data analysis approach is attractive when a primary variable of interest is best conceptualized as realizations of random smooth curves whose features require flexible estimation.
+	\end{quote}
+	\begin{itemize}
+		\item observations are at such a high frequency that it makes practical sense to treat it as a continous variable
+		\item Scientific questions of interest relate to properties of curves (e.g. derivatives)
+		\item Estimation or prediction of the whole process is desired over a scalar summary of the curve
+	\end{itemize}
+\end{frame}
+%--- Next Frame ---%
+\begin{frame}[t]{Example: Human Growth Curves}
+	\begin{figure}
+	\begin{center}
+	\includegraphics[width=0.8\textwidth]{Plots/growth-curves.png}
+	\caption{ The heights of 10 girls measured at 31 ages.}
+	\end{center}
+	\end{figure}
+\end{frame}
+%--- Next Frame ---%
 
+\begin{frame}[t]{Example: Temperature Profiles at Canadian Weather Stations}
+	\begin{figure}
+	\begin{center}
+	\includegraphics[width=3in]{Plots/canadian-weather.pdf}
+	\caption{ Mean monthly temperatures for Canadian weather stations.}
+	\end{center}
+	\end{figure}
+\end{frame}
+
+%--- Next Frame ---%
 
 \frame{
 \begin{figure}
@@ -123,18 +137,13 @@ Iowa State University}
 \frame{
 Goals:
 \begin{itemize}
-\item Represent curves with an empirical basis consisting of functional principal components.
-\begin{itemize}
-\item FPCs are eigenfunctions that correspond to the covariance function
-\item  \structure{$\int_a^bC(s,t)\psi_j(t)dt = \lambda_j\psi_j(t)$}
-\end{itemize}
-\item Allows spatial structure to be modeled through basis coefficients
+\item Represent curves as linear combination of leading FPCs as empirical basis
+\item Perform classification by utilizing multivariate techniques on basis coefficients
 \end{itemize}
 Outline:
 \begin{enumerate}
 \item Nonparametric covariance estimation and principal component function estimation
 \item Application to phenology data
-\item Predicting curves at unobserved locations
 \end{enumerate}
 }
 
@@ -186,20 +195,20 @@ $\H_{K}\subset L_{2}$ contains functions satisfying
  for $c_{i} \mbox{ with  }\norm{f}_{\H_K}:= \sum_{i=1}^{\infty}\frac{{c_{i}^{2}}}{\lambda_{i}}<\infty$
 \end{frame}
 
-\begin{frame}
-The minimization problem becomes
-\begin{equation*}
-\widehat{f}_{\lambda} = \hspace{.07in}\stackrel[\{c_j\}_{j=1}^{\infty}]{}{\mbox{argmin}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - \sum_{j=1}^{\infty}c_j\phi_j(x_i))^2 + \lambda\ \sum_{j=1}^{\infty}\frac{c_j^2}{\lambda_j} \right\}
-\label{eq:unpenalized objective function}
-\end{equation*}
-The solution is finite dimensional and has the form
-\[
-\hat{f}(x)=\sum_{i=1}^{N}b_{i}K(x,x_{i})
-\]
-This remarkable result is due to the fact that $K(x,y)$ is a 'reproducing' kernel. 
-
-That is great! And it gets better...
-\end{frame}
+% \begin{frame}
+% The minimization problem becomes
+% \begin{equation*}
+% \widehat{f}_{\lambda} = \hspace{.07in}\stackrel[\{c_j\}_{j=1}^{\infty}]{}{\mbox{argmin}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - \sum_{j=1}^{\infty}c_j\phi_j(x_i))^2 + \lambda\ \sum_{j=1}^{\infty}\frac{c_j^2}{\lambda_j} \right\}
+% \label{eq:unpenalized objective function}
+% \end{equation*}
+% The solution is finite dimensional and has the form
+% \[
+% \hat{f}(x)=\sum_{i=1}^{N}b_{i}K(x,x_{i})
+% \]
+% This remarkable result is due to the fact that $K(x,y)$ is a 'reproducing' kernel.
+%
+% That is great! And it gets better...
+% \end{frame}
 \begin{frame}
 The reproducing property: 
 \begin{itemize}
@@ -255,7 +264,7 @@ Consider the space $\H =  \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2
   \end{align*}
 }
 \begin{frame}
-\frametitle{¥}
+\frametitle{}
   The minimization problem becomes
   \begin{equation*}
 \widehat{f}_{\lambda} = \hspace{.07in}\stackrel[f \in \H]{}{\mbox{arg min}} \left\{ \frac{1}{n}\sum_{i=1}^{n}(y_i - f(x_i))^2 + \lambda\norm{P_1(f)}^2_{\H_1} \right\}.
@@ -268,37 +277,37 @@ The solution has the form
 \end{equation*}
 \end{frame}
 
-\begin{frame}
-
-\begin{table}
-\begin{tabular}{|c|c|}
-\hline
-& Starting from kernel \\[0.3cm]
-\hline 
-$[0,1]$ &$\hat{f}(t) =  \sum_{i=1}^N c_iR(t, t_i)$ \\[0.3cm]
-\hline
-$[0,1]\times [0,1]$ & Cai and Yuan (2010) \\[0.3cm]
-\hline
-\end{tabular}
-\end{table}
-
-\begin{table}
-\begin{tabular}{|c|c|}
-\hline
- & Starting from penalty \\[0.3cm]
-\hline 
-$[0,1]$ & $\hat{f}(t) = \sum_{j=1}^M d_j\phi_j(t) + \sum_{i=1}^N c_iR_1(t, t_i)$\\[0.3cm]
-\hline
-$[0,1]\times [0,1]$  & $?$\\[0.3cm]
-\hline
-\end{tabular}
-\end{table}
-
-The focus of our work is to fill in the remaining box, and to derive eigenfunctions for this estimator.
-\end{frame}
+% \begin{frame}
+%
+% \begin{table}
+% \begin{tabular}{|c|c|}
+% \hline
+% & Starting from kernel \\[0.3cm]
+% \hline
+% $[0,1]$ &$\hat{f}(t) =  \sum_{i=1}^N c_iR(t, t_i)$ \\[0.3cm]
+% \hline
+% $[0,1]\times [0,1]$ & Cai and Yuan (2010) \\[0.3cm]
+% \hline
+% \end{tabular}
+% \end{table}
+%
+% \begin{table}
+% \begin{tabular}{|c|c|}
+% \hline
+%  & Starting from penalty \\[0.3cm]
+% \hline
+% $[0,1]$ & $\hat{f}(t) = \sum_{j=1}^M d_j\phi_j(t) + \sum_{i=1}^N c_iR_1(t, t_i)$\\[0.3cm]
+% \hline
+% $[0,1]\times [0,1]$  & $?$\\[0.3cm]
+% \hline
+% \end{tabular}
+% \end{table}
+%
+% The focus of our work is to fill in the remaining box, and to derive eigenfunctions for this estimator.
+% \end{frame}
 
 \begin{frame}\frametitle{Cai and Yuan (2010)}
-Assume the sample path of $X$ belongs to an RKHS $H_{K}.$ Then we
+Assume the sample path of $X$ belongs to an RKHS $H_{R}.$ Then we
 can write
 
 \[
@@ -313,11 +322,11 @@ The covariance function $C_{0}(s,t)$ is given by
 C_{0}(s,t)=\sum_{j,k\geq1}cov(x_{k},x_{j})\phi_{j}(s)\phi_{k}(t)\]
 
 
-which identifies it with the tensor product space $H(K\otimes K)=H(K)\otimes H(K)$,
+which identifies it with the tensor product space $H(R\otimes R)=H(R)\otimes H(R)$,
 an RKHS associated with reproducing kernel
 
 \[
-K\otimes K((s_{1},t_{1}),(s_{2},t_{2}))=K(s_{1},s_{2})K(t_{1},t_{2}).\]
+R\otimes R((s_{1},t_{1}),(s_{2},t_{2}))=R(s_{1},s_{2})R(t_{1},t_{2}).\]
 \end{frame}
 
 %\begin{frame}
@@ -329,41 +338,49 @@ K\otimes K((s_{1},t_{1}),(s_{2},t_{2}))=K(s_{1},s_{2})K(t_{1},t_{2}).\]
 %f(s,t)=\sum_{j,k\geq1}f_{jk}\phi_{j}(s)\phi_{k}(t).\]
 %
 %
-%The product space $H(K\otimes K)$ contains all function $f$ such
+%The product space $H(R\otimes R)$ contains all function $f$ such
 %that
 %
 %\[
-%\left\Vert f\right\Vert _{H(K\otimes K)}^{2}\equiv\sum_{j,k\geq1}\frac{{f_{jk}^{2}}}{\lambda_{j}\lambda_{k}}<\infty.\]
+%\left\Vert f\right\Vert _{H(R\otimes R)}^{2}\equiv\sum_{j,k\geq1}\frac{{f_{jk}^{2}}}{\lambda_{j}\lambda_{k}}<\infty.\]
 %
 %\end{frame}
 
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]{Methodology}
+	\textbf{Process Model:}
+	 Trajectories $X_s(t)$, $t \in [a,b]$ are second order stochastic process with mean $\mu(t)$ and bivariate temporal covariance function
+	\begin{equation*}
+		C_{0}(t',t)=E([X(t')-\mu(t')][X(t)-\mu(t)]) 
+	\end{equation*} 
+	\begin{itemize}
+		\item $t',t\in [a,b]$
+		\item $X_s(t)$ are smooth in that they take values in the RKHS $\H$
+		\item inner product $\inner{f}{g}_{\H}$ and r.k. $R(t',t)$
+		\item $\H= \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2([a,b])\}$
+	\end{itemize}
+	
+\end{frame}
+%--- Next Frame ---%
 
-
-
-\frame{
-\frametitle{Methodology}
-\textbf{Process Model}:
-Let $X(\cdot)$ be a second order stochastic process on $[0,1]$ with covariance function
- \[
-C_{0}(s,t)=E([X(s)-E(X(s))][X(t)-E(X(t))]),\mbox{  }\forall s,t\in [0,1].
-\]
-Assume $X(\cdot)$ takes values in a RKHS $\H$ with r.k. $R(s,t)$. \\
-
-\textbf{Observation Model}:
-Let $\{X_{1},X_{2},\dots,X_{N}\}$ be a collection of independent realizations
-of $X$, and
-\[
-Y_{ij}=X_{i}(t_{ij})+\epsilon_{ij},\mbox{   }j=1,\dots,m;\mbox{ }i=1,\dots,N,
-\]
-\begin{itemize}
-\item $t_{ij}$ are iid on$ [0,1]$.
-\item $\epsilon_{ij}$ are iid with mean zero and finite variance $\sigma_{0}^{2}.$ 
-\item $X,$ sampling locations $t_{ij},$ and measurement errors $\epsilon$ are
-mutually independent. 
-\end{itemize}
-}
+\begin{frame}[t]{Methodology}
+	\textbf{Observation Model:}
+	Let $X_{s_1}(t), \dots, X_{s_N}(t)$ be a collection of realizations of $X_s(t)$.
+	We model observed values $Y_s(t_{ij})$ as
+	\begin{equation*}
+		Y_{s_i}(t_{ij})=X_s(t_{ij})+\epsilon_{ij},\mbox{ }j=1,\dots,m;\mbox{ }i=1,\dots,N, 
+	\end{equation*} 
+	\begin{itemize}
+		\item $s_i$ indexes spatial location
+		\item $j$ indexes discrete observations on a curve
+		\item $t_{ij} \sim \mbox{ iid on }[a,b]$
+		\item `time' observations can be different across curves
+		\item $\epsilon_{ij}$ are iid errors with mean zero and variance $\sigma_{0}^{2}.$
+		\item $X_s(t)$ and $\epsilon_{ij}$ are mutually independent.
+	\end{itemize}
+\end{frame}
+%--- Next Frame ---%
 
 \frame{
 proposed the following
@@ -377,7 +394,7 @@ l_{n}(C)=\sum_{i=1}^{n}\sum_{1\leq j_{1}\neq j_{2}\leq m}([Y_{ij_{1}}-\mu_{0}(t_
 \end{equation*}
 The solution is give by
 \[
-\hat{{C}}_{\gamma}(s,t)=\sum_{i=1}^{n}\{[K(s,t_{ij})]_{1\leq j\leq m}A_{i}[K(t,t_{ij})]'_{1\leq j\leq m}\}.\]
+\hat{{C}}_{\gamma}(s,t)=\sum_{i=1}^{n}\{[R(s,t_{ij})]_{1\leq j\leq m}A_{i}[R(t,t_{ij})]'_{1\leq j\leq m}\}.\]
 }
 
 
@@ -431,12 +448,12 @@ The tensor product space $\H_{<1>} \otimes \H_{<2>}$ has the representation
   \begin{align*}
   \inner{f}{g} &= \inner{f}{g}_0 + \inner{f}{g}_1 \\
   			&= \left(\int_0^1fdx\right)\left(\int_0^1gdx\right) + \left(\int_0^1f'dx\right)\left(\int_0^1g'dx\right) + \int_0^1 f''g''dx
-  \end{align*}¥
+  \end{align*}
   is a RKHS.
 %  \begin{equation}
 %  k_r(x) = -\left( \sum_{\mu = -\infty}^{-1} + \sum_{\mu=1}^{\infty} \right) \frac{\exp(2\pi i \mu x)}{(2 \pi i \mu)^r}, r = 1,2, \dots.
 %  \label{eq:kfuns}
-%  \end{equation}¥
+%  \end{equation}
 \end{frame}
 
 \begin{frame}
@@ -444,23 +461,23 @@ The space $\H$ has an orthogonal decomposition $\H = \H_0 \tsum \H_1$ with corre
   \begin{align*}
   R_0(x,y) &= 1 + k_1(x)k_1(y) \\
   R_1(x,y) &= k_2(x)k_2(y) - k_4(x-y).
-  \end{align*}¥
+  \end{align*}
   The functions  $k_r(x)$ have a rather simple form
   \begin{align*}
   k_1(x) &= x - 0.5\\
   k_2(x) &= \frac{1}{2}(k_1^2(x) - \frac{1}{12}) \\
   k_4(x) &= \frac{1}{24} \left(k_1^4(x) - \frac{k_1^2(x)}{2} + \frac{7}{240} \right)
-  \end{align*}¥
+  \end{align*}
   for $x \in [0,1]$. 
 \end{frame}
 
 \begin{frame}
-\frametitle{¥}
+\frametitle{}
 The unpenalized space $\H_0$ can be decomposed further as $\H_0 = \H_{00} \tsum \H_{01}$ with reproducing kernels
   \begin{align*}
-  ¥R_{00}(x,y) &= 1\\
+  R_{00}(x,y) &= 1\\
    R_{01}(x,y) &= k_1(x)k_1(y).\\
-  \end{align*}¥ 
+  \end{align*} 
 \begin{itemize}
 \item overall decomposition $\H= \H_{00} \tsum \H_{01} \tsum \H_1$. 
 \item Using this decomposition of $\H$ on both marginal domains of $[0,1] \times [0,1]$ results in a natural decomposition of the tensor product space 
@@ -520,12 +537,12 @@ Random curves are simulated independently as
 \begin{equation}
 X(t) = \sum^{50}_{k=1}\zeta_k U_k \cos(k\pi t), \hspace{0.5cm} t \in [0,1],
 \label{eq:sim process}
-\end{equation}¥
+\end{equation}
 where $U_k$ are iid Unif$(-\sqrt{3},\sqrt{3})$ and \(\zeta=(-1)^{k+1}k^{-2}\). 
 The covariance function for this process is
 \begin{equation*}
 C(s,t) = \sum^{50}_{k=1}k^{-4} \cos(k\pi s)\cos(k\pi t). 
-\end{equation*}¥
+\end{equation*}
 
 }
 \frame{
@@ -683,7 +700,7 @@ The following result states that the eigenfunctions can be expressed as a linear
 \begin{frame}
 \frametitle{Introduction}
 \begin{itemize}
-\item \emph{Phenology} is the study of annual life-cycles of terrestrial vegetation and how they are effected by climate change or other environmental variables (e.g. elevation). 
+\item \emph{Phenology} is the study of annual life-cycles of terrestrial vegetation and how they are effected by climate change or other environmental variables. 
 
 \item Understanding vegetation phenology and its spatio-temporal variation is required to reveal and predict ongoing changes in Earth system dynamics. \\[0.5cm]
 
@@ -730,7 +747,7 @@ The following result states that the eigenfunctions can be expressed as a linear
 \end{figure}
 }
 
-\begin{frame}[t]{Study Region: May 2000}
+\begin{frame}[t]{Study region in southern India: Satellite image from May 2000}
 	\includegraphics[width=0.95\linewidth]{Images-phenology-fda/Satellite/India_zoom.png} 
 \end{frame}
 %--- Next Frame ---%
@@ -741,6 +758,88 @@ The following result states that the eigenfunctions can be expressed as a linear
 		\includegraphics[width=\linewidth]{Images-phenology-fda/land_cover.pdf} 
 		%\caption{Land cover classification at 4.6~km spatial resolution derived from GLC2000 land cover database.} \label{fig:land cover} 
 	\end{figure}
+\end{frame}
+%--- Next Frame ---%
+
+\begin{frame}[t]{Mean MTCI by landcover for 2003 - 2007}
+	\begin{figure}    
+		\includegraphics[width=\linewidth]{Images-phenology-fda/mean_by_LC_facet_year.pdf} 
+		%\caption{Land cover classification at 4.6~km spatial resolution derived from GLC2000 land cover database.}
+	\end{figure}
+\end{frame}
+%--- Next Frame ---%
+
+\begin{frame}[t]{Agriculture and Natural Vegetation Land Cover}
+	\begin{minipage}{0.48\textwidth}
+		\begin{figure}
+		\includegraphics[width = \textwidth]{Images-phenology-fda/Plots/proportion_agriculture.pdf}
+	%	\caption{Proportion of agricultural landcover using GLC2000 database}
+		\end{figure}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+		\begin{figure}
+		\includegraphics[width = \textwidth]{Images-phenology-fda/Plots/landcover_ag_veg.pdf}
+	%		\caption{Black pionts are homogeneous agriculture locations}
+		\end{figure}
+	\end{minipage}
+	
+	\begin{minipage}{0.48\textwidth}
+	\begin{itemize}
+		\item Proportion Agriculture
+		\item based on GLC2000 database
+	\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.48\textwidth}
+	\begin{itemize}
+		\item black points indicate homogeneous agriculture cells
+		\item homogeneous agriculture = 100\% agriculture landcover
+	\end{itemize}
+	\end{minipage}
+\end{frame}
+%--- Next Frame ---%
+
+\begin{frame}[t]{Modeling Approach}
+	 Our general approach consists of the following steps:
+	\begin{enumerate}
+		\item Label each cell as either vegetation, agriculture, or other. 
+		\item Construct a set of empirical basis functions derived from land that is primarily agricultural. 
+		\item Project all of the data onto this basis, reducing the information for each curve to a low dimensional vector of coefficients.
+		\item Construct a classifier for the coefficient vectors by using a training set corresponding to the homogeneous agriculture locations and an equal number of homogeneous vegetation locations.  
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}[t]{title}
+	To produce smooth estimates of the trajectories $X_i(t)$, project the observations $Y_i(t_j), j = 1, \dots, 46$ onto the finite dimensional functional basis $\{\hat{\psi}_k(t), k = 1, \dots, q\}$, where $q$ is chosen such that at least $90\%$ of the variation is explained. The fitted trajectories admit the following representation
+	\begin{equation}
+		\widehat{X_i(t)} = \sum_{k=1}^q\alpha_{k,i} \hat{\psi}_k(t) = \boldsymbol{\alpha_i'}\boldsymbol{\psi}.
+		\label{phen:coef}
+	\end{equation}
+	In this representation the randomness associated with each random trajectory $X(t)$ is captured in the coefficient vector $\boldsymbol{\alpha}$. This allows one to take advantage the vast methods available for multivariate data.
+\end{frame}
+%--- Next Frame ---%
+
+%--- Next Frame ---%
+
+\begin{frame}[t]{Classification Model}
+	\textbf{Linear Discriminant Analysis (LDA)} % (fold)
+	
+	Let C be a random variable taking values in $\mathcal{C} = \{ \text{Agriculture}, \text{Vegetation}\} = \{\text{A}, \text{V}\}$. 
+	\begin{equation*}
+		\hat{\text{C}}(\boldsymbol{\alpha}) = 
+		\begin{cases}
+				\text{A} \hfill & \text{ if } \text{Pr}(\text{C = A }| \boldsymbol{\alpha})> \text{Pr}(\text{C = V }| \boldsymbol{\alpha})\\
+				\text{V} \hfill & \text{ otherwise}
+		\end{cases}
+	\end{equation*}  
+	Computation of the posterior probabilities follows from modeling the class-conditional densities $f_k(\boldsymbol\alpha)$ as multivariate Gaussian distributions
+	\begin{equation*}
+		f_k(\boldsymbol\alpha) = \frac{1}{(2\pi)^{p/2}}e^{-\frac{1}{2}(\boldsymbol\alpha - \boldsymbol\mu_k)^T\Sigma^{-1}(\boldsymbol\alpha - \boldsymbol\mu_k)}
+	\end{equation*}
+	LDA assumes common covariance matrix between classes. 
+	\begin{equation*}
+		\text{Pr}(\text{C} = \text{A } | \boldsymbol\alpha) = \frac{f_{A}(\boldsymbol\alpha)\pi_{A}}{f_{A}(\boldsymbol\alpha)\pi_{A}+f_{V}(\boldsymbol\alpha)\pi_{V}}
+	\end{equation*}
+	where $\pi_{A}$ and $\pi_{V}$ are the prior probabilities class membership.
 \end{frame}
 %--- Next Frame ---%
 
@@ -785,6 +884,16 @@ The following result states that the eigenfunctions can be expressed as a linear
 	
 \end{frame}
 %--- Next Frame ---%
+
+\begin{frame}[t]{Summary \& Conclusions}
+	\begin{itemize}
+		\item FPC representation allows multivariate methods to be utilized in FDA
+		\item Described a fully nonparemetric estimator for computing FPCs
+	\end{itemize}
+	
+\end{frame}
+%--- Next Frame ---%
+
 
 %=========================================================
 % Spatial Functional Data: Estimation and Prediction with kriging
@@ -1046,6 +1155,18 @@ and
 \end{frame}
 %--- Next Frame ---%
 
+\begin{frame}[t]{Conclusions}
+	\begin{itemize}
+		\item Downweighting clustered curves improves covariance function estimation
+		\item Spatial prediction is slightly improved
+		\item Prediction performance is matches that of standard functional kriging
+		\item Better suited for sparse functional data
+		\item If observations on curves are both sparse and not from common distribution, then pooling data across curves may be the only suitable approach. 
+	\end{itemize}
+	
+\end{frame}
+%--- Next Frame ---%
+
 
 %===========================================
 % Bibliography
@@ -1053,7 +1174,7 @@ and
 %\begin{frame}{Bibliography}
 %\bibliographystyle{asa}
 %\bibliography{bib-dissertationnew.bib,bib-books.bib}
-%\end{frame}¥
+%\end{frame}
 
 
 \end{document}

@@ -23,13 +23,13 @@ In this dissertation we work in a reproducing kernel Hilbert space framework, re
 
 \item In Chapter \ref{ch:functional kriging} we describe how this framework can be used for estimation and kriging prediction for functional data. We also describe spatially weighted version of the covariance estimator in Chapter \ref{ch:covariance estimation} that is suitable for spatially correlated data.
 
-\item  In Chapter \ref{phenology} we develop a functional data analysis approach to classify vegetation patterns over a subregion of India. The data set we work with is the Merris Terrestrial Chlorophyll Index (MTCI) collected by satellite at a time interval of 8 days at a 4.6~km spatial resolution over a 230~km by 230~area of southern India. Observed MCTI values over a year characterize vegetation life-cycle and are closely associated with vegetation type. The connection between vegetation land cover and phenological signal motivates a functional data analysis approach to classification of land cover based on the observed phenological signal. We employ the methodology in Chapter \ref{ch:covariance estimator} and Chapter \ref{ch:functional kriging} to estimate functional observation in term of FPC expansions, and utilize this representation to perform classification on the resulting low-dimensional coefficient vectors. 
+\item  In Chapter \ref{phenology} we develop a functional data analysis approach to classify vegetation patterns over a subregion of India. The data set we work with is the Merris Terrestrial Chlorophyll Index (MTCI) collected by satellite at a time interval of 8 days at a 4.6~km spatial resolution over a 230~km by 230~area of southern India. Observed MCTI values over a year characterize vegetation life-cycle and are closely associated with vegetation type. The connection between vegetation land cover and phenological signal motivates a functional data analysis approach to classification of land cover based on the observed phenological signal. We employ the methodology in Chapter \ref{ch:covariance estimation} and Chapter \ref{ch:functional kriging} to estimate functional observation in term of FPC expansions, and utilize this representation to perform classification on the resulting low-dimensional coefficient vectors. 
 
 \item In order to make this document more self contained, Section \ref{ch:theoretical background} contains some of the relevant theoretical background related to RKHS and its role in statistics. 
 \end{itemize}
 
 
-\section{Theoretical background on smoothing splines and reproducing kernel Hilbert space}
+\section{Theoretical background on smoothing splines and reproducing kernel Hilbert space (RKHS)}
  \label{ch:theoretical background}
 
 
@@ -97,7 +97,7 @@ The answer is affirmative to both questions; furthermore, the solution is a piec
  
 
 %============================================================================================================================
-\subsection{Reproducing kernel Hilbert spaces (RKHS)}
+\subsection{Reproducing kernel Hilbert spaces}
 %============================================================================================================================
 
 %=======================================================================================================
@@ -158,9 +158,7 @@ The reproducing property allows us to express the function evaluation terms $\et
 \eta(x_i) = \inner{R_1(x_i,\cdot)}{\eta}; \hspace{0.1in} i = 1,\dots,n,
 \label{eq:rep_property}
 \end{equation*}
-which is equal to zero for $i=1,\dots,n$ due to orthogonality. Thus, with this construction, $\eta$ only contributes to the minimization term through its norm, which is clearly minimized for $\eta$ equal to the zero function.
-
-We now see that for a Hilbert space $\H$ where function evaluation is a continuous linear operator, the minimizer of \eqref{eq:PLS_norm2} has the form 
+which is equal to zero for $i=1,\dots,n$ due to orthogonality. Thus, with this construction, $\eta$ only contributes to the minimization term through its norm, which is clearly minimized for $\eta$ equal to the zero function. We now see that for a Hilbert space $\H$ where function evaluation is a continuous linear operator, the minimizer of \eqref{eq:PLS_norm2} has the form 
 \begin{equation}
 \widehat{f}_{\lambda} = \alpha_0 + \alpha_1x_1 + \sum_{i=1}^n \beta_iR_1(\cdot, x_i).
 \label{eq:solution_form}
