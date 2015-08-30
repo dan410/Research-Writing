@@ -261,9 +261,7 @@ where \(\zeta_k=(-1)^{k+1}k^{-2}\). The random variables $Z_k(s)$ are sampled fr
 \subsection{Simulation study of the spatially weighted covariance function estimator} % (fold)
 \label{sub:simulation covariance}
 
-In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from the grid shown in Figure~\ref{fig:grid3} consisting of sparse locations and a clustered group of locations. Different levels of spatial dependence are modeled through the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2} through the range parameter $r$ in \eqref{eq:exp cov}.
-
-Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that correspond to the range values: $r = 0.1, 0.2, 0.3$ ($\sigma^2=1$), representing cases of weak, moderate and strong spatial dependence, respectively. To help understand how the connection between the covariance functions and the spatial locations, Table~\ref{tab:corr values} shows the value of the correlation function at the shortest distance between clustered curves, and the value of the correlation function at the shortest distance between the sparse locations. 
+In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from the three different sets of locations shown in Figure~\ref{fig:grid3}. Different degrees of spatial dependence are controlled by the range parameter $r$ in \eqref{eq:exp cov} of the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2}. Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that correspond to the range values: $r = 0.0, 0.1, 0.2, 0.3, 0.4$ ($\sigma^2=1$), ranging from indepedence (r = 0) to strong spatial dependence (r = 0.4).
 
 In order to gain insight into the performance of the covariance estimator in \eqref{eq:diag weighted loss function} simulate functional data sets using the observation model 
 \begin{equation}
@@ -280,7 +278,7 @@ The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where v
 % plot of locations used to simulate curves
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{Images-ordinary-kriging/Plots/grid.pdf} 
+		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/grids.pdf} 
 	\end{center}
 	\isucaption{Locations of curves used for the simulation.} \label{fig:grid3} 
 \end{figure}
@@ -296,27 +294,26 @@ The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where v
 % plots of MSE vs spatial weight values for different values of spatial dependence
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/MSE_trends.pdf} 
+		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/MSE_trends_all.pdf} 
 	\end{center}
 	\isucaption{The x-axis shows the value of the scale parameter, $p$, in the weight function. Large values of $p$ correspond to smaller weights for curves in high point intensity areas. The y-axis shows the average integrated square error for the covariance estimator. The error bars show +/- two standard errors.} \label{fig:MSE_trends} 
 \end{figure}
 
 
-\begin{table}
-	\begin{center}
-	\isucaption{Correlation values corresponding to locations on the simulation grid (Figure~\ref{fig:grid3}) for each level of spatial dependence. The table shows the largest correlation among the subset of dense locations, and the largest correlation among the subset of sparse locations. Spatial dependence is represented by the value of the range parameter $r$ in the exponential covariance function in \eqref{eq:exp cov}.}
-\begin{tabular}{|c|c|c|}
-	\hline
-	range $r$ & dense locations & sparse locations \\
-	\hline
-	0.1 & 0.7 & 0.1 \\
-	0.2 & 0.8 & 0.4 \\
-	0.3 & 0.9 & 0.5 \\
-	\hline
-\end{tabular}
-\label{tab:corr values}
-\end{center}
-\end{table}
+%\begin{table}
+%	\begin{center}
+%	\isucaption{Correlation values corresponding to locations on the simulation grid (Figure~\ref{fig:grid3}) for each level of spatial dependence. The table shows the largest correlation among the subset of dense %locations, and the largest correlation among the subset of sparse locations. Spatial dependence is represented by the value of the range parameter $r$ in the exponential covariance function in \eqref{eq:exp cov}.}
+%\begin{tabular}{|c|c|c|}
+%	\hline
+%	range $r$ & dense locations & sparse locations \\
+%	\hline
+%	0.2 & 0.8 & 0.4 \\
+%	0.3 & 0.9 & 0.5 \\
+%	\hline
+%\end{tabular}
+%\label{tab:corr values}
+%\end{center}
+%\end{table}
 
 % sec:investigating_the_effects_of_spatial_dependence (end)
 
@@ -426,7 +423,7 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
  
  The simulation results in Figure~\ref{fig:MSE_trends} are encouraging for two reasons: (i) they confirm that the spatially re-weighted estimator can produce meaningful reductions in mean squared error, and (ii) that optimal selection of the scale parameter $p$ is likely unnecessary as it achieves near-optimal reduction in MSE for values between 1/3 and 1/2 for various values of spatial dependence.
 
-The trends shown in Figure~\ref{fig:MSE_trends} illustrate that positive spatial dependence results in greater variability in the covariance estimator. This a well known phenomenon with spatially dependent data. This highlights, for example, that any inference based on estimators that assume independence will result in conclusions that are too conservative. \cite{cressie1993statistics} gives a simple example using spatially dependent observations on a transect, where he frames the effect of correlated data on inference for the mean in terms of equivalent sample size. He derives a exact formula for the equivalent number of independent observations required for achieving the same amount of precession in estimating a population mean. This is an interesting way to think about the effect of spatial dependence, and I believe the spatially re-weighted estimator developed here can be thought of in these terms, in that the weights can be viewed as adjusting the effective sample size for clustered curves by decreasing their influence in the loss function. 
+The trends shown in Figure~\ref{fig:MSE_trends} illustrate that positive spatial dependence results in greater variability in the covariance estimator. This a well known phenomenon with spatially dependent data. This highlights, for example, that any inference based on estimators that assume independence will result in conclusions that are too conservative. \cite{cressie1993statistics} gives a simple example using spatially dependent observations on a transect, where the effect of correlated data on inference for the mean is framed in terms of equivalent sample size. \cite{cressie1993statistics} derives a exact formula for the equivalent number of independent observations required for achieving the same amount of precession in estimating a population mean. This is an interesting way to think about the effect of spatial dependence, and I believe the spatially re-weighted estimator developed here can be thought of in these terms. That is to say, the weights can be viewed as adjusting the effective sample size for clustered curves by decreasing their influence in the loss function. 
 
 % It is interesting to note that \cite{Nerini:2010ba} also used a RKHS framework for functional kriging, but for a different reason. They investigate a predictor of a functional observation at location $s_0$ defined to be a sum of the form
 % \begin{equation}
