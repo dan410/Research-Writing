@@ -53,7 +53,7 @@ Data that arise from measurements at geographic locations often exhibit similari
 
 \section{Ordinary kriging of function-valued data} % (fold)
 \label{sec:ordinary_kriging_of_function_valued_data}
-This methodology is developed in \cite{Giraldo:2010jx}, and is a direct translation of the ordinary kriging from the scalar-valued data to function-valued data. Let $X_{s_1}(t), \dots, X_{s_n}(t)$ be realizations of the functional random process $X_s(t)$ at site $s_1, \dots, s_n$. For an unobserved location $s_0$, the predictor for $X_{s_0}$ is given by 
+The ordinary kriging methodology described in this section was developed in \cite{Giraldo:2010jx}, and is a direct translation of the ordinary kriging from the scalar-valued data to function-valued data. Let $X_{s_1}(t), \dots, X_{s_n}(t)$ be realizations of the functional random process $X_s(t)$ at site $s_1, \dots, s_n$. For an unobserved location $s_0$, the predictor for $X_{s_0}$ is given by 
 \begin{equation}
 	\hat{X}_{s_0} = \sum_{i=1}^n\lambda_i X_{s_i}(t) \mbox{\hspace{0.5cm}} \lambda_i, \dots, \lambda_n \in \mathbb{R} \label{OKFD predictor}
 \end{equation}
@@ -72,7 +72,7 @@ Implementation of this method requires a preprocessing step involving non-parame
 
 \section{Cokriging functional principal components scores} % (fold)
 \label{sec:cokriging_functional_principal_compents_scores}
-In the method described in the previous section, the set of curves are modeled directly as a spatial random field. The approach we describe here is fundamentally different in that the spatial model is defined on the coefficient vectors corresponding to a finite basis expansion. To ensure the coefficient vector is not high dimensional, each curve is represented as a linear combination of the leading functional principal components. To guarantee such a representation exists and can be estimated efficiently requires assumptions on the function space itself, which we describe here. 
+In the method described in the previous section, the set of curves are modeled directly as a spatial random field. The approach we describe here is fundamentally different in that the spatial model is defined on the coefficient vectors corresponding to a finite basis expansion. The coefficient vector is often low dimensional, as each curve is represented as a linear combination of the leading functional principal components. To guarantee such a representation exists and can be estimated efficiently requires assumptions on the function space itself, which we describe here. 
   We model trajectories $X_s(t)$ as a continuos second order stochastic process with mean $\mu(t)$ and bivariate temporal covariance function
 \begin{equation}
 	C_{0}(t',t)=E([X(t')-\mu(t')][X(t)-\mu(t)]),\mbox{ }\forall t',t\in \T=[a,b]. 
@@ -85,7 +85,7 @@ Let $X_{s_1}(t), \dots, X_{s_n}(t)$ represent the collection of realizations of 
 \end{equation} 
 where $i$ indexes spatial location and $j$ indexes the finite observations on a single trajectory. The `time' observations are not assumed to be the same across curves; that is, $t_{ij}$ does not necessarily equal $t_{i'j}$ for $i \neq i'$. To simplify notation we assume the number of observations on each curve, $m$, is consistent across curves though this assumption can be relaxed. The $\epsilon_{ij}$ are independently and identically distributed measurement errors with mean zero and finite variance $\sigma_{0}^{2}.$ It is further assumed that the random functions $X_s(t)$, and measurement errors $\epsilon$ are mutually independent. 
 
-To simplify notation assume $\mu(t)=0$, so that functions $X_s(t)$ admit the following representation 
+To simplify notation, assume $\mu(t)=0$, so that functions $X_s(t)$ admit the following representation 
 \begin{equation}
 	X_{s}(t) = \sum_{k=1}^{q} \alpha_k(s)\psi_k(t) = \boldsymbol{\alpha}\boldsymbol{\psi}, \label{kriging: fpc expansion}
 \end{equation}
@@ -121,11 +121,11 @@ where
 \subsubsection{Covariance Estimation for spatially dependent curves} % (fold)
 \label{sub:weighted covariance}
 
-The covariance function estimator \eqref{kriging: cov est} assumes independent observations. Using this estimator with spatially correlated data may have an affect bias, variance, or result in an estimator that is not consistent. In this section we introduce a computationally efficient way to adjust for some of the effects of spatial dependence on the covariance estimator \ref{kriging: cov est} using a weighting scheme motivated by the fundamental principle in spatial statistics: data in closer proximity have stronger correlation and contribute similar information. For irregularly spaced data, this can cause a bias toward the behavior of observations that are clustered together and are over represented in the sample. The idea is to counteract this tendency by down weighting curves where location intensity is high. The effect of dependence on smoothing penalty based estimator like the one in \eqref{kriging: cov est} has been shown to cause under-smoothing (\cite{Wang:1998tq}). The approach we consider here does not address the selection of the smoothing parameter directly, but seeks to reduce the influence of the most correlated observations. 
+The covariance function estimator \eqref{kriging: cov est} assumes independent observations. Using this estimator with spatially correlated data may have an affect on bias, variance, or result in an estimator that is not consistent. In this section we introduce a computationally efficient way to adjust for some of the effects of spatial dependence on the covariance estimator \ref{kriging: cov est} using a weighting scheme motivated by the fundamental principle in spatial statistics: data in closer proximity have stronger correlation and contribute similar information. For irregularly spaced data, this can cause a bias toward the behavior of observations that are clustered together and are over represented in the sample. Here we describe an approach to counteract this tendency by down weighting curves where location intensity (i.e., number of locations per unit area) is high. Previous work on smoothing penalty based estimator like the one in \eqref{kriging: cov est} has shown that when the dependence assumption is violated, the estimator tends to under-smooth (\cite{Wang:1998tq}). The approach we consider here does not address the selection of the smoothing parameter directly, but reduces the influence of the highly correlated observations on estimation. 
 
-Our approach involves creating a scalar weight for each curve based on location intensity and the strength of the correlation. The aim is to down weight data which are more correlated and provide redundant information. This approach is computationally efficient because it does not require computing the inverse of a high dimensional matrix, which is not feasible with the dimension of $\mathbf{b}$ in \eqref{b}.  
+Our approach involves creating a scalar weight for each curve based on location intensity and the strength of the correlation. The goal is to down-weight observations from highly correlated data because they provide redundant information. This approach is computationally efficient because it does not require computing the inverse of a high dimensional matrix---which is not feasible with the dimension of $\mathbf{b}$ in \eqref{b}.  
 
-In order to quantify the conceptual approach described in the previous paragraph we proceed by estimating the point intensity at each location, which is defined as the number of points per unit area. Denoted the estimated point intensity at location $k$ by $\gamma_k$ and define a weight function 
+In order to quantify the conceptual approach described in the previous paragraph we proceed by estimating the point intensity at each location. Denote the estimated point intensity at location $k$ by $\gamma_k$ and define a weight function 
 \begin{equation}
 	w_k = \left(\frac{1}{\gamma_k}\right)^p, 
 \end{equation}
@@ -134,7 +134,7 @@ Let $\mathbf{W}=diag(\mathbf{w}_1, \dots, \mathbf{w}_n)$, where $\mathbf{w}_i$ i
 \begin{equation}
 	l_{n}(C)= (\mathbf{b} - \mathbf{C})^T\mathbf{W}(\mathbf{b} - \mathbf{C}). \label{eq:diag weighted loss function} 
 \end{equation}
-Note that for independent data, $p = 0$ will give equal weights and result in $\mathbf{W} = \mathbf{I}$. In Section \ref{sub:simulation covariance} we conduct a simulation study aimed at identifying optimal choice of $p$ under various spatial dependence scenarios. 
+Note that for independent data, the value $p = 0$ will give equal weights and result in an identity matrix, i.e.,$\mathbf{W} = \mathbf{I}$. In Section \ref{sub:simulation covariance} we conduct a simulation study aimed at identifying optimal choice of $p$ under various spatial dependence scenarios. 
 
 % To produce smooth estimates of the trajectories $X_i(t)$, project the observations $Y_i(t_j), j = 1, \dots, m$ onto the finite dimensional functional basis $\{\hat{\psi}_k(t), k = 1, \dots, q\}$, where $q$ is chosen such that at least $90\%$ of the variation is accounted for. The fitted trajectories admit the following representation
 % \begin{equation}
@@ -256,18 +256,18 @@ where \(\zeta_k=(-1)^{k+1}k^{-2}\). The random variables $Z_k(s)$ are sampled fr
 															\end{cases}
 	\label{eq:exp cov}
 \end{equation} 
-
+The range parameter, $r$, in the exponential covariance in equation \eqref{eq:exp cov} controls the strength of spatial dependence. 
 
 \subsection{Simulation study of the spatially weighted covariance function estimator} % (fold)
 \label{sub:simulation covariance}
 
-In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from the three different sets of locations shown in Figure~\ref{fig:grid3}. Different degrees of spatial dependence are controlled by the range parameter $r$ in \eqref{eq:exp cov} of the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2}. Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that correspond to the range values: $r = 0.0, 0.1, 0.2, 0.3, 0.4$ ($\sigma^2=1$), ranging from indepedence (r = 0) to strong spatial dependence (r = 0.4).
+In this simulation study we investigate the effect of adjusting the covariance function estimator for spatial dependence by simulating curves from the three different sets of locations shown in Figure~\ref{fig:grid3}. Different degrees of spatial dependence are controlled by the range parameter $r$ in \eqref{eq:exp cov} of the Gaussian random fields, $Z_i$, in \eqref{eq:sim process2}. Figure~\ref{fig:exp_corr_funs} shows the exponential correlation functions that correspond to the range values: $r = 0.0, 0.1, 0.2, 0.3, 0.4$, ranging from independence (r = 0) to strong spatial dependence (r = 0.4).
 
 In order to gain insight into the performance of the covariance estimator in \eqref{eq:diag weighted loss function} simulate functional data sets using the observation model 
 \begin{equation}
-	Y^{(k)}_{ij}(t_{ij}) = X_{ij}(t_{ij}) + \epsilon_{ij}, \mbox{ } i = 1, \dots, 68; j = 1, \dots, 20; k = 1, \dots, 100,
+	Y^{(k)}_{ij}(t_{ij}) = X_{ij}(t_{ij}) + \epsilon_{ij}, \mbox{ } i = 1, \dots, 68;\; j = 1, \dots, 20;\; k = 1, \dots, 100,
 \end{equation}
-where $\epsilon_{ij} \sim N(0, 0.01^2)$ and the superscript $k$ indexes simulated data sets. The number of observations per curve and observation error variance are fixed. We generate data sets from this model varying the range parameter $r \in \{0.1, 0.2, 0.3\}$ and the weight parameter $p \in \{0, 1/3, 1/2, 1\}$. 
+where $\epsilon_{ij} \sim N(0, 0.01^2)$ and the superscript $k$ indexes simulated data sets. The number of observations per curve and observation error variance are fixed. 
 
 For each simulated data set, $Y^{(k)}$, the integrated squared difference between the estimated and true covariance function is calculated. We define the quantity $L$ to be the average integrated squared difference
 \begin{equation}
@@ -319,35 +319,34 @@ The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where v
 
 \subsection{Comparing prediction performance} % (fold)
 \label{sub:comparing_prediction_performance}
-This simulation study is designed to compare the prediction performance among methods for functional kriging. Figure \ref{fig:pred locations} shows a spatial grid of 68 locations from which spatially correlated data were simulated using an exponential covariance function with range $r = 2$ (see Figure \ref{fig:exp_corr_funs}), and observed data consisted of 10 observations from each curve with noise ($\sigma_0=0.3$). Prediction of functions at 12 unobserved locations was carried out for each of the following methods.
+This simulation study is designed to compare the prediction performance among methods for functional kriging. Figure \ref{fig:pred locations} shows a spatial grid of 68 locations from which spatially correlated data were simulated using an exponential covariance function with range $r = 0.2$ (see Figure \ref{fig:exp_corr_funs}), and observed data consisted of $m = 10, 20$ observations from each curve with noise ($\sigma_0=0.1, 0.3$). Prediction of functions at 12 unobserved locations was carried out for each of the following methods.
 \begin{itemize}
 	%\item IND: This method uses the overall mean as the prediction for each location.
 	\item CFPC: Cokriging functional principal components. This is the (un-weighted) estimator developed in this paper.
 	\item CFPCw: This is the method developed in this paper, but using the weighted covariance estimator with $p=0.5$.
 	\item OKFD: Ordinary kriging of functional data method described in Section \ref{sec:ordinary_kriging_of_function_valued_data}.
 \end{itemize}
-Figure~\ref{fig:curve kriging predictions} an example of predictions for one simulated data set. The numbers on the plots correspond to the numbered locations on the simulation grid (Figure \ref{fig:pred locations}). Boxplots summarizing 100 simulated data sets are shown in Figure~\ref{fig:boxplots pred mse}, where the measured variable is the average prediction mean squared error for the 12 prediction locations. 
-
-The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method performs as good or better than the OKFD in term of prediction mean squared error. It also shows a clear difference between the prediction performance between weighted and un-weighted covariance estimator. 
+%Figure~\ref{fig:curve kriging predictions} an example of predictions for one simulated data set. The numbers on the plots correspond to the numbered locations on the simulation grid (Figure \ref{fig:pred locations}). 
+Boxplots summarizing 1000 simulated data sets for each scenario are shown in Figure~\ref{fig:boxplots pred mse}, where the measured variable is the average prediction mean squared error for the 12 prediction locations. The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method performs as good or better than the OKFD in term of prediction mean squared error. It also shows a clear difference between the prediction performance between weighted and un-weighted covariance estimator. None of the methods are uniformly better, but the values in Table \ref{tab:kriging_pred} and Table \ref{tab:kriging_pred_2} show that in three out of four of the high noise ($\sigma_0 = 0.3$) cases the weighted covariance estimator performs best.  
  
 
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{Images-ordinary-kriging/Plots/pred_locations.pdf} 
+		\includegraphics[width=0.5\textwidth]{Images-ordinary-kriging/Plots/pred_locations.pdf} 
 	\end{center}
 	\isucaption{Locations of curves generated for the simulation study. Black points show locations used for fitting each model. The 12 red numbers labeled on the plot show prediction locations.} \label{fig:pred locations} 
 \end{figure}
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=0.8\textwidth]{Images-ordinary-kriging/Plots/pred_curves_exp.pdf} 
-	\end{center}
-	\isucaption{Predicted curves at the 12 unobserved locations for a single simulated data set using the process \ref{eq:sim process2} with exponential covariance \eqref{eq:exp cov} $(r = 0.2; \sigma = 1 )$, 20 observations per curve, and observation error standard deviation $\sigma_0 = 0.3$. The true curves at prediction locations are shown as black solid lines. } \label{fig:curve kriging predictions} 
-\end{figure}
+%\begin{figure}
+%	\begin{center}
+%		\includegraphics[width=0.8\textwidth]{Images-ordinary-kriging/Plots/pred_curves_exp.pdf} 
+%	\end{center}
+%	\isucaption{Predicted curves at the 12 unobserved locations for a single simulated data set using the process \ref{eq:sim process2} with exponential covariance \eqref{eq:exp cov} $(r = 0.2; \sigma = 1 )$, 20 observations per curve, and observation error standard deviation $\sigma_0 = 0.3$. The true curves at prediction locations are shown as black solid lines. } \label{fig:curve kriging predictions} 
+%\end{figure}
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=\textwidth]{Images-ordinary-kriging/Plots/kriging_boxplots_all.pdf} 
 	\end{center}
-	\isucaption{Boxplots showing distribution of the average prediction error, $\norm{\hat{X}(t) - X(t)}^2_{L_2}$, across the 12 unobserved locations shown in \ref{fig:pred locations} for 100 simulated data sets. The curves were simulated using the functional process in \eqref{eq:sim process2} with the covariance function in \eqref{eq:exp cov}. The plot label `dependence' refers to the value of the range parameter, $r$, in the covariance function. The plot label `sigma' refers to the observation error standard deviation $\sigma_0$ in \eqref{kriging:observation model}. } 
+	\isucaption{Boxplots showing distribution of the average prediction error, $\norm{\hat{X}(t) - X(t)}^2_{L_2}$, across the 12 unobserved locations shown in \ref{fig:pred locations} for 1000 simulated data sets. The curves were simulated using the functional process in \eqref{eq:sim process2} with the covariance function in \eqref{eq:exp cov}. The plot label `dependence' refers to the value of the range parameter, $r$, in the covariance function. The plot label `sigma' refers to the observation noise standard deviation $\sigma_0$ in \eqref{kriging:observation model}. } 
 	\label{fig:boxplots pred mse} 
 \end{figure}
 
@@ -362,7 +361,7 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
 
 \begin{table}
 	\begin{center}
-	\isucaption{Prediction error for the kriging predictors using exponential covariance function with r = 0.2}
+	\isucaption{Prediction error for the kriging predictors using exponential covariance function with $r = 0.2$. The number in parentheses is the standard error. }
 		\begin{tabular}
 			{|c|c|l|c|} \hline $\sigma_0$ & m & method & MSE \\
 			\hline \multirow{6}{*}{0.01}& \multirow{3}{*}{10}
@@ -389,7 +388,7 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
 
 \begin{table}
 	\begin{center}
-	\isucaption{Prediction error for the kriging predictors using exponential covariance function with r = 0.3}
+	\isucaption{Prediction error for the kriging predictors using exponential covariance function with r = 0.3. The number in parentheses is the standard error.}
 		\begin{tabular}{|c|c|l|c|} \hline
 			$\sigma_0$ & m & method & MSE \\
 			\hline
@@ -419,9 +418,9 @@ The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method
 
 \section{Discussion} % (fold)
 \label{sec:discussion}
- We have developed a parsimonious approach to functional kriging by exploiting a low dimensional representation of curves through a functional principal component basis. By assuming no cross-correlation among vectors of coefficients, the practitioner is only required to model a small number of scalar random fields. This is a computationally attractive property, but relies heavily on efficient estimation of functional principal components from spatially dependent curves.  The proposed method achieves efficient estimation of functional principal components by utilizing optimal covariance function estimation properties inherent to RKHS function spaces, and by introduced a spatial re-weighted estimator that tempers the effect of non-independent observations. 
+ We have developed a parsimonious approach to functional kriging by exploiting a low dimensional representation of curves through a functional principal component basis. The proposed method performs similarly to standard methods for functional kriging, and may perform slightly better when the functional process is observed with noise. By assuming no cross-correlation among vectors of coefficients, the practitioner is only required to model a small number of scalar random fields. This is a computationally attractive property, but relies heavily on efficient estimation of functional principal components from spatially dependent curves.  The proposed method achieves efficient estimation of functional principal components by utilizing optimal covariance function estimation properties inherent to RKHS function spaces, and by introduced a spatial re-weighted estimator that tempers the effect of spatially dependent observations. 
  
- The simulation results in Figure~\ref{fig:MSE_trends} are encouraging for two reasons: (i) they confirm that the spatially re-weighted estimator can produce meaningful reductions in mean squared error, and (ii) that optimal selection of the scale parameter $p$ is likely unnecessary as it achieves near-optimal reduction in MSE for values between 1/3 and 1/2 for various values of spatial dependence.
+ The re-weighted estimator depends on a weighting parameter, $p$, but the simulations conducted herein are encouraging for two reasons: (i) they confirm that the spatially re-weighted estimator can produce meaningful reductions in mean squared error, and (ii) that optimal selection of the scale parameter $p$ is likely unnecessary as it achieves near-optimal reduction in MSE for values between 1/3 and 1/2 for various values of spatial dependence. Moreover, for the cases with the most highly correlated data ($r = 0.4$), the optimal value of $p$ is consistently near 1/2. Practically speaking, this means the value $p = 1/2$ can be used as an approximate minimax estimate. 
 
 The trends shown in Figure~\ref{fig:MSE_trends} illustrate that positive spatial dependence results in greater variability in the covariance estimator. This a well known phenomenon with spatially dependent data. This highlights, for example, that any inference based on estimators that assume independence will result in conclusions that are too conservative. \cite{cressie1993statistics} gives a simple example using spatially dependent observations on a transect, where the effect of correlated data on inference for the mean is framed in terms of equivalent sample size. \cite{cressie1993statistics} derives a exact formula for the equivalent number of independent observations required for achieving the same amount of precession in estimating a population mean. This is an interesting way to think about the effect of spatial dependence, and I believe the spatially re-weighted estimator developed here can be thought of in these terms. That is to say, the weights can be viewed as adjusting the effective sample size for clustered curves by decreasing their influence in the loss function. 
 
