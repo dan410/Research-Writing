@@ -196,7 +196,7 @@ the objective of constructing the best linear unbiased predictor of $X_{s_0}(t)$
 	\hat{\balpha}(s_0) = \sum_{i=1}^n \balpha(s_i)\Gamma_i \label{kriging:predictor}
 \end{equation}
 where $\Gamma_i$ is a $q \times q$ matrix with $ij^{th}$ element equal to $\lambda_{ij}$. 
-\begin{equation}
+\begin{equation}\label{kriging:predictor 2}
 		\hat{\balpha}(s_0) = \sum_{i=1}^n [\alpha_1(s_i), \dots, \alpha_q(s_i)] 
 		\left[ 
 			\begin{array}{ccc}
@@ -205,7 +205,6 @@ where $\Gamma_i$ is a $q \times q$ matrix with $ij^{th}$ element equal to $\lamb
 				\lambda^i_{q1} & \dots & \lambda^i_{qq}
 			\end{array}
 		\right]
-		\label{kriging:predictor 2}
 \end{equation}
 From \eqref{kriging:predictor 2} it is straight forward to derive the form of the components of $\hat{\balpha}(s_0)=[\hat{\alpha}_1(s_0), \dots, \hat{\alpha}_q(s_0)]$
 \begin{equation}
@@ -244,17 +243,15 @@ This shows that for an isotopic process with no cross-correlation, the kriging p
 \label{sec:numerical_experiments}
 
 In this section we conduct investigations using simulated data. We generate functional data as
-\begin{equation}
+\begin{equation}\label{eq:sim process2} 
 	X_s(t) = \sum^{3}_{k=1}\zeta_k Z_k(s) \cos(k\pi t) \hspace{0.5cm} t \in [0,1], 
-	\label{eq:sim process2} 
 \end{equation}
 where \(\zeta_k=(-1)^{k+1}k^{-2}\). The random variables $Z_k(s)$ are sampled from a Gaussian random field with $E[Z_k(s)]=0$ and 
-\begin{equation}
+\begin{equation}\label{eq:exp cov}
 	Cov(Z_k(s_i), Z_j(s_l)) = \begin{cases} 
 																e^{-\norm{s_i - s_l}/r} &\mbox{ if } k = j\\
 																0 & \mbox{ if } j \neq k.
 															\end{cases}
-	\label{eq:exp cov}
 \end{equation} 
 The range parameter, $r$, in the exponential covariance in equation \eqref{eq:exp cov} controls the strength of spatial dependence. 
 
@@ -299,22 +296,6 @@ The results of the simulations are shown in Figure~\ref{fig:MSE_trends}, where v
 	\isucaption{The x-axis shows the value of the scale parameter, $p$, in the weight function. Large values of $p$ correspond to smaller weights for curves in high point intensity areas. The y-axis shows the average integrated square error for the covariance estimator. The error bars show +/- two standard errors.} \label{fig:MSE_trends} 
 \end{figure}
 
-
-%\begin{table}
-%	\begin{center}
-%	\isucaption{Correlation values corresponding to locations on the simulation grid (Figure~\ref{fig:grid3}) for each level of spatial dependence. The table shows the largest correlation among the subset of dense %locations, and the largest correlation among the subset of sparse locations. Spatial dependence is represented by the value of the range parameter $r$ in the exponential covariance function in \eqref{eq:exp cov}.}
-%\begin{tabular}{|c|c|c|}
-%	\hline
-%	range $r$ & dense locations & sparse locations \\
-%	\hline
-%	0.2 & 0.8 & 0.4 \\
-%	0.3 & 0.9 & 0.5 \\
-%	\hline
-%\end{tabular}
-%\label{tab:corr values}
-%\end{center}
-%\end{table}
-
 % sec:investigating_the_effects_of_spatial_dependence (end)
 
 \subsection{Comparing prediction performance} % (fold)
@@ -332,7 +313,6 @@ Observed data consisted of $m = 10, 20$ observations from each curve with noise 
 %Figure~\ref{fig:curve kriging predictions} an example of predictions for one simulated data set. The numbers on the plots correspond to the numbered locations on the simulation grid (Figure \ref{fig:pred locations}). 
 Boxplots summarizing 1000 simulated data sets for each scenario are shown in Figure~\ref{fig:boxplots pred mse}, where the measured variable is the average prediction mean squared error for the 12 prediction locations. The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method performs as good or better than the OKFD in term of prediction mean squared error. It also shows a clear difference between the prediction performance between weighted and un-weighted covariance estimator. None of the methods are uniformly better, but the values in Table \ref{tab:kriging_pred} and Table \ref{tab:kriging_pred_2} show that in three out of four of the high noise ($\sigma_0 = 0.3$) cases the weighted covariance estimator performs best.  
  
-
 \begin{figure}
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{Images-ordinary-kriging/Plots/pred_locations.pdf} 
@@ -353,15 +333,9 @@ Boxplots summarizing 1000 simulated data sets for each scenario are shown in Fig
 	\label{fig:boxplots pred mse} 
 \end{figure}
 
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% tables prediction MSE for various functional kriging methods
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 \begin{table}
 	\begin{center}
 	\isucaption{Prediction error for the kriging predictors using exponential covariance function with $r = 0.2$. The number in parentheses is the standard error. }
@@ -423,11 +397,11 @@ Boxplots summarizing 1000 simulated data sets for each scenario are shown in Fig
 \label{sec:discussion}
  We have developed a parsimonious approach to functional kriging by exploiting a low dimensional representation of curves through a functional principal component basis. By assuming no cross-correlation among vectors of coefficients, the practitioner is only required to model a small number of scalar random fields. This is a computationally attractive property, but relies heavily on efficient estimation of functional principal components from spatially dependent curves.  The proposed method achieves efficient estimation of functional principal components by utilizing optimal covariance function estimation properties inherent to RKHS function spaces, and by introduced a spatial re-weighted estimator that tempers the effect of spatially dependent observations. 
 
-The re-weighted estimator depends on a weight parameter, $p$, but the simulations conducted herein are encouraging for two reasons: (i) they confirm that the spatially re-weighted estimator can produce meaningful reductions in mean squared error, and (ii) that optimal selection of the scale parameter $p$ is likely unnecessary as it achieves near-optimal reduction in MSE for values between 1/3 and 1/2 for various values of spatial dependence. Moreover, for the cases with the most highly correlated data ($r = 0.4$), the optimal value of $p$ is consistently near 1/2. Practically speaking, this means the value $p = 1/2$ can be used as an approximate minimax estimate. 
+The re-weighted covariance function estimator depends on a weight parameter, $p$, but the simulations conducted herein are encouraging for two reasons: (i) they confirm that the spatially re-weighted estimator can produce meaningful reductions in mean squared error for covariance function estimation, and (ii) that optimal selection of the scale parameter $p$ is not critical because the estimator achieves near-optimal reduction in mean squared error for values of $p$ between 1/3 and 1/2 for varying strengths of spatial dependence. Moreover, for the cases with the most highly correlated data ($r = 0.4$), the optimal value of $p$ is consistently near 1/2. Practically speaking, this means the value $p = 1/2$ can be used as an approximate minimax estimate. 
 
-In terms of spatial prediction, the proposed functional kriging method performs similarly to standard methods for functional kriging, and performs slightly better when the functional process is observed with noise. The weighted version of the covariance estimator not only improves covariance estimation in the presence of spatial dependence, but improves spatial prediction compared to the unweighted version achieving lower prediction error in all but one of the simulation cases used. 
+In terms of spatial prediction, the proposed functional kriging method performs similarly to standard methods for functional kriging, and performs slightly better when the functional process is observed with noise. The weighted version of the covariance estimator not only improves covariance estimation in the presence of spatial dependence, but improves spatial prediction compared to the unweighted version by achieving lower prediction error in all but one of the simulation cases used. 
 
-Recall that in order to make a direct comparison among the functional kriging methods it was necessary to use the same observed time points for each curve due to the fact the the OKFD implementation in the \texttt{geofd} R package only supports this case. The model assumptions of the CFPC method assume time points for each curve follow a probability distribution, and hence the optimal theoretical properties need not hold in the case of fixed time points. When the same time points are used for each curve, the pooled data used in the covariance estimator in equation~\eqref{kriging: cov est} contain far fewer unique points in the product space reducing the efficiency of the estimator. This means that in the more general case of random time points, the prediction performance for the CFPC and CFPCw methods will likely improve more than the OKFD method. In future work, we plan on modifying the OKFD implementation to allow for the more general case of random time points in order to gain this additional insight. 
+Finally, recall that in order to make a direct comparison among the functional kriging methods it was necessary to use the same observed time points for each curve due to the fact the the OKFD implementation in the \texttt{geofd} R package only supports the fixed time point case. The theoretical development of the CFPC method assumes time points for each curve follow a probability distribution, and hence the optimal theoretical properties need not hold in the case of fixed time points. When the same time points are used for each curve, the pooled data used in the covariance estimator in equation~\eqref{kriging: cov est} contain far fewer unique points in the product space. This means that in the more general case of random time points, the prediction performance for the CFPC and CFPCw methods will likely improve more than the OKFD method. In future work, we plan on modifying the OKFD implementation to allow for the more general case of random time points in order to gain this additional insight. 
 
 % It is interesting to note that \cite{Nerini:2010ba} also used a RKHS framework for functional kriging, but for a different reason. They investigate a predictor of a functional observation at location $s_0$ defined to be a sum of the form
 % \begin{equation}
