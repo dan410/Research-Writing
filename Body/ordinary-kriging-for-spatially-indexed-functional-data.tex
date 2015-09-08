@@ -8,8 +8,11 @@
 
 % (fold)
 \label{sec:introduction}
-Data that arise from measurements at geographic locations often exhibit similarities at small spatial scales. When the primary objective of analysis is to predict values at unobserved locations, geostatistical models are particularly useful. When data are measurements from a ground-based sensor, there is often temporal component to the data, examples include: \cite{Kaiser:2002wna} who investigate the concentration of an air pollutant; Delaigle and Hall (2010) who consider Australian rainfall data; and the Canadian weather data showcased in Ramsay and Silverman (2005). When the temporal measurements are not regular in time its useful to treat the time process as functional data. The extension of geostatistical models for functional data were first considered in \cite{Goulard:1993} where two approaches are proposed: one approach involves cokriging by reducing the functional response to a multivariate response by modeling the spatial component through the coefficients of a parametric model, while the other approach utilizes a functional version of the variogram. The functional variogram approach has been further developed by \cite{Giraldo:2010jx}. We pursue the first option, but do not make the assumption of a parametric model for the curves. We allow the curves to be represented nonparametrically using a principal component function basis. Typically, very few principal component functions are needed to represent the major modes of variation in the curves, thus making a multivariate geostatistical approach feasible without the need of a parametric model. 
+Data that arise from measurements at geographic locations often exhibit similarities at small spatial scales. When observed data exhibit localized spatial similarity, one way to model this effect is through a statistical dependence structure. This is particularly useful when the primary objective of analysis is to predict values at unobserved locations in space. Geostatistical models are statistical models for continuous processes in space that have flexible strucutures for modeling spatial dependence and provide a framework for optimal linear prediction (e.g., ordinary kriging). 
 
+For georeferrenced data from ground-based sensors, there is often a temporal component to the data; examples include: \cite{Kaiser:2002wna} who investigate the concentration of an air pollutant; Delaigle and Hall (2010) who consider Australian rainfall data; and the Canadian weather data showcased in Ramsay and Silverman (2005). When the temporal measurements are not regular in time its useful to treat the time process as functional data. The extension of geostatistical models for functional data were first considered in \cite{Goulard:1993} where two approaches are proposed: one approach involves cokriging by reducing the functional response to a multivariate response by modeling the spatial component through the coefficients of a parametric model, while the other approach utilizes a functional version of the variogram. The functional variogram approach has been further developed by \cite{Giraldo:2010jx}. We pursue the first option, but do not make the assumption of a parametric model for the curves. We allow the curves to be represented nonparametrically using a principal component function basis. Typically, very few principal component functions are needed to represent the major modes of variation in the curves, thus making a multivariate geostatistical approach feasible without the need of a parametric model. 
+
+In section~\ref{sec:ordinary_kriging_of_function_valued_data} we describe the ordinary kriging method developed in \cite{Giraldo:2010jx}, and in section~\ref{sec:cokriging_functional_principal_compents_scores} we describe the proposed methodology based on cokriging coefficients using finite basis expansions of principal component functions. Section~\ref{sec:numerical_experiments} describes two simulation studies: one designed to investigate the properties of the proposed estimator, and the other designed to compare the methods in terms of prediction performance. 
 
 
 % \begin{figure}
@@ -53,9 +56,9 @@ Data that arise from measurements at geographic locations often exhibit similari
 
 \section{Ordinary kriging of function-valued data} % (fold)
 \label{sec:ordinary_kriging_of_function_valued_data}
-The ordinary kriging methodology described in this section was developed in \cite{Giraldo:2010jx}, and is a direct translation of the ordinary kriging from the scalar-valued data to function-valued data. Let $X_{s_1}(t), \dots, X_{s_n}(t)$ be realizations of the functional random process $X_s(t)$ at site $s_1, \dots, s_n$. For an unobserved location $s_0$, the predictor for $X_{s_0}$ is given by 
-\begin{equation}
-	\hat{X}_{s_0} = \sum_{i=1}^n\lambda_i X_{s_i}(t) \mbox{\hspace{0.5cm}} \lambda_i, \dots, \lambda_n \in \mathbb{R} \label{OKFD predictor}
+In this section we describe the ordinary kriging methodology developed in \cite{Giraldo:2010jx} for functional data. This approach closely parallels the method of ordinary kriging for scalar-valued. Let $X_{s_1}(t), \dots, X_{s_n}(t)$ be realizations of the functional random process $X_s(t)$ at site $s_1, \dots, s_n$. For an unobserved location $s_0$, the predictor for $X_{s_0}$ is given by 
+\begin{equation}\label{OKFD predictor}
+	\hat{X}_{s_0} = \sum_{i=1}^n\lambda_i X_{s_i}(t) \mbox{\hspace{0.5cm}} \lambda_i, \dots, \lambda_n \in \mathbb{R} 
 \end{equation}
 The following formal assumptions establish the stationarity conditions:
 \begin{itemize}
@@ -65,9 +68,51 @@ The following formal assumptions establish the stationarity conditions:
 \end{itemize}
 The estimator in \eqref{OKFD predictor} is a linear predictor and the weights $\lambda_i$ are derived such that the predictor is the best linear unbiased predictor (BLUP). The unbiased constraint requires that $\sum_{i=1}^n\lambda_i = 1$, and the BLUP is obtained by minimizing
 \begin{equation}
-	\sigma^2_{s_0} = Var(\hat{X}_{s_0} - X_{s_0}).
+	\sigma^2_{s_0} = Var(\widehat{X}_{s_0} - X_{s_0}).
 \end{equation}
-Implementation of this method requires a preprocessing step involving non-parametric fitting of the observed data to achieve smooth representations of the functions $X_{s_1}(t), \dots, X_{s_n}(t)$. This is accomplished by fitting a finite b-spline basis where the dimension of the basis and the smoothing parameter are chosen by a functional cross-validation algorithm. 
+Implementation of this method requires a preprocessing step involving non-parametric fitting of the observed curves to achieve smooth representations of the curves $X_{s_1}(t), \dots, X_{s_n}(t)$. It is assumed that each observed curve can be expressed in terms of $K$ basis functions, $B_1(t), \dots, B_K(t)$, by 
+\begin{equation}\label{eq:basis expansion}
+	X_{s_i}(t) = \sum_{l=1}^K a_{il}B_l(t) = {\bf a}^T_i{\bf B}(t), \; i = 1, \dots, n
+\end{equation}
+where ${\bf a}_i = (a_{i1}, \dots, a_{iK})$, ${\bf B}(t) = (B_1(t), \dots, B_K(t))$. In practice, this is accomplished by fitting a finite B-splines basis (or a truncated Fourier series for periodic data) with a smoothing penalty, where the dimension of the basis and the smoothing parameter are chosen by a functional cross-validation algorithm. 
+
+Given that the observed data have been processed such that the curves are expressed in terms of the finite basis expansion \eqref{eq:basis expansion}, estimation of $\lambda_i$ in Equation~\eqref{OKFD predictor} is performed by the constrained minimization problem
+\begin{equation}
+	\stackrel[\lambda_i,\dots, \lambda_n]{\mbox{min}}{}\int_TVar(\widehat{X}_{s_0}(t) - X_{s_0}(t))dt, \; \mbox{such that }\sum_{i=1}^{n}\lambda_i=1
+\end{equation}
+which has to following expression using the Lagrange multiplier $\mu$ to include the unbiasedness constraint,
+\begin{equation}\label{eq:lagrange}
+	\sum_{i=1}^n\sum_{j=1}^n\lambda_i\lambda_j\int_T C_{ij}(h,t)dt + \int_T \sigma^2(t)dt - 2\sum_{i=1}^n\int_TC_{i0}(h,t)dt + 2\mu\left( \sum_{i=1}^n\lambda_i - 1\right)
+\end{equation}
+Minimizing Equation~\eqref{eq:lagrange} with respect to $\lambda_1, \dots, \lambda_n$ and $\mu$ results in the kriging equation,
+\begin{align}\label{eq:linear kriging equations}
+	\left( 
+	\begin{array}{cccc}
+		\int_T\gamma\norm{s_1 - s_1}(t)dt & \dots & 	\int_T\gamma\norm{s_1 - s_n}(t)dt & 1\\
+		\vdots & \ddots & \vdots & \vdots \\
+		\int_T\gamma\norm{s_n - s_1}(t)dt & \dots & \int_T\gamma\norm{s_n - s_n}(t)dt & 1 \\
+		1 & \dots & 1 & 0 \\
+	\end{array}
+	\right)&
+	\left(
+	\begin{array}{c}
+		\lambda_1 \\
+		\vdots \\
+		\lambda_n \\
+		-\mu
+	\end{array}
+	\right) \notag \\
+	&=
+	\left(
+	\begin{array}{c}
+		\int_T\gamma\norm{s_0 - s_1}(t)dt \\
+		\vdots \\
+	\int_T\gamma\norm{s_0 - s_n}(t)dt \\
+		-1
+	\end{array}
+	\right)
+\end{align}
+In \cite{Giraldo:2010jx}, the function $\gamma(h)= \int_T\gamma\norm{s_i - s_j}dt$ is called the trace-variogram. A method-of-moments estimator for the trace variogram is shown in Equation (7) in \cite{Giraldo:2010jx}, which is similar to the classical variogram estimator used in scalar kriging. The estimator is used to compute empircal trace-variogram values for a set of discrete distances and then a parametric model is fitted (e.g., Spherical, Exponential, Gaussian). The estimated trace-variogram is then substituded in Equation~\eqref{eq:linear kriging equations}, whose solution provides the $\lambda_i$ for the kriging predictor \eqref{OKFD predictor}. 
 % section ordinary_kriging_of_function_valued_data (end)
 
 \section{Cokriging functional principal components scores} % (fold)
@@ -308,7 +353,9 @@ This simulation study is designed to compare the prediction performance among me
 	\item OKFD: Ordinary kriging of functional data method described in Section \ref{sec:ordinary_kriging_of_function_valued_data}.
 \end{itemize}
 
-Observed data consisted of $m = 10, 20$ observations from each curve with noise ($\sigma_0=0.1, 0.3$). The observed time points are the same for each curve for comparison purposes. This is due to the fact that the \texttt{geofd} R package (version 0.4.6) used for the OKFD method does not support different time points across curves. The OKFD methodology does allow for different time points across curves, so it is only the implementation that causes this restriction. It is unlikely that there will be future versions of the \texttt{geofd} package which support varying time points since the \texttt{geofd} package is no longer supported on CRAN and does not appear to be under active development. The implementation of CFPC method does allow for time points vary across curves, but we use fixed time points in the simulations in order to directly compare the performance of the different methods.                                              
+Observed data consisted of $m = 10, 20$ observations from each curve with noise ($\sigma_0=0.1, 0.3$). The observed time points are the same for each curve for comparison purposes. This is due to the fact that the \texttt{geofd} R package (version 0.4.6) used for the OKFD method does not support different time points across curves. The OKFD methodology does allow for different time points across curves, so it is only the implementation that causes this restriction. It is unlikely that there will be future versions of the \texttt{geofd} package which will support varying time points since the \texttt{geofd} package is no longer supported on CRAN and does not appear to be under active development. 
+
+Even though the implementation of CFPC method does allow for time points vary across curves, we use fixed time points in the simulations in order to directly compare the performance of the different methods. In future work we plan on modifying the OKFD implementation to allow for the more general case of random time points. To implement this change, the data structure for the functional arguments has to be changed from a vector to a matrix in order to store the time points corresponding to each curve, and then formatted to match the data structures for functional data in the \texttt{fda} R package, which is used for the pre-processing step.                                            
 
 %Figure~\ref{fig:curve kriging predictions} an example of predictions for one simulated data set. The numbers on the plots correspond to the numbered locations on the simulation grid (Figure \ref{fig:pred locations}). 
 Boxplots summarizing 1000 simulated data sets for each scenario are shown in Figure~\ref{fig:boxplots pred mse}, where the measured variable is the average prediction mean squared error for the 12 prediction locations. The boxplots in Figure~\ref{fig:boxplots pred mse} show that the proposed method performs as good or better than the OKFD in term of prediction mean squared error. It also shows a clear difference between the prediction performance between weighted and un-weighted covariance estimator. None of the methods are uniformly better, but the values in Table \ref{tab:kriging_pred} and Table \ref{tab:kriging_pred_2} show that in three out of four of the high noise ($\sigma_0 = 0.3$) cases the weighted covariance estimator performs best.  
