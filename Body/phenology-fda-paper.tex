@@ -116,7 +116,7 @@ We achieve smooth versions of the observed curves by expressing them as a finite
 \begin{equation}
 	C(Y_i(t_j), Y_i(t_k)) = C_0(X_i(t_j), X_i(t_k)) + \sigma^2_0 \delta_{jk}
 \end{equation}
-where $\delta_{jk}$ equals 1 if $j=k$ and is equal to zero otherwise. The covariance function $C_0(s,t)$ is recovered by performing bivariate smoothing on the sample covariance omitting the diagonal values. The methodology, which is described in detail in described in Chapter \ref{ch:covariance estimation}, achieves both efficient estimation of $C_0(s,t)$ and results in closed-form estimates of corresponding principal component functions. By assuming the trajectories $X$ belong to a reproducing kernel Hilbert space is has been shown to have optimal convergence properties due to the fact that the covariance function necessarily resides in the tensor product space $\H\tprod\H$. This fact motivates the following covariance function estimator.
+where $\delta_{jk}$ equals 1 if $j=k$ and is equal to zero otherwise. The covariance function $C_0(s,t)$ is recovered by performing bivariate smoothing on the sample covariance omitting the diagonal values. The methodology, which is described in detail in described in Chapter \ref{ch:covariance estimation}, achieves both efficient estimation of $C_0(s,t)$ and results in closed-form estimates of corresponding principal component functions. For trajectories $X$ belonging to a reproducing kernel Hilbert space, optimal convergence properties are acheived due to the fact that the covariance function necessarily resides in the tensor product space $\H\tprod\H$. This fact motivates the following covariance function estimator.
 
 Let $\mathbf{b}^{(i)} = [(Y_{ij}-\mu(t_{ij}))(Y_{ij'}-\mu(t_{ij'}))]_{1\leq j\neq j'\leq 46}$, $i=1, \dots, N$. Further, let
 \[ \mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T} )^T, \]
@@ -163,7 +163,7 @@ Selection of the weight parameter $p$ in \eqref{pheno:weight function} is a chal
 
 % subsection selecting_an_appropriate_weight (end)
 % subsection smoothing (end)
-\subsection{Land Cover Classification} 
+\subsection{Land cover classification} 
  % (fold)
 \label{sub:land_cover_classification}
 
@@ -291,7 +291,7 @@ The results do not necessarily indicate an increase of agricultural land over ti
 \end{figure}
 % section conclusion (end)
 
-\section{Supplementary Material} % (fold)
+\section{Supplementary material} % (fold)
 \label{sec:supplementary_material}
 
 \begin{figure}
