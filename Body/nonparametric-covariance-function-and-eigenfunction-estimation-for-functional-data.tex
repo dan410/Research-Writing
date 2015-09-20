@@ -8,7 +8,7 @@
 % (fold)
 \label{sec:abstract}
 
-Functional principal components has gained much popularity in the area of functional data analysis as an exploratory and as a modeling tool. Functional principal components are known to correspond to the eigenfunctions of the covariance operator. Due to this fact, much work has been done on flexible methods for covariance function estimation. In this paper we investigate an approach to covariance function estimation where the curves are assumed to belong to a reproducing kernel Hilbert space (RKHS). By assuming curves belong to a RKHS, it has been shown that the covariance function necessarily belongs to the corresponding tensor product space--which is itself an RKHS. This fact motivates an approach for nonparametric estimation using the norm on the tensor product space as a smoothing penalty. We adopt this framework and explore how the choice of function space and penalty affect the representation of the estimator---in particular we consider function spaces where the norm is defined on a subspace, resulting in a non-empty unpenalized subspace. We describe the form of the covariance function estimator in this case and derive closed form estimators of the principal component functions. 
+Functional principal components have gained much popularity in the area of functional data analysis as an exploratory method and as a modeling tool. Functional principal components are known to correspond to the eigenfunctions of the covariance operator. Due to this fact, researchers have done much work on flexible methods for covariance function estimation. In this paper we investigate an approach to covariance function estimation where the curves are assumed to belong to a reproducing kernel Hilbert space (RKHS). By assuming curves belong to an RKHS, it has been shown that the covariance function necessarily belongs to the corresponding tensor product space, which is itself an RKHS. Motivated by this fact, nonparametric estimation methods have been developed using the norm on the tensor product space as a smoothing penalty. We adopt this framework and explore how the choice of function space and penalty affect the representation of the estimator;in particular, we consider function spaces where the norm is defined on a subspace, resulting in a non-empty unpenalized subspace. We describe the form of the covariance function estimator in this case and derive closed-form estimators of the principal component functions. 
 
 % section abstract (end)
 \section{Introduction} 
@@ -16,21 +16,21 @@ Functional principal components has gained much popularity in the area of functi
 % (fold)
 \label{sec:introduction}
 
-Functional principal components are often used in functional data analysis as an efficient way to represent curves. In multivariate methods, principal components can be derived through an eigen-decomposition of the covariance matrix; however, with functional data the covariance is not a matrix, but a continuous bivariate function. When the number of observations per curve is sparse often one approaches the problem by pooling covariance information from each curve and performing bivariate smoothing. What seems most common in the literature is to use local polynomial smoothing (\cite{Yao:2005cv}). \cite{Cai:2010vr} propose a framework for nonparametric covariance function estimation motivated by theory for smoothing splines, which make use properties of reproducing kernel Hilbert space (RKHS). One major benefit of this approach is that it can be used for both sparse and dense functional data, whereas previous methods have been shown to work well in one case but not optimal in the other. The field of functional data analysis is relatively new, growing, and in flux. As there has been much interest in developing a functional data approach to sparsely observed curves, a pressing need exists for a unifying theory for sparse functional data and longitudinal data as mentioned by the discussants in (\cite{guo2004discussion}). 
+Functional principal components are often used in functional data analysis as an efficient way to represent curves. In multivariate methods, principal components can be derived through an eigen-decomposition of the covariance matrix; however, with functional data the covariance is not a matrix but a continuous bivariate function. When the number of observations per curve is sparse, often one approaches the problem by pooling covariance information from each curve and performing bivariate smoothing. What seems most common in the literature is to use local polynomial smoothing (\cite{Yao:2005cv}). \cite{Cai:2010vr} propose a framework for nonparametric covariance function estimation motivated by theory for smoothing splines, which make use of properties of reproducing kernel Hilbert space (RKHS). One major benefit of this approach is that it can be used for both sparse and dense functional data, whereas previous methods have been shown to work well in one case but not in the other. The field of functional data analysis is relatively new, growing, and in flux. As there has been much interest in developing a functional data approach to sparsely observed curves, a pressing need exists for a unifying theory for sparse functional data and longitudinal data, as mentioned by the discussants in \cite{guo2004discussion}. 
 
-The theoretical framework of RKHS seems well suited for the task of covariance function estimation as the rate of convergence can be shown to be near-optimal. A more practical benefit of this approach is the ability to derive closed form estimates of the eigenfunctions. This fact alone makes this appraoch extremely useful, as one often seeks to represent curves using a principal component function basis. In this work, we adopt and investigate this approach to covariance function estimation gaining insight into Hilbert space decompositions as they relate to specific reproducing kernels that are used by practioners; derive a more general version of the principal component function estimator; and provide a computational tool in the form of an R package including functions for both covariance function estimation and principal component function estimation (https://github.com/dan410/sseigfun).
+The theoretical framework of RKHS seems well suited for the task of covariance function estimation, as the rate of convergence can be shown to be near optimal. A practical benefit of this approach is the ability to derive closed-form estimates of the eigenfunctions. This fact alone makes this approach extremely useful, as one often seeks to represent curves using a principal component function basis. In this work, we adopt and investigate this approach to covariance function estimation, gaining insight into Hilbert space decompositions as they relate to specific reproducing kernels that are used by practioners; derive a more general version of the principal component function estimator; and provide a computational tool in the form of an R package including functions for both covariance function estimation and principal component function estimation (https://github.com/dan410/sseigfun).
 
-For curves belonging to a RKHS, it can be shown that the covariance function resides in the tensor product reproducing kernel Hilbert space $\H\otimes \H$. The tensor product space is itself a RKHS whose reproducing kernel is strait forward to derive for the reproducing kernel on $\H$. Based on this result, a natural regularization procedure for covariance function estimation is the following: 
+For curves belonging to an RKHS, it can be shown that the covariance function resides in the tensor product reproducing kernel Hilbert space $\H\otimes \H$. The tensor product space is itself an RKHS whose reproducing kernel is straitforward to derive for the reproducing kernel on $\H$. Based on this result, a natural regularization procedure for covariance function estimation is the following: 
 \begin{equation}
 	\label{eq:cy-cov-est} \hat{C}_{\lambda} = \stackrel[C \in \H\otimes\H]{}{\mbox{argmin}} \{l_{n}(C)+\lambda\left\Vert C\right\Vert _{\H\otimes \H}^{2}\}, 
 \end{equation}
 where $\lambda\geq0$ is a tuning parameter that balances the fidelity to the data measured by $l_{n}$ and smoothness of the estimate measured by the squared RKHS norm.
 
-In \cite{Cai:2010vr} the convergence rate of this estimator was shown to be superior to the optimal rate for general bivariate smoothing on $[0,1]\times[0,1]$, which is attributed to the fact that estimation is performed over functions in $\H \tprod \H$ instead of the typical Sobelev space used. This implies that the tensor product RKHS is to a certain degree smaller than the typical Sobelev space, thus reducing the effect of ``the curse of dimensionality''.
+In \cite{Cai:2010vr} the convergence rate of this estimator was shown to be superior to the optimal rate for general bivariate smoothing on $[0,1]\times[0,1]$, which is attributed to the fact that estimation is performed over functions in $\H \tprod \H$ instead of the typical Sobolev space used. This implies that the tensor product RKHS is to a certain degree smaller than the typical Sobolev space, thus reducing the effect of ``the curse of dimensionality.''
 
-Using standard arguments from smoothing spline theory (see \cite{Wahba:1990}), the covariance function estimator \eqref{eq:cy-cov-est} has a finite dimensional representation. Further, using this representation, closed form expressions for the eigenfunctions can be derived. This is a significant benefit, as one often has to numerically approximate the eigenfunctions by discretizing the covariance function.
+Using standard arguments from smoothing spline theory (see \cite{Wahba:1990}), the covariance function estimator \eqref{eq:cy-cov-est} has a finite dimensional representation. Further, using this representation, we can derive closed-form expression of the eigenfunctions. This is a significant benefit, as one often has to numerically approximate the eigenfunctions by discretizing the covariance function.
 
-This approach assumes that the reproducing kernel is known and that the tensor product norm corresponding to the reproducing kernel penalizes smoothness in an appropriate way. It seems important, from a practical point of view, to have a clear understanding of how the penalty functional is operating. To accomplish this we propose an approach that begins with defining how univariate functions are penalized on the marginal domain (typically done by defining an appropriate high order derivative), then use the implied penalty on the tensor product domain to estimate the covariance function. This approach is more attractive from a practitioner's point of view, because it is more natural to define a differential operator to penalize smoothness, and in this case the functions annihilated by the differential operator form a non-null subspace. \cite{Cai:2010vr} proposes, as an example, a kernel based on penalizing the integrated squared second derivative, but define a function space where all non-zero functions are penalized. It is not clear if this function space was chosen other than for mathematical convenience as it has a trivial unpenalized subspace. We show how the estimator can be generalized to allow for non-trivial unpenalized spaces. 
+This approach assumes that the reproducing kernel is known and that the tensor product norm corresponding to the reproducing kernel penalizes smoothness in an appropriate way. It seems important, from a practical point of view, to have a clear understanding of how the penalty functional is operating. To accomplish this we propose an approach that begins with defining how univariate functions are penalized on the marginal domain (typically done by defining an appropriate high-order derivative), then use the implied penalty on the tensor product domain to estimate the covariance function. This approach is more attractive from a practitioner's point of view, because it is more natural to define a differential operator to penalize smoothness, and in this case, the functions annihilated by the differential operator form a non-null subspace. \cite{Cai:2010vr} propose, as an example, a kernel based on penalizing the integrated squared second derivative but define a function space where all non-zero functions are penalized. It is not clear if they chose this function space other than for mathematical convenience, as it has a trivial unpenalized subspace. We show how the estimator can be generalized to allow for non-trivial unpenalized spaces. 
 
 Our approach allows for the typical function space, 
 \begin{equation}
@@ -52,7 +52,7 @@ has the form
 \begin{equation}
 	\hat{f}(t) = \sum_{j=1}^M d_j\phi_j(t) + \sum_{i=1}^N c_iR_1(t, t_i), \label{eq:unpenalized solution} 
 \end{equation}
-where $\{\phi_j(\cdot)\}_{j=1}^M$ are a basis for the space of unpenalized functions $\H_0$ and $P_1(f)=f_1$ is the projection of $f$ onto the space $\H_1$. (Details of the derivation of \eqref{eq:unpenalized solution} from \eqref{eq:unpenalized objective function} are shown in the Appendix ). In Section \ref{sec:covariance_function_estimation} we show how the regularization procedure for covariance function can account for this type of decomposition. In Section \ref{sec:estimation_of_functional_principal_components} we derive closed form estimators of the principal component functions based on the generalized covariance estimator.
+where $\{\phi_j(\cdot)\}_{j=1}^M$ are a basis for the space of unpenalized functions $\H_0$ and $P_1(f)=f_1$ is the projection of $f$ onto the space $\H_1$. (Details of the derivation of \eqref{eq:unpenalized solution} from \eqref{eq:unpenalized objective function} are shown in the Section \ref{motivation for RKHS} ). In Section \ref{sec:covariance_function_estimation} we show how the regularization procedure for covariance function can account for this type of decomposition. In Section \ref{sec:estimation_of_functional_principal_components} we derive closed-form estimators of the principal component functions based on the generalized covariance estimator.
 
 % section introduction (end)
 \section{Methodology} 
@@ -60,16 +60,16 @@ where $\{\phi_j(\cdot)\}_{j=1}^M$ are a basis for the space of unpenalized funct
 % (fold)
 \label{sec:methodology}
 
-In the following we assume $\T$ to be the interval $[0,1]$. Let $X(\cdot)$ be a second order stochastic process with covariance function
+In the following we assume $\T$ to be the interval $[0,1]$. Let $X(\cdot)$ be a second-order stochastic process with covariance function
 \[ C_{0}(s,t)=E([X(s)-E(X(s))][X(t)-E(X(t))]),\mbox{ }\forall s,t\in \T. \]
-Further, assume $X(\cdot)$ takes values in a reproducing kernel Hilbert space $\H$ with corresponding reproducing kernel $R(s,t)$. The reproducing kernel $R(s,t)$ has the property $\inner{f(s)}{R_t(s)}_{\H} = f(t)$ for all $f \in \H$, where $R_t(s)$ is notation for $R(s,t)$ holding the second coordinate fixed. The function $R_t(s)$ belongs to $\H$; as an immediate consequence of the reproducing property $\inner{R_{t_1}(s)}{R_{t_2}(s)} = R(t_1, t_2)$. 
+Further, assume $X(\cdot)$ takes values in a reproducing kernel Hilbert space $\H$ with corresponding reproducing kernel $R(s,t)$. The reproducing kernel $R(s,t)$ has the property $\inner{f(s)}{R_t(s)}_{\H} = f(t)$ for all $f \in \H$, where $R_t(s)$ is notation for $R(s,t)$ holding the second coordinate fixed. The function $R_t(s)$ belongs to $\H$, as an immediate consequence of the reproducing property $\inner{R_{t_1}(s)}{R_{t_2}(s)} = R(t_1, t_2)$. 
 
 %Note that this is a key property, since it shows that inner products involving the reproducing kernel function are equivalent to function evaluation.  
-Let $\{X_{1},X_{2},\dots,X_{N}\}$ be a collection of independent realizations of $X$, and we consider the following observation model
+Let $\{X_{1},X_{2},\dots,X_{N}\}$ be a collection of independent realizations of $X$, and we consider the observation model
 \[ Y_{ij}=X_{i}(t_{ij})+\epsilon_{ij},\mbox{ }j=1,\dots,m;\mbox{ }i=1,\dots,N, \]
 where the sampling locations are independently drawn from a common distribution on $\T,$ and $\epsilon_{ij}$ are independently and identically distributed measurement errors with mean zero and finite variance $\sigma_{0}^{2}.$ It is further assumed that the random functions $X,$ sampling locations $t_{ij},$ and measurement errors $\epsilon$ are mutually independent. 
 
-The development in this section relies on the fact that a closed subspace of a Hilbert space induces a natural partition of the space into a direct sum of the closed subspace and its orthogonal complement (\cite{Gu2002} gives a concise overview of the relevant Hilbert space theory). The subspace consisting of unpenalized functions is a closed subspace and it is convenient to express $\H$ as a direct sum decomposition $\H = \H_0 \oplus \H_1$, where on $\H_1$ the penalty functional is a full squared norm and $\H_0$ consists of functions in $\H$ which will not be penalized. With this orthogonal decomposition, any function $f \in \H$ has the representation $f = f_0 + f_1$, where $f_0 \in \H_0$ and $f_1 \in \H_1$. It is well known that the reproducing kernel $R$ on $\H$ can be expressed as $R = R_0 + R_1$, where $R_0$ is the reproducing kernel on $\H_0$ and $R_1$ is the reproducing kernel on $\H_1$.
+The development in this section relies on the fact that a closed subspace of a Hilbert space induces a natural partition of the space into a direct sum of the closed subspace and its orthogonal complement (\cite{Gu2002} gives a concise overview of the relevant Hilbert space theory). The subspace consisting of unpenalized functions is a closed subspace, and it is convenient to express $\H$ as a direct sum decomposition $\H = \H_0 \oplus \H_1$, where on $\H_1$ the penalty functional is a full squared norm and $\H_0$ consists of functions in $\H$ that will not be penalized. With this orthogonal decomposition, any function $f \in \H$ has the representation $f = f_0 + f_1$, where $f_0 \in \H_0$ and $f_1 \in \H_1$. It is well known that the reproducing kernel $R$ on $\H$ can be expressed as $R = R_0 + R_1$, where $R_0$ is the reproducing kernel on $\H_0$ and $R_1$ is the reproducing kernel on $\H_1$.
 
 Covariance function estimation takes place on the product domain $\T_1\times \T_2$ = $[0,1]\times[0,1]$. Denote by $\H_{<1>}$ and $\H_{<2>}$ the reproducing kernel Hilbert space on $\T_1$ and $\T_2$, respectively. Let $\H_{<1>}=\H_{0<1>} \oplus\H_{1<1>}$ and $\H_{<2>} = \H_{0<2>} \oplus \H_{1<2>}$ be the direct sum decomposition of spaces on the marginal domains into their unpenalized and penalized subspaces. Using these decompositions, the tensor product space $\H_{<1>} \otimes \H_{<2>}$ has the representation 
 \begin{equation*}
@@ -79,9 +79,9 @@ which can be expanded into the following tensor sum
 \begin{equation}
 	\H_{<1>} \otimes \H_{<2>} = ( \H_{0<1>} \otimes\H_{0<2>}) \oplus (\H_{0<1>} \otimes \H_{1<2>}) \oplus ( \H_{1<1>} \otimes \H_{0<2>}) \oplus (\H_{1<1>} \otimes \H_{1<2>}). \label{eq:tpsum} 
 \end{equation}
-Equation \eqref{eq:tpsum} is a direct sum of tensor product reproducing kernel Hilbert spaces, where the subspace corresponding to $ \H_{0<1>} \otimes\H_{0<2>}$ consists only of unpenalized functions. As in the univariate case, the solution to the penalized smoothing problem when unpenalized subspaces are allowed will involve linear combination of the basis functions for the unpenalized subspace. 
+Equation \eqref{eq:tpsum} is a direct sum of tensor product reproducing kernel Hilbert spaces, where the subspace corresponding to $ \H_{0<1>} \otimes\H_{0<2>}$ consists of only unpenalized functions. As in the univariate case, the solution to the penalized smoothing problem when unpenalized subspaces are allowed will involve linear combination of the basis functions for the unpenalized subspace. 
 
-The main goal in what follows is to describe the form of the covariance function estimator when the tensor product space has a decomposition as in \eqref{eq:tpsum}. We describe the form of the estimator in this case as well as derive the principle component functions. Since our focus is on practical implementation of this method, we focus on the most common case where the smoothing penalty on the marginal domain is given by the integral of the squared second derivative.
+The main goal in what follows is to describe the form of the covariance function estimator when the tensor product space has a decomposition, as in \eqref{eq:tpsum}. We describe the form of the estimator in this case, as well as derive the principle component functions. Since our focus is on practical implementation of this method, we focus on the most common case where the smoothing penalty on the marginal domain is given by the integral of the squared second derivative.
 
 % section methodology (end)
 \section{Covariance function estimation} 
@@ -89,7 +89,7 @@ The main goal in what follows is to describe the form of the covariance function
 % (fold)
 \label{sec:covariance_function_estimation}
 
-Consider the space $\H = \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$. On this space the term $\int_0^1 f''g''dx$ is a semi-inner-product which can be extended to a full inner product by defining an inner product on the subspace $\H_0 = \{f : f'' = 0\}$. Common choices for inner products in $\H_0$ are $\inner{f}{g}_0 = f(0)g(0) + f'(0)g'(0)$ or $\inner{f}{g}_0 = (\int_0^1fdx)(\int_0^1gdx) + (\int_0^1f'dx)(\int_0^1g'dx)$. We work with the latter because it corresponds to a mathematically convenient expression for the reproducing kernel. 
+Consider the space $\H = \{f : f, f' \mbox{ absolutely continuous}, f'' \in L_2[0,1]\}$. On this space the term $\int_0^1 f''g''dx$ is a semi-inner-product that can be extended to a full inner product by defining an inner product on the subspace $\H_0 = \{f : f'' = 0\}$. Common choices for inner products in $\H_0$ are $\inner{f}{g}_0 = f(0)g(0) + f'(0)g'(0)$ and $\inner{f}{g}_0 = (\int_0^1fdx)(\int_0^1gdx) + (\int_0^1f'dx)(\int_0^1g'dx)$. We work with the latter because it corresponds to a mathematically convenient expression for the reproducing kernel. 
 
 The space $\H$ with inner product 
 \begin{align}
@@ -97,7 +97,7 @@ The space $\H$ with inner product
 	&= \left(\int_0^1fdx\right)\left(\int_0^1gdx\right) + \left(\int_0^1f'dx\right)\left(\int_0^1g'dx\right) + \int_0^1 f''g''dx 
 	\label{inner prod}
 \end{align}
-is a RKHS with a reproducing kernel that can be conveniently expressed in terms of the functions 
+is an RKHS with a reproducing kernel that can be conveniently expressed in terms of the functions 
 \begin{equation}
 	k_r(x) = -\left( \sum_{\mu = -\infty}^{-1} + \sum_{\mu=1}^{\infty} \right) \frac{\exp(2\pi i \mu x)}{(2 \pi i \mu)^r}, r = 1,2, \dots.\nonumber \label{eq:kfuns} 
 \end{equation}
@@ -121,7 +121,7 @@ The unpenalized space $\H_0$ can be decomposed further as $\H_0 = \H_{00} \tsum 
 \end{align*}
 This formulation provides a decomposition of the unpenalized space into functions spanned by a constant and functions spanned by a linear term. This construction results in the overall decomposition $\H= \H_{00} \tsum \H_{01} \tsum \H_1$. Using this decomposition of $\H$ on both marginal domains of $[0,1] \times [0,1]$ results in a natural decomposition of the tensor product space
 \[ \H_{<1>} \tprod \H_{<2>} = (\H_{00<1>} \tsum \H_{01<1>} \tsum \H_{1<1>})\tprod (\H_{00<2>} \tsum \H_{01<2>} \tsum \H_{1<2>}) \]
-into a sum of nine subspaces of the tensor product space. These nine subspaces and their corresponding reproducing kernels are shown in Table \ref{tab:tp decomp}. It is straight forward to derive the reproducing kernels in Table \ref{tab:tp decomp} using the fact that the reproducing kernel on the tensor product space is the product of the reproducing kernels on the marginal spaces, i.e. $R((x_{<1>}, x_{<2>}), (y_{<1>}, y_{<2>}) ) = R_{<1>}(x_{<1>}, y_{<1>})\times R_{<2>}(x_{<2>}, y_{<2>})$. 
+into a sum of nine subspaces of the tensor product space. These nine subspaces and their corresponding reproducing kernels are shown in Table \ref{tab:tp decomp}. It is straightforward to derive the reproducing kernels in Table \ref{tab:tp decomp} using the fact that the reproducing kernel on the tensor product space is the product of the reproducing kernels on the marginal spaces: $R((x_{<1>}, x_{<2>}), (y_{<1>}, y_{<2>}) ) = R_{<1>}(x_{<1>}, y_{<1>})\times R_{<2>}(x_{<2>}, y_{<2>})$. 
 \begin{table}
 	[h] \centering \isucaption{Tensor product space decomposition with corresponding reproducing kernels.} \label{tab:tp decomp} 
 	\begin{tabular}
@@ -129,11 +129,11 @@ into a sum of nine subspaces of the tensor product space. These nine subspaces a
 	\end{tabular}
 \end{table}
 
-Inspection of the tensor product subspaces listed in Table \ref{tab:tp decomp} shows that only five have the space $\H_1$ as one of their marginal domain spaces, thus it is these five spaces that comprise the space of penalized functions. In order to represent the reproducing kernel on the penalized space the following notation is useful. Denote $\H_{\nu, \mu}=\H_{\nu <1>}\otimes \H_{\mu <2>}$ and $R_{\nu, \mu}=R_{\nu <1>}R_{\mu <2>}$, then $\breve{R} = R_{1,00}+R_{1,01}+R_{00,1}+R_{01,1}+R_{1,1}$ is the reproducing kernel on $\breve{\H} = \H_{1,00}\oplus\H_{1,01}\oplus\H_{00,1}\oplus\H_{01,1}\oplus\H_{1,1}$. The space $\breve{\H}$ contains all functions on the product domain that have a non-zero smoothing penalty.
+Inspection of the tensor product subspaces listed in Table \ref{tab:tp decomp} shows that only five have the space $\H_1$ as one of their marginal domain spaces; thus, it is these five spaces that comprise the space of penalized functions. In order to represent the reproducing kernel on the penalized space the following notation is useful. Denote $\H_{\nu, \mu}=\H_{\nu <1>}\otimes \H_{\mu <2>}$ and $R_{\nu, \mu}=R_{\nu <1>}R_{\mu <2>}$; then $\breve{R} = R_{1,00}+R_{1,01}+R_{00,1}+R_{01,1}+R_{1,1}$ is the reproducing kernel on $\breve{\H} = \H_{1,00}\oplus\H_{1,01}\oplus\H_{00,1}\oplus\H_{01,1}\oplus\H_{1,1}$. The space $\breve{\H}$ contains all functions on the product domain that have a non-zero smoothing penalty.
 
 Let $\mathbf{b}^{(i)} = [(Y_{ij}-\mu(t_{ij}))(Y_{ij'}-\mu(t_{ij'}))]_{1\leq j\neq j'\leq m}$, $i=1, \dots, n$. Let
-\[ \mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T} )^T, \]
-then the vectors $\mathbf{b}^{(i)}$ contain all pairwise products of observations on the $i$th curve, excluding those that are the product of an observation with itself. We propose the following estimator:
+\[ \mathbf{b} = (\mathbf{b}^{(1)T}, \mathbf{b}^{(2)T}, \dots, \mathbf{b}^{(n)T} )^T; \]
+then the vectors $\mathbf{b}^{(i)}$ contain all pairwise products of observations on the $i^{\mbox{th}}$ curve, excluding those that are the product of an observation with itself. We propose the following estimator:
 \[ \widehat{C}_{\lambda}=\stackrel[C \in \H\otimes \H]{}{\text{ argmin}} \left\{\frac{1}{nm^2-nm} (\mathbf{b} - \mathbf{C})^T(\mathbf{b} - \mathbf{C})+\lambda\left\Vert C\right\Vert _{\breve{\H}}^{2} \right\}, \]
 where
 
@@ -144,7 +144,7 @@ where
 %and 
 \[ \mathbf{C} = [C(t_{i,j}, t_{i'j'})]. \]
 
-Using the representer theorem in \cite{Wahba:1990} theorem 1.3.1, it can be shown that the estimated covariance function has the form 
+Using the representer theorem in \cite{Wahba:1990}, theorem 1.3.1, it can be shown that the estimated covariance function has the form 
 \begin{equation}
 	\hat{C}(s,t) = \sum_{\nu, \mu=00,01}d_{\nu,\mu}\phi_{\nu,\mu}(s,t) + \sum_{i,j}c_{i,j}\breve{R}((t_i,t_j),(s,t))	
 	%\label{eq:}
@@ -161,7 +161,7 @@ Efficient estimation of \eqref{eq:covest} including smoothing parameter selectio
 \label{sub:practical_considerations_for_knot_selection}
 
 % subsection practical_considerations_for_knot_selection (end)
-In practice, when curves are not sparsely observed, the number of observed pairs $(t_i, t_j)$ will be large. In this case \cite{CFZ} recommend using knot locations forming a regular grid within the convex hull of the observed points. \cite{Kim:2004tt} investigate this with a simulation study and give a general recommendation of $10n^{2/9}$, where $n$ is the sample size on the product domain. Following this advice, we fix knot locations on a regular grid. Let $t_i \in [0,1]; i=1,\dots, K$ be the chosen knot locations on the univariate domain, making $(t_i,t_j)_{1\leq i,j \leq K}$ a regular grid of knot locations on $[0,1]\times[0,1]$. The number of knot locations $K$ puts an upper bound of $K+2$ eigenfunctions because the number of knot locations plus the dimension of the unpenalized space bound the dimension of the solution space for the eigenfunctions as shown in Lemma \ref{thm:eigenfunctions}.
+In practice, when curves are not sparsely observed, the number of observed pairs $(t_i, t_j)$ will be large. In this case, \cite{CFZ} recommend using knot locations forming a regular grid within the convex hull of the observed points. \cite{Kim:2004tt} investigate this with a simulation study and give a general recommendation of $10n^{2/9}$, where $n$ is the sample size on the product domain. Following this advice, we fix knot locations on a regular grid. Let $t_i \in [0,1]; i=1,\dots, K$ be the chosen knot locations on the univariate domain, making $(t_i,t_j)_{1\leq i,j \leq K}$ a regular grid of knot locations on $[0,1]\times[0,1]$. The number of knot locations $K$ puts an upper bound of $K+2$ eigenfunctions because the number of knot locations plus the dimension of the unpenalized space bound the dimension of the solution space for the eigenfunctions as shown in Lemma \ref{thm:eigenfunctions}.
 
 \begin{figure}
 	\centering 
@@ -219,26 +219,26 @@ In practice, when curves are not sparsely observed, the number of observed pairs
 % (fold)
 \label{sec:estimation_of_functional_principal_components}
 
-Functional principal components are related to the well-known Karhunen-Loeve representation theorem. For a square-integrable stochastic process $X(t)$ defined on a closed interval $[a,b]$, with continuous covariance $C(s,t)$, there corresponds a linear operator $[T_Cf](s) = \int_a^bC(s,t)f(t)dt$. Since $C(s,t)$ is symmetric and non-negative definite, it has the following representation 
+Functional principal components are related to the well-known Karhunen-Loeve representation theorem. For a square-integrable stochastic process $X(t)$ defined on a closed interval $[a,b]$, with continuous covariance $C(s,t)$, there corresponds a linear operator $[T_Cf](s) = \int_a^bC(s,t)f(t)dt$. Since $C(s,t)$ is a symmetric and non-negative definite, it has the representation 
 
 %(see Mercer's theorem)
 \begin{equation*}
 	C(s,t) = \sum_{i=1}^{\infty}\lambda_i\psi_i(s)\psi_i(t), 
 \end{equation*}
-where $\{\psi_m(t)\}_{m=1,2,\ldots}$ are a sequence of orthonormal eigenfunctions which form a complete basis in $L_2[a,b]$, and $\{\lambda_m \}_{m=1,2,\ldots}$ are nonnegative and nondecreasing eigenvalues. In this context, an eigenfunction-eigenvalue pair $\{\lambda_j, \psi_j(t)\}$ satisfy $\int_a^bC(s,t)\psi_j(t)dt = \lambda_j\psi_j(t)$. The Karhunen-Loeve theorem states that the process $X(t)$ admits the representation 
+where $\{\psi_m(t)\}_{m=1,2,\ldots}$ are a sequence of orthonormal eigenfunctions that form a complete basis in $L_2[a,b]$, and $\{\lambda_m \}_{m=1,2,\ldots}$ are non-negative and non-decreasing eigenvalues. In this context, an eigenfunction-eigenvalue pair $\{\lambda_j, \psi_j(t)\}$ satisfies $\int_a^bC(s,t)\psi_j(t)dt = \lambda_j\psi_j(t)$. The Karhunen-Loeve theorem states that the process $X(t)$ admits the representation 
 \begin{equation*}
 	X(t) = \sum_{m=1}^{\infty}\alpha_m \psi_m(t), \mbox{ where } \alpha_m = \int_a^b X(t) \psi_m(t)dt, 
 \end{equation*}
-and the random variables $\{\alpha_m \}_{m=1,2,\ldots}$ are uncorrelated and satisfy $E(\alpha_m)=0$ and Var($\alpha_m$) = $\lambda_m$, $\sum_m \lambda_m < \infty$. The eigenfunctions $\{\psi_m(t)\}_{m=1,2,\ldots}$ corresponding to $C(s,t)$ are called the principal component functions and the coefficients $\{\alpha_m \}$ are the functional principal component scores of $X(t)$. We seek functions $\hat{\psi}(s)$ that satisfy satisfy 
+and the random variables $\{\alpha_m \}_{m=1,2,\ldots}$ are uncorrelated and satisfy $E(\alpha_m)=0$ and Var($\alpha_m$) = $\lambda_m$, $\sum_m \lambda_m < \infty$. The eigenfunctions $\{\psi_m(t)\}_{m=1,2,\ldots}$ corresponding to $C(s,t)$ are called the principal component functions, and the coefficients $\{\alpha_m \}$ are the functional principal component scores of $X(t)$. We seek functions $\hat{\psi}(s)$ that satisfy 
 \begin{equation}
 	\label{eq:eigenfuns} \int \hat{C}(s,t)\hat{\psi}(t)dt=\theta\hat{\psi}(s). \nonumber
 \end{equation}
 
-Methods for deriving principal component functions were developed in \cite{FDA} for functions represented by finite basis representation, i.e. $X(t) = \mathbf{b}'\mathbf{g}(t)$, where $\mathbf{g}(t)$ is a vector of basis functions. Using the finite dimensional covariance function representation in \eqref{eq:covest} we adapt these results by considering the vector of functions 
+\cite{FDA} developed methods for deriving principal component functions for functions represented by finite basis representation (i.e., $X(t) = \mathbf{b}'\mathbf{g}(t)$, where $\mathbf{g}(t)$ is a vector of basis functions). Using the finite dimensional covariance function representation in \eqref{eq:covest} we adapt these results by considering the vector of functions 
 \begin{equation}
 	\mathbf{g(\cdot)}=(1, k_1(\cdot),R_{1}(\cdot, t_1),R_{1}(\cdot, t_2),\dots, R_{1}(\cdot, t_K))'. \label{eq:g} 
 \end{equation}
-Using $\mathbf{g}$ in \eqref{eq:g} the covariance function estimator in \eqref{eq:covest} has the representation $\hat{C}(s,t)= \mathbf{g}(s)'A\mathbf{g}(t)$ where \vspace{0.8cm} 
+Using $\mathbf{g}$ in \eqref{eq:g} the covariance function estimator in \eqref{eq:covest} has the representation $\hat{C}(s,t)= \mathbf{g}(s)'A\mathbf{g}(t)$, where \vspace{0.8cm} 
 \begin{center}
 	$A = \left( 
 	\begin{array}{cc|cccc}
@@ -253,12 +253,12 @@ Using $\mathbf{g}$ in \eqref{eq:g} the covariance function estimator in \eqref{e
 \end{center}
 \vspace{0.8cm} 
 
-We have included dashed lines in this matrix to highlight its structure. Note that \cite{Cai:2010vr} use the tensor product norm on $\H\tprod \H$, which results in a trivial unpenalized subspace. In this case the matrix $A$ reduces to the bottom right submatrix, making it clear how our result generalizes the computational result in \cite{Cai:2010vr}.
+We have included solid lines in this matrix to highlight its structure. Note that \cite{Cai:2010vr} use the tensor product norm on $\H\tprod \H$, which results in a trivial unpenalized subspace. In this case, the matrix $A$ reduces to the bottom-right submatrix, making it clear how our result generalizes the computational result in \cite{Cai:2010vr}.
 
 %Software packages, such as the gss package in R, will return the fitted coefficients $c$ and $d$ in \eqref{eq:covets}, The matrix $A$ can be constructed directly from the fitted coefficients in the output of the sspreg1() function which makes this straight forward to implement. 
 Define the matrix $Q$ to be 
 \begin{equation*}
-	Q_{ij} = \int_0^1\mathbf{g_i}(t)\mathbf{g}_j(t)dt, 
+	Q_{ij} = \int_0^1\mathbf{g_i}(t)\mathbf{g}_j(t)dt;
 \end{equation*}
 then the following result states that the eigenfunctions can be expressed as a linear combination of the elements of $\mathbf{g}$. 
 \begin{lemma}
@@ -266,7 +266,7 @@ then the following result states that the eigenfunctions can be expressed as a l
 	\begin{equation*}
 		\hat{\psi}_k(\cdot) = \mathbf{b}'_k\mathbf{g}(\cdot), 
 	\end{equation*}
-	where $b_k$ is the $k$-th column of $B=Q^{-1/2}U$ and $U$ is the eigenvectors of $Q^{1/2}AQ^{1/2}$, and
+	where $b_k$ is the $k^{\mbox{th}}$ column of $B=Q^{-1/2}U$ and $U$ is the eigenvectors of $Q^{1/2}AQ^{1/2}$, and
 	\[ \mathbf{g(\cdot)}=(1, k_1(\cdot),R_{1}(\cdot, t_1),R_{1}(\cdot, t_2),\dots, R_{1}(\cdot, t_K))'. \]
 \end{lemma}
 Proof of the lemma is in Section \ref{sec:proofs}.
@@ -276,7 +276,7 @@ Proof of the lemma is in Section \ref{sec:proofs}.
 % (fold)
 \label{sec:simulations}
 
-This section investigates the finite sample performance of the FPC estimator. For comparison, we also consider the finite basis expansion approach described in \cite{FDA}, where smoothing is done on the individual curves. The choice of smoothing individual curves or performing bivariate smoothing of the sample covariance is typically determined by the sparsity of observations on each curve. Generally one would smooth individual curves when they are densely observed, but smooth the sample covariance when curves are sparsely observed and presumably do not contain enough information at the individual curve level to capture all important features. From here on we will refer to bivariate smoothing of the covariance described in the paper as SSCOV and smoothing individual curves through finite basis expansions as SIC. The \texttt{pca.fd()} function in the R package \texttt{fda} was used for the SIC method. Individual curves were fit using a finite b-spline basis with a smoothing penalty on the second derivative, and GCV was used to select an appropriate smoothing parameter. Five fold cross validation was used to select the smoothing parameter for the SSCOV method. 
+This section investigates the finite sample performance of the FPC estimator. For comparison, we also consider the finite basis expansion approach described in \cite{FDA}, where smoothing is done on the individual curves. The sparsity of observations on each curve typically determines the choice of smoothing individual curves or performing bivariate smoothing of the sample covariance. Generally one would smooth individual curves when they are densely observed, but smooth the sample covariance when curves are sparsely observed and presumably do not contain enough information at the individual-curve level to capture all important features. From here on we will refer to bivariate smoothing of the covariance described in the paper as SSCOV, and smoothing individual curves through finite basis expansions as SIC. We use the \texttt{pca.fd()} function in the R package \texttt{fda} for the SIC method. We fit individual curves using a finite b-spline basis with a smoothing penalty on the second derivative, and we used GCV to select an appropriate smoothing parameter. For the SSCOV method, five-fold cross validation was used to select the smoothing parameter.
 
 Random curves are simulated independently as 
 \begin{equation}
@@ -287,11 +287,11 @@ where $U_k$ were independently sampled from a Unif$(-\sqrt{3},\sqrt{3})$ distrib
 	C(s,t) = \sum^{50}_{k=1}k^{-4} \cos(k\pi s)\cos(k\pi t). 
 \end{equation*}
 
-We compare the two methodologies by considering cases where the number of observations on each curve is equal to $m=5$, $m=10$, and $m=20$. Further, we consider three scenarios for the distribution of `time' points on $\T$. Let $\textbf{t}_i = \{t_{i1}, t_{i2}, \dots, t_{im}\}$ be the collection of observed time points for the $i$th curve. 
+We compare the two methodologies by considering cases where the number of observations on each curve is equal to $m=5$, $m=10$, and $m=20$. Further, we consider three scenarios for the distribution of ``time'' points on $\T$. Let $\textbf{t}_i = \{t_{i1}, t_{i2}, \dots, t_{im}\}$ be the collection of observed time points for the $i^{\mbox{th}}$ curve. 
 \begin{itemize}
-	\item Scenario 1: $\textbf{t}_i \stackrel[]{iid}{\sim} \mbox{Unif}[0,1], i = 1, \dots, n$. 
-	\item Scenario II: Here simulated time values are as in Scenario I, but we create a gap in the observed $\textbf{t}_i$ by deleting 25\% of the observed values. The deleted values are consecutive and begin at a randomly chosen $t_{ij} \in \textbf{t}_i$. This requires first sampling more than $m$ observations per curve, so that after removal there are exactly $m$ observations per curve. This type of missing data is common in remote sensing studies when a sensor runs out of battery power or malfunctions, leaving a sequence of missing values in the data. 
-	\item Scenario III: In this scenario we define four possible beta distributions on $\T$ and each distribution is used to generate observations for 25\% of the curves in the data set. For a single data set with 100 curves we have, $\textbf{t}_i \stackrel[]{iid}{\sim}beta(1,1), i = 1, \dots, 25$, $\textbf{t}_i \stackrel[]{iid}{\sim}beta(1,5), i = 26, \dots, 50$, $\textbf{t}_i \stackrel[]{iid}{\sim}beta(5,1), i = 51, \dots, 75$, and $\textbf{t}_i \stackrel[]{iid}{\sim}beta(0.5,0.5), i = 76, \dots, 100$. These beta distributions correspond to uniform, skewed left, skewed right, and U-shaped distributions, respectively. This type of time observation pattern might occur in longitudinal studies where subjects are measured at irregular times, some subjects drop out, and some subjects join after the start of the study. Note that the theoretical framework assumes a common distribution on $\T$; however, for reasons already stated, it is of practical interest to study cases where this assumption is violated. 
+	\item Scenario I: $\textbf{t}_i \stackrel[]{iid}{\sim} \mbox{Unif}[0,1], i = 1, \dots, n$. 
+	\item Scenario II: Here, simulated time values are as in Scenario I, but we create a gap in the observed $\textbf{t}_i$ by deleting 25\% of the observed values. The deleted values are consecutive and begin at a randomly chosen $t_{ij} \in \textbf{t}_i$. This requires first sampling more than $m$ observations per curve, so that after removal there are exactly $m$ observations per curve. This type of missing data is common in remote sensing studies when a sensor runs out of battery power or malfunctions, leaving a sequence of missing values in the data. 
+	\item Scenario III: In this scenario we define four possible beta distributions on $\T$ and each distribution is used to generate observations for 25\% of the curves in the data set. For a single data set with 100 curves we have, $\textbf{t}_i \stackrel[]{iid}{\sim}beta(1,1), i = 1, \dots, 25$, $\textbf{t}_i \stackrel[]{iid}{\sim}beta(1,5), i = 26, \dots, 50$, $\textbf{t}_i \stackrel[]{iid}{\sim}beta(5,1), i = 51, \dots, 75$, and $\textbf{t}_i \stackrel[]{iid}{\sim}beta(0.5,0.5), i = 76, \dots, 100$. These beta distributions correspond to uniform, skewed-left, skewed-right, and U-shaped distributions, respectively. This type of time observation pattern might occur in longitudinal studies where subjects are measured at irregular times, some subjects drop out, and some subjects join after the start of the study. Note that the theoretical framework assumes a common distribution on $\T$; however, for reasons already stated, it is of practical interest to study cases where this assumption is violated. 
 \end{itemize}
 \begin{figure}
 	\centering 
@@ -315,18 +315,18 @@ We compare the two methodologies by considering cases where the number of observ
 		\includegraphics[width= 
 		\textwidth]{Images-nonparametric/cy-true-wireframe.pdf} \caption{truth} \label{} 
 	\end{subfigure}
-	\isucaption{Estimated covariance functions using the SSCOV method an a data set consisting of 100 curves simulated from the process $X(t)$ in \eqref{eq:sim process} using observation standard deviation equal to $\sigma_0 = 0.329$. Here $m$ equals the number of observations for each curve. } \label{fig:covfits} 
+	\isucaption{Estimated covariance functions using the SSCOV method on a data set consisting of 100 curves simulated from the process $X(t)$ in \eqref{eq:sim process} using observation standard deviation equal to $\sigma_0 = 0.329$. Here $m$ equals the number of observations for each curve. } \label{fig:covfits} 
 \end{figure}
 
-As an illustration, the fitted covariance function for a single simulated data set (under scenario I) is shown in Figure \ref{fig:covfits}. To understand the general performance of the FPC estimator, we repeated this process 100 times using 100 curves with $\sigma_0=0.369$, resulting in a signal to noise ratio of $2:1$. Figures \ref{fig:fpca-ss-1} and \ref{fig:fpca-fda-1} show the pointwise mean and pointwise central 95\% quantile of the first two estimated functional principal components under senario 1. Figures \ref{fig:fpca-ss-2} and \ref{fig:fpca-fda-2} show results from scenario II, Figures \ref{fig:fpca-ss-3} and \ref{fig:fpca-fda-3} show results from scenario III. Estimation error measured by integrated square error is summarized in Table \ref{tab:fpc-norm}. 
+As an illustration, the fitted covariance function for a single simulated data set (under Scenario I) is shown in Figure \ref{fig:covfits}. To understand the general performance of the FPC estimator, we repeated this process 100 times using 100 curves with $\sigma_0=0.369$, resulting in a signal to noise ratio of $2:1$. Figures \ref{fig:fpca-ss-1} and \ref{fig:fpca-fda-1} show the pointwise mean and pointwise central 95\% quantile of the first two estimated functional principal components under Scenario I. Figures \ref{fig:fpca-ss-2} and \ref{fig:fpca-fda-2} show results from Scenario II, and Figures \ref{fig:fpca-ss-3} and \ref{fig:fpca-fda-3} show results from Scenario III. Estimation error measured by integrated square error is summarized in Table \ref{tab:fpc-norm}. 
 
-The general wisdom is to avoid smoothing individual curves with sparse data; however, our simulations show that this approach performs adequately when the `time' observations are uniformly distributed (i.e. scenario I) with respect to integrated squared error (see Table \ref{tab:fpc-norm}). Visual inspection of the error bands in Figure \ref{fig:fpca-fda-1} and Figure \ref{fig:fpca-fda-2} indicate that the SIC method tends to produce an overly smooth estimate, particularly for the sparse case where the second functional principal component is well outside the error bands. Visual inspection also indicates increased variation in the SSCOV method compared to the SIC method, though the variation is consistent with the true curve. It is also clear that the effect of sampling frequency $m$ on the magnitude of the variation is less pronounced in the SSCOV method. This makes sense due to the fact that the SSCOV method pools data before estimation, thus even the sparse case ($m = 5$) results in a large number of observations when pooled across 100 curves. 
+The general wisdom is to avoid smoothing individual curves with sparse data; however, our simulations show that this approach performs adequately when the ``time'' observations are uniformly distributed (i.e. Scenario I) with respect to integrated squared error (see Table \ref{tab:fpc-norm}). Visual inspection of the error bands in Figures \ref{fig:fpca-fda-1} and \ref{fig:fpca-fda-2} indicate that the SIC method tends to produce an overly smooth estimate, particularly for the sparse case where the second functional principal component is well outside the error bands. Visual inspection also indicates increased variation in the SSCOV method compared to the SIC method, though the variation is consistent with the true curve. It is also clear that the effect of sampling frequency $m$ on the magnitude of the variation is less pronounced in the SSCOV method. This makes sense due to the fact that the SSCOV method pools data before estimation; thus, even the sparse case ($m = 5$) results in a large number of observations when pooled across 100 curves. 
 
-The most striking difference in performance between the two methods was when we allowed the `time' points for each curved to be generated from different beta distributions (scenario III). The skewed and U-shaped distributions can severely restrict across-the-curve information, and it is clear from Figure \ref{fig:fpca-fda-3} that the SIC method performs poorly at estimating the second functional principal component. By pooling all the data the SSCOV method still performs adequately in this scenario. 
+The most striking difference in performance between the two methods occurred when we allowed the `time' points for each curved to be generated from different beta distributions (Scenario III). The skewed and U-shaped distributions can severely restrict across-the-curve information, and it is clear from Figure \ref{fig:fpca-fda-3} that the SIC method performs poorly at estimating the second functional principal component. By pooling all the data the SSCOV method still performs adequately in this scenario. 
 \begin{table}
-	[ht] \isucaption{Integrated squared error, $\norm{\hat{\psi}(t) - \psi(t)}^2_{L_2}$, for the first two functional principal compoenents averaged over 100 runs. The value m indicates the number of observations per curve. The Monte Carlo standard error is shown in parentheses.} \centering 
+	[ht] \isucaption{Integrated squared error, $\norm{\hat{\psi}(t) - \psi(t)}^2_{L_2}$, for the first two functional principal components averaged over 100 runs. The value $m$ indicates the number of observations per curve. The Monte Carlo standard error is shown in parentheses.} \centering 
 	\begin{tabular}
-		{|c|c|l|cc|} \hline Scenerio & FPC & m & SSCOV & SIC \\
+		{|c|c|l|c|c|} \hline Scenerio & FPC & $m$ & SSCOV & SIC \\
 		\hline \multirow{6}{*}{I}& \multirow{3}{*}{1st} & 5 & 0.0231 (0.0018) & 0.0150 (0.0011) \\
 		& & 10 & 0.0142 (0.0009) & 0.0059 (0.0003) \\
 		& & 20 & 0.0064 (0.0005) & 0.0024 (0.0002) \\
@@ -361,7 +361,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-1} 
+	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-1} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -375,7 +375,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-fpca-fda-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-1} 
+	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-1} 
 \end{figure}
 
 %%%%%%%%%%%%%% Missing Gap data %%%%%%
@@ -391,7 +391,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-gap-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-2} 
+	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-2} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -405,7 +405,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-gap-fpca-fda-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-2} 
+	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-2} 
 \end{figure}
 
 %%%%%%%%%%%%%% BETA %%%%%%
@@ -421,7 +421,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-beta-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-3} 
+	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-3} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -435,7 +435,7 @@ The most striking difference in performance between the two methods was when we 
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-beta-fpca-fda-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-3} 
+	\isucaption{Functional principal component estimation using the SIC method as described in \cite{FDA}. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-fda-3} 
 \end{figure}
 
 % section simulations (end)
@@ -446,7 +446,7 @@ The most striking difference in performance between the two methods was when we 
 
 We have shown how the reproducing kernel Hilbert space framework for covariance estimation can be extended to allow the use of function spaces where the penalty functional induces a non-empty unpenalized subspace. We have also derived a functional principal component estimator for this case. Even though development here was for a specific penalty, the method is very general and could easily be applied to other penalties, though the form of the reproducing kernel and the basis for the null space will depend on this choice. 
 
-Our simulations show that this method performs well even when sampling points on each curve do not follow a common distribution on $\T$. The robustness to the assumption of common distribution is encouraging as longitudinal data often do not satisfy this assumption (e.g. CD4 count data from AIDS Clinical Trial Group 193A (Henry et al., 1998)). It is somewhat surprising that this method does not seem to perform much better than standard methods in terms of integrated squared error in the other scenerios as can be seen in Table \ref{tab:fpc-norm}. However, there appears to be a clear difference in terms of bias in estimating the second FPC, particularly in the sparse case (m = 5). The standard method over-smooths in this case as the true seoncd FPC is far outside the error bands. This indicates that even though our method is suitable for both sparse and dense functional data, practical differences may only occur for data with sparsly observed curves.
+Our simulations show that this method performs well even when sampling points on each curve do not follow a common distribution on $\T$. The robustness of the assumption of common distribution is encouraging as longitudinal data often do not satisfy this assumption (e.g. CD4 count data from AIDS Clinical Trial Group 193A (Henry et al., 1998)). It is somewhat surprising that this method does not seem to perform much better than standard methods in terms of integrated squared error in the other scenarios as can be seen in Table \ref{tab:fpc-norm}. However, there appears to be a clear difference in terms of bias in estimating the second FPC, particularly in the sparse case (m = 5). The standard method over-smooths in this case, as the true second FPC is far outside the error bands. This indicates that even though our method is suitable for both sparse and dense functional data, practical differences may occur only for data with sparsely observed curves.
 
 An R package implementation of this method with user-friendly functions for estimating the covariance function and principal component functions for functional data is available, making it convenient to use an empirical basis representation for functional data analyses. 
 
