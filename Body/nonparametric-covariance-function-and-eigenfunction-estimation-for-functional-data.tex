@@ -322,7 +322,7 @@ As an illustration, the fitted covariance function for a single simulated data s
 
 The general wisdom is to avoid smoothing individual curves with sparse data; however, our simulations show that this approach performs adequately when the ``time'' observations are uniformly distributed (i.e. Scenario I) with respect to integrated squared error (see Table \ref{tab:fpc-norm}). Visual inspection of the error bands in Figures \ref{fig:fpca-fda-1} and \ref{fig:fpca-fda-2} indicate that the SIC method tends to produce an overly smooth estimate, particularly for the sparse case where the second functional principal component is well outside the error bands. Visual inspection also indicates increased variation in the SSCOV method compared to the SIC method, though the variation is consistent with the true curve. It is also clear that the effect of sampling frequency $m$ on the magnitude of the variation is less pronounced in the SSCOV method. This makes sense due to the fact that the SSCOV method pools data before estimation; thus, even the sparse case ($m = 5$) results in a large number of observations when pooled across 100 curves. 
 
-The most striking difference in performance between the two methods occurred when we allowed the `time' points for each curved to be generated from different beta distributions (Scenario III). The skewed and U-shaped distributions can severely restrict across-the-curve information, and it is clear from Figure \ref{fig:fpca-fda-3} that the SIC method performs poorly at estimating the second functional principal component. By pooling all the data the SSCOV method still performs adequately in this scenario. 
+\newpage The most striking difference in performance between the two methods occurred when we allowed the `time' points for each curved to be generated from different beta distributions (Scenario III). The skewed and U-shaped distributions can severely restrict across-the-curve information, and it is clear from Figure \ref{fig:fpca-fda-3} that the SIC method performs poorly at estimating the second functional principal component. By pooling all the data the SSCOV method still performs adequately in this scenario. 
 \begin{table}
 	[ht] \isucaption{Integrated squared error, $\norm{\hat{\psi}(t) - \psi(t)}^2_{L_2}$, for the first two functional principal components averaged over 100 runs. The value $m$ indicates the number of observations per curve. The Monte Carlo standard error is shown in parentheses.} \centering 
 	\begin{tabular}
@@ -361,7 +361,7 @@ The most striking difference in performance between the two methods occurred whe
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-1} 
+	\isucaption{Estimates of the first two functional principal components using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario I. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-1} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -391,7 +391,7 @@ The most striking difference in performance between the two methods occurred whe
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-gap-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-2} 
+	\isucaption{Estimates of the first two functional principal components using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario II. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-2} 
 \end{figure}
 \begin{figure}
 	\begin{center}
@@ -421,7 +421,7 @@ The most striking difference in performance between the two methods occurred whe
 			\includegraphics[width=2in]{Images-nonparametric/sim-study/fpc2-beta-fpca-ss-params-ind-20.pdf} \\
 		\end{tabular}
 	\end{center}
-	\isucaption{Functional principal component estimation using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-3} 
+	\isucaption{Estimates of the first two functional principal components using the SSCOV method. For each of the 100 simulated data sets 100 curves were simulated with $m$ observations per curve using Scenario III. The solid line is the pointwise mean, the dashed line is the true FPC, and the gray bands show the pointwise 2.5 and 97.5 quantiles.} \label{fig:fpca-ss-3} 
 \end{figure}
 \begin{figure}
 	\begin{center}
